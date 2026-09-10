@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPI Vaccination Center - Naushahro Feroze</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #0d5c91;
+            --primary-dark: #083d61;
+            --secondary-color: #10b981;
+            --bg-color: #f4f7f9;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Top Official Header Bar */
+        .top-bar {
+            background-color: var(--primary-dark);
+            color: #ffffff;
+            padding: 8px 20px;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .manager-info {
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 4px;
+            letter-spacing: 0.3px;
+        }
+
+        /* Main Header Section */
+        header {
+            background-color: #ffffff;
+            border-bottom: 3px solid var(--primary-color);
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 10;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .branding-section {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Square Logo Styling - Left Fixed */
+        .logo-box {
+            width: 85px;
+            height: 85px;
+            min-width: 85px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 2px solid var(--primary-color);
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: absolute;
+            left: 0;
+        }
+
+        .logo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Title Box Centered */
+        .title-box {
+            width: 100%;
+            text-align: center;
+            padding-left: 95px;
+        }
+
+        .title-box h1 {
+            color: var(--primary-color);
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            line-height: 1.3;
+        }
+
+        .title-box h2 {
+            color: var(--text-dark);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 4px;
+            letter-spacing: 0.2px;
+        }
+
+        /* Main Center Area with Standard Medical Background */
+        .main-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+            position: relative;
+            background: linear-gradient(135deg, rgba(13, 92, 145, 0.82), rgba(8, 61, 97, 0.88)), 
+                        url('https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+        }
+
+        /* Centered Official Control Panel Card */
+        .control-panel-card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid var(--primary-color);
+            border-radius: 12px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .panel-heading {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .panel-subtext {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        /* Centered Action Buttons Stack */
+        .actions-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 14px 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            text-transform: uppercase;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: #64748b;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #475569;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #ffffff;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            padding: 15px 20px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: auto;
+            z-index: 10;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 768px) {
+            .branding-section {
+                flex-direction: column;
+                align-items: center;
+                position: static;
+            }
+
+            .logo-box {
+                position: static;
+                width: 75px;
+                height: 75px;
+                min-width: 75px;
+                margin-bottom: 12px;
+            }
+
+            .title-box {
+                padding-left: 0;
+                text-align: center;
+            }
+
+            .title-box h1 {
+                font-size: 1.05rem;
+            }
+
+            .title-box h2 {
+                font-size: 0.8rem;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                gap: 5px;
+                text-align: center;
+            }
+
+            .control-panel-card {
+                padding: 25px 20px;
+            }
+
+            .btn {
+                font-size: 0.85rem;
+                padding: 12px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Status Bar -->
+    <div class="top-bar">
+        <span>Government Health Services - Official Reporting Portal</span>
+        <span class="manager-info"><i class="fa-solid fa-user-gear"></i> Managed By: Aaqib Hanif Rajput</span>
+    </div>
+
+    <!-- Main Official Header -->
+    <header>
+        <div class="header-container">
+            <!-- Square Logo & Title Info -->
+            <div class="branding-section">
+                <div class="logo-box">
+                    <img src="logo.png" alt="EPI Logo">
+                </div>
+                <div class="title-box">
+                    <h1>Vaccination Coverage Summary Report Dashboard</h1>
+                    <h2>EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h2>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Center Body Area with Medical Background -->
+    <div class="main-container">
+        <div class="control-panel-card">
+            <div class="panel-heading">Dashboard Control Panel</div>
+            <div class="panel-subtext">Select an action below to manage vaccination coverage reports</div>
+            
+            <!-- Centered Action Buttons -->
+            <div class="actions-section">
+                <!-- Add New Summary Button -->
+                <a href="summary.html" class="btn btn-primary">
+                    <i class="fa-solid fa-plus"></i> Add New Summary
+                </a>
+                <!-- View Record Summary Button Linked to record.html -->
+                <a href="record.html" class="btn btn-secondary">
+                    <i class="fa-solid fa-list-check"></i> View Record Summary
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 EPI Vaccination Center, Civil Hospital Naushahro Feroze. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

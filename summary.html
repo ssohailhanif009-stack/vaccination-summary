@@ -547,7 +547,7 @@
 
             if (!querySnapshot.empty) {
                 alertBox.className = "alert alert-danger mb-0 py-2 fw-bold";
-                alertBox.innerHTML = `<i class="fa-solid fa-ban me-1"></i> Warning: Is month (${formattedSelected}) ki report Firebase par pehle se saved hai!`;
+                alertBox.innerHTML = `<i class="fa-solid fa-ban me-1"></i> Warning: Is month (${formattedSelected}) Already Submitted`;
                 saveBtn.disabled = true;
                 lockedBadge.style.display = "inline-block";
                 formFields.forEach(field => field.disabled = true);
@@ -674,7 +674,7 @@
 
             await addDoc(collection(db, "epiReports"), reportObject);
 
-            alert(`${formattedMonthYear} ki report Firebase par kamyabi se save ho gayi hai!`);
+            alert(`${formattedMonthYear} Report has been submitted`);
 
             resetFormInputs();
             checkMonthDuplicate();

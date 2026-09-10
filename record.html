@@ -193,7 +193,7 @@
         
         <!-- Saved Month Buttons list -->
         <div id="buttonsList" class="d-flex flex-wrap gap-3">
-            <!-- Dynamic Buttons will load here -->
+            <div class="text-muted italic"><i class="fa-solid fa-spinner fa-spin me-1"></i> Loading reports from Firebase...</div>
         </div>
     </div>
 
@@ -202,33 +202,59 @@
         <!-- Rendered dynamically for PDF Download -->
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            loadRecordsButtons();
-        });
+    <!-- Firebase Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        function loadRecordsButtons() {
+        const firebaseConfig = {
+            apiKey: "AIzaSyBI7itDx9xie4yIjg5C8UoMRDuRAt2TMz0",
+            authDomain: "vaccination-summary.firebaseapp.com",
+            projectId: "vaccination-summary",
+            storageBucket: "vaccination-summary.firebasestorage.app",
+            messagingSenderId: "958525895851",
+            appId: "1:958525895851:web:5ed07d2a404d6f9dc733ee",
+            measurementId: "G-L2G6KHX23M"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let reportsData = [];
+
+        async function loadRecordsButtons() {
             const buttonsList = document.getElementById("buttonsList");
-            buttonsList.innerHTML = "";
-            const reports = JSON.parse(localStorage.getItem("epiReports") || "[]");
+            buttonsList.innerHTML = `<div class="text-muted italic"><i class="fa-solid fa-spinner fa-spin me-1"></i> Loading reports from Firebase...</div>`;
 
-            if (reports.length === 0) {
-                buttonsList.innerHTML = `<div class="text-muted italic"><i class="fa-solid fa-info-circle me-1"></i> No reports saved yet. Go to Summary page to save a report.</div>`;
-                return;
+            try {
+                const querySnapshot = await getDocs(collection(db, "epiReports"));
+                reportsData = [];
+                querySnapshot.forEach((doc) => {
+                    reportsData.push(doc.data());
+                });
+
+                buttonsList.innerHTML = "";
+
+                if (reportsData.length === 0) {
+                    buttonsList.innerHTML = `<div class="text-muted italic"><i class="fa-solid fa-info-circle me-1"></i> No reports saved yet on Firebase. Go to Summary page to save a report.</div>`;
+                    return;
+                }
+
+                reportsData.forEach((report, index) => {
+                    const btn = document.createElement("button");
+                    btn.className = "month-btn";
+                    btn.innerHTML = `<i class="fa-solid fa-file-pdf"></i> ${report.monthYear} <i class="fa-solid fa-download ms-1 fs-7"></i>`;
+                    btn.onclick = () => downloadReportPDF(index);
+                    buttonsList.appendChild(btn);
+                });
+            } catch (error) {
+                console.error("Error fetching reports: ", error);
+                buttonsList.innerHTML = `<div class="text-danger"><i class="fa-solid fa-triangle-exclamation me-1"></i> Firebase se data load nahi hua. Error: ${error.message}</div>`;
             }
-
-            reports.forEach((report, index) => {
-                const btn = document.createElement("button");
-                btn.className = "month-btn";
-                btn.innerHTML = `<i class="fa-solid fa-file-pdf"></i> ${report.monthYear} <i class="fa-solid fa-download ms-1 fs-7"></i>`;
-                btn.onclick = () => downloadReportPDF(index);
-                buttonsList.appendChild(btn);
-            });
         }
 
         function downloadReportPDF(index) {
-            const reports = JSON.parse(localStorage.getItem("epiReports") || "[]");
-            const data = reports[index];
+            const data = reportsData[index];
 
             if (!data) return;
 
@@ -310,6 +336,8 @@
                 container.style.display = "none";
             });
         }
+
+        window.addEventListener('DOMContentLoaded', loadRecordsButtons);
     </script>
 </body>
 </html>

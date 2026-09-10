@@ -69,7 +69,7 @@
             justify-content: space-between;
         }
 
-        /* PDF & Display Table Styling */
+        /* Standard Table Styling for Screen & PDF Single Page */
         .table-custom {
             width: 100%;
             border-collapse: collapse;
@@ -77,11 +77,11 @@
 
         .table-custom th {
             background-color: #f1f5f9 !important;
-            color: #1e293b !important;
+            color: #0f172a !important;
             font-weight: 700;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             text-transform: uppercase;
-            padding: 6px 4px;
+            padding: 5px 3px;
             text-align: center;
             vertical-align: middle;
             border: 1px solid #cbd5e1 !important;
@@ -89,11 +89,11 @@
         }
 
         .table-custom td {
-            padding: 5px 4px;
+            padding: 4px 3px;
             vertical-align: middle;
             text-align: center;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             border: 1px solid #cbd5e1 !important;
         }
 
@@ -107,13 +107,13 @@
             background-color: #f8fafc;
             border: 1px solid #cbd5e1;
             border-top: 3px solid var(--primary-color);
-            padding: 6px 4px;
+            padding: 5px 3px;
             border-radius: 4px;
             text-align: center;
         }
 
         .info-box .label {
-            font-size: 0.65rem;
+            font-size: 0.62rem;
             color: #475569;
             text-transform: uppercase;
             font-weight: 700;
@@ -124,7 +124,7 @@
         }
 
         .info-box .val {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 800;
             color: #0f172a;
         }
@@ -140,14 +140,14 @@
             -webkit-print-color-adjust: exact;
         }
 
-        /* Official PDF Printable Header */
+        /* Official Printable PDF Header Styling */
         .pdf-official-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             border-bottom: 2px solid #0a3663;
-            padding-bottom: 10px;
-            margin-bottom: 12px;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .pdf-official-header .header-text {
@@ -159,24 +159,24 @@
             margin: 0;
             font-weight: 800;
             color: #0a3663;
-            font-size: 18px;
+            font-size: 17px;
             letter-spacing: 0.5px;
         }
 
         .pdf-official-header h4 {
-            margin: 3px 0 0 0;
+            margin: 2px 0 0 0;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 12px;
             color: #334155;
         }
 
         .pdf-official-header .report-badge {
             display: inline-block;
             margin-top: 4px;
-            padding: 3px 12px;
+            padding: 2px 10px;
             background-color: #0d6efd;
             color: white;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
             border-radius: 4px;
             -webkit-print-color-adjust: exact;
@@ -209,25 +209,25 @@
         </div>
     </div>
 
-    <!-- Select Month/Year & Controls -->
+    <!-- Select Report Dropdown Card (Filter by Month/Year) -->
     <div class="card card-custom no-print">
         <div class="card-header-custom">
-            <span><i class="fa-solid fa-filter text-primary me-2"></i> Select Report Month & Year</span>
+            <span><i class="fa-solid fa-calendar-check text-primary me-2"></i> Select Saved Report (Month & Year)</span>
         </div>
         <div class="card-body">
-            <div class="row align-items-end g-3">
-                <div class="col-md-5">
-                    <label for="recordSelect" class="form-label fw-bold text-muted small">SELECT REPORTING MONTH / YEAR</label>
+            <div class="row align-items-center g-3">
+                <div class="col-md-6">
+                    <label for="recordSelect" class="form-label fw-bold text-muted small">SELECT MONTH / YEAR</label>
                     <select id="recordSelect" class="form-select form-select-lg fw-bold border-primary">
                         <option value="">-- Loading Saved Reports... --</option>
                     </select>
                 </div>
-                <div class="col-md-7 text-md-end">
+                <div class="col-md-6 text-md-end">
                     <button id="showReportBtn" class="btn btn-primary btn-lg fw-bold me-2" disabled>
                         <i class="fa-solid fa-eye me-1"></i> Show Report
                     </button>
                     <button id="downloadPdfBtn" class="btn btn-danger btn-lg fw-bold me-2" disabled>
-                        <i class="fa-solid fa-file-pdf me-1"></i> Download Official PDF
+                        <i class="fa-solid fa-file-pdf me-1"></i> Direct PDF
                     </button>
                     <button id="deleteBtn" class="btn btn-outline-danger btn-lg fw-bold" disabled>
                         <i class="fa-solid fa-trash me-1"></i> Delete
@@ -237,25 +237,24 @@
         </div>
     </div>
 
-    <!-- Printable Report Preview Container -->
+    <!-- Printable Report Container (Single Page A4 Landscape Layout) -->
     <div id="reportPreview" style="display: none;">
-        <div class="card card-custom p-4" id="pdfContent" style="background: white;">
+        <div class="card card-custom p-3" id="pdfContent" style="background: white;">
             
-            <!-- Official PDF Header with Logo -->
+            <!-- Official Header with EPI Logo -->
             <div class="pdf-official-header">
-                <img src="logo.png" alt="EPI Logo" class="logo-img" style="width: 70px; height: 70px;" onerror="this.src='https://via.placeholder.com/70?text=EPI+Logo'">
+                <img src="logo.png" alt="EPI Logo" style="width: 65px; height: 65px; border-radius: 6px; border: 1px solid #ccc;" onerror="this.src='https://via.placeholder.com/65?text=EPI+Logo'">
                 <div class="header-text">
                     <h2>OFFICIAL EPI VACCINATION COVERAGE REPORT</h2>
                     <h4>EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h4>
                     <div class="report-badge" id="pdfMonthTitle">REPORTING PERIOD: -</div>
                 </div>
-                <!-- Right Side Balance Logo Placeholder -->
-                <div style="width: 70px;"></div>
+                <div style="width: 65px;"></div> <!-- Balance spacer for header centering -->
             </div>
 
             <!-- Target & Population Overview Section -->
-            <div class="mb-3">
-                <div class="fw-bold mb-2 text-dark border-bottom pb-1" style="font-size: 0.85rem; border-color: #0d6efd !important;">
+            <div class="mb-2">
+                <div class="fw-bold mb-1 text-dark border-bottom pb-1" style="font-size: 0.8rem; border-color: #0d6efd !important;">
                     <i class="fa-solid fa-bullseye me-1 text-primary"></i> TARGET & POPULATION OVERVIEW
                 </div>
                 <div class="info-grid" id="targetGrid">
@@ -263,16 +262,16 @@
                 </div>
             </div>
 
-            <!-- Full Antigens Coverage Data Table -->
-            <div class="mb-3">
-                <div class="fw-bold mb-2 text-dark border-bottom pb-1" style="font-size: 0.85rem; border-color: #0d6efd !important;">
-                    <i class="fa-solid fa-syringe me-1 text-primary"></i> MONTHLY VACCINATION COVERAGE DATA (ALL COLUMNS)
+            <!-- Monthly Coverage Table (All 14 Antigens) -->
+            <div class="mb-2">
+                <div class="fw-bold mb-1 text-dark border-bottom pb-1" style="font-size: 0.8rem; border-color: #0d6efd !important;">
+                    <i class="fa-solid fa-syringe me-1 text-primary"></i> MONTHLY VACCINATION COVERAGE DATA
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-custom mb-0" id="coverageTable">
                         <thead>
                             <tr>
-                                <th style="min-width: 110px; text-align: left;">ANTIGEN</th>
+                                <th style="min-width: 100px; text-align: left;">ANTIGEN</th>
                                 <th>BCG</th>
                                 <th>HEP-B</th>
                                 <th>OPV-0</th>
@@ -296,15 +295,15 @@
                 </div>
             </div>
 
-            <!-- Bottom Section Grid -->
+            <!-- Bottom Sections (Zero Dose, Defaulters, Cases) -->
             <div class="row g-2">
                 <!-- Zero Dose Data -->
                 <div class="col-6">
                     <div class="border rounded p-2 bg-light h-100">
-                        <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.75rem;">
+                        <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.72rem;">
                             <i class="fa-solid fa-child me-1 text-warning"></i> Zero Dose Polio Children Data
                         </div>
-                        <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.72rem;">
+                        <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.7rem;">
                             <thead>
                                 <tr class="table-secondary">
                                     <th class="text-start">Category</th>
@@ -318,10 +317,10 @@
                     </div>
                 </div>
 
-                <!-- Defaulters & Cases -->
+                <!-- Defaulters & Reported Cases -->
                 <div class="col-6">
-                    <div class="border rounded p-2 bg-light mb-2">
-                        <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.75rem;">
+                    <div class="border rounded p-2 bg-light mb-1">
+                        <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.72rem;">
                             <i class="fa-solid fa-user-slash me-1 text-danger"></i> Defaulters Children Data
                         </div>
                         <div class="row text-center pt-1" id="defaulterBox">
@@ -330,10 +329,10 @@
                     </div>
 
                     <div class="border rounded p-2 bg-light">
-                        <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.75rem;">
+                        <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.72rem;">
                             <i class="fa-solid fa-virus-covid me-1 text-danger"></i> Cases Reported
                         </div>
-                        <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.72rem;">
+                        <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.7rem;">
                             <thead>
                                 <tr class="table-secondary">
                                     <th class="text-start">Case Type</th>
@@ -385,7 +384,7 @@
 
         selectEl.addEventListener('change', function(e) {
             selectedDocId = e.target.value;
-            if (selectedDocId) {
+            if (selectedDocId && recordsMap[selectedDocId]) {
                 showBtn.disabled = false;
                 pdfBtn.disabled = false;
                 delBtn.disabled = false;
@@ -403,7 +402,13 @@
             }
         });
 
-        pdfBtn.addEventListener('click', downloadPDF);
+        pdfBtn.addEventListener('click', function() {
+            if (selectedDocId && recordsMap[selectedDocId]) {
+                displayReport(recordsMap[selectedDocId]);
+                downloadPDF();
+            }
+        });
+
         delBtn.addEventListener('click', deleteRecord);
     });
 
@@ -419,6 +424,7 @@
                 data.id = docSnap.id;
                 recordsMap[docSnap.id] = data;
 
+                // Month/Year Formatting
                 const opt = document.createElement('option');
                 opt.value = docSnap.id;
                 opt.textContent = data.monthYear || "Unknown Period";
@@ -434,7 +440,7 @@
         document.getElementById('reportPreview').style.display = 'block';
         document.getElementById('pdfMonthTitle').textContent = `REPORTING PERIOD: ${data.monthYear || '-'}`;
 
-        // 1. Targets Overview
+        // 1. Targets Overview Grid
         const targetLabels = [
             "Total Pop",
             "BCG Target",
@@ -544,7 +550,6 @@
             </tr>
         `;
 
-        // Smooth scroll to preview section
         document.getElementById('reportPreview').scrollIntoView({ behavior: 'smooth' });
     }
 
@@ -554,8 +559,9 @@
         const data = recordsMap[selectedDocId];
         const element = document.getElementById('pdfContent');
         
+        // Single Page A4 Landscape Configuration
         const opt = {
-            margin:       [6, 6, 6, 6],
+            margin:       [4, 4, 4, 4],
             filename:     `EPI_Report_${(data.monthYear || 'Report').replace(/\s+/g, '_')}.pdf`,
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { scale: 2, useCORS: true, logging: false },
@@ -567,7 +573,7 @@
 
     async function deleteRecord() {
         if (!selectedDocId) return;
-        const confirmDelete = confirm("Are you sure you want to delete this report from Firebase?");
+        const confirmDelete = confirm("Are you sure you want to delete this record from Firebase?");
         if (!confirmDelete) return;
 
         try {

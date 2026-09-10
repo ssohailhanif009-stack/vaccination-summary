@@ -154,6 +154,56 @@
             border-radius: 20px;
             font-weight: 600;
         }
+
+        /* Mobile Specific Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container-fluid {
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+            }
+
+            .header-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+            }
+
+            .logo-img {
+                margin-bottom: 10px;
+            }
+
+            .card-header-custom {
+                font-size: 0.95rem;
+                padding: 12px 15px;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+
+            .info-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 8px;
+            }
+
+            .info-box {
+                padding: 8px 10px;
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .table-custom th, .table-custom td {
+                font-size: 0.75rem;
+                padding: 4px;
+            }
+
+            .num-input, .select-input {
+                min-width: 50px;
+                font-size: 0.85rem;
+                padding: 3px 4px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -163,9 +213,9 @@
     <!-- Header -->
     <div class="header-card">
         <img src="logo.png" alt="EPI Logo" class="logo-img">
-        <div class="text-center flex-grow-1 mx-3">
-            <h2 class="fw-bold mb-1"><i class="fa-solid fa-hospital-user me-2"></i> MONTHLY VACCINATION COVERAGE SUMMARY</h2>
-            <h5 class="fw-normal opacity-90 mb-0">EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h5>
+        <div class="text-center flex-grow-1 mx-3 my-2 my-md-0">
+            <h2 class="fw-bold mb-1 fs-4 fs-md-2"><i class="fa-solid fa-hospital-user me-2"></i> MONTHLY VACCINATION COVERAGE SUMMARY</h2>
+            <h5 class="fw-normal opacity-90 mb-0 fs-6 fs-md-5">EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h5>
         </div>
         <div>
             <a href="record.html" class="btn btn-light btn-sm fw-bold"><i class="fa-solid fa-folder-open me-1"></i> View Saved Records</a>
@@ -181,7 +231,7 @@
             <div class="row align-items-center">
                 <div class="col-md-4 col-sm-6">
                     <label for="reportMonthYear" class="form-label fw-bold text-muted small">REPORTING PERIOD</label>
-                    <input type="month" id="reportMonthYear" class="form-control form-control-lg fw-bold border-primary">
+                    <input type="month" id="reportMonthYear" class="form-control form-control-lg fw-bold border-primary" onchange="checkMonthDuplicate()">
                 </div>
                 <div class="col-md-8 col-sm-6 mt-3 mt-sm-0">
                     <div id="monthAlert" class="alert alert-info mb-0 py-2" role="alert">
@@ -201,12 +251,11 @@
         <div class="card-body">
             <div class="info-grid">
                 <div class="info-box"><div class="label">Total Population</div><input type="number" id="targetPop" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
-                <div class="info-box"><div class="label">Monthly Target</div><input type="number" id="targetMonthly" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
                 <div class="info-box"><div class="label">BCG Target</div><input type="number" id="targetBcg" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
                 <div class="info-box"><div class="label">Pentavalent Target</div><input type="number" id="targetPenta" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
                 <div class="info-box"><div class="label">Measles-1st Target</div><input type="number" id="targetMr1" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
                 <div class="info-box"><div class="label">Measles-2nd Target</div><input type="number" id="targetMr2" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
-                <div class="info-box"><div class="label">Pregnant Women</div><input type="number" id="targetPreg" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
+                <div class="info-box"><div class="label">Pregnant Women Target</div><input type="number" id="targetPreg" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
                 <div class="info-box"><div class="label">CBA Target</div><input type="number" id="targetCba" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
                 <div class="info-box"><div class="label">HPV Target</div><input type="number" id="targetHpv" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
             </div>
@@ -217,10 +266,10 @@
     <div class="card card-custom">
         <div class="card-header-custom">
             <span><i class="fa-solid fa-syringe text-primary me-2"></i> Monthly Coverage Summary Data (Auto Calculated Formulas)</span>
-            <small class="text-muted fw-normal"><i class="fa-solid fa-calculator me-1"></i> Total = Fix + Outreach | Grand Total = Total + Out of UC</small>
+            <small class="text-muted fw-normal d-block d-md-inline mt-1 mt-md-0"><i class="fa-solid fa-calculator me-1"></i> Total = Fix + Outreach | Grand Total = Total + Out of UC</small>
         </div>
         <div class="table-responsive">
-            <table class="table table-bordered table-custom mb-0">
+            <table class="table table-bordered table-custom mb-0" style="min-width: 900px;">
                 <thead>
                     <tr>
                         <th style="min-width: 130px; text-align: left;">ANTIGEN</th>
@@ -244,56 +293,56 @@
                     <!-- FIX-SITE -->
                     <tr>
                         <td class="fw-bold">FIX-SITE</td>
-                        <td><input type="number" class="num-input fix form-field" value="0"></td>
-                        <td><input type="number" class="num-input fix form-field" value="0"></td>
-                        <td><input type="number" class="num-input fix form-field" value="0"></td>
-                        <td><input type="number" class="num-input fix form-field" value="0"></td>
-                        <td><input type="number" class="num-input fix form-field" value="0"></td>
-                        <td><input type="number" class="num-input fix form-field" value="0"></td>
-                        <td><input type="number" class="num-input fix form-field" value="0"></td>
-                        <td><input type="number" class="num-input fix form-field" value="0"></td>
-                        <td><input type="number" class="num-input fix form-field" value="0"></td>
-                        <td><input type="number" class="num-input fix form-field" value="0"></td>
-                        <td><input type="number" class="num-input fix form-field" value="0"></td>
-                        <td><input type="number" class="num-input fix form-field" value="0"></td>
-                        <td><input type="number" class="num-input fix form-field" value="0"></td>
-                        <td><input type="number" class="num-input fix form-field" value="0"></td>
+                        <td><input type="number" class="num-input fix form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input fix form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input fix form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input fix form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input fix form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input fix form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input fix form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input fix form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input fix form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input fix form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input fix form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input fix form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input fix form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input fix form-field" value="0" oninput="calculate()"></td>
                     </tr>
                     <!-- OUTREACH-1 -->
                     <tr>
                         <td class="fw-bold">OUTREACH-1</td>
-                        <td><input type="number" class="num-input out1 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out1 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out1 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out1 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out1 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out1 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out1 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out1 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out1 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out1 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out1 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out1 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out1 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out1 form-field" value="0"></td>
+                        <td><input type="number" class="num-input out1 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out1 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out1 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out1 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out1 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out1 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out1 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out1 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out1 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out1 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out1 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out1 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out1 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out1 form-field" value="0" oninput="calculate()"></td>
                     </tr>
                     <!-- OUTREACH-2 -->
                     <tr>
                         <td class="fw-bold">OUTREACH-2</td>
-                        <td><input type="number" class="num-input out2 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out2 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out2 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out2 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out2 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out2 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out2 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out2 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out2 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out2 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out2 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out2 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out2 form-field" value="0"></td>
-                        <td><input type="number" class="num-input out2 form-field" value="0"></td>
+                        <td><input type="number" class="num-input out2 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out2 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out2 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out2 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out2 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out2 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out2 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out2 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out2 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out2 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out2 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out2 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out2 form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out2 form-field" value="0" oninput="calculate()"></td>
                     </tr>
                     <!-- TOTAL ROW -->
                     <tr class="highlight-row-total">
@@ -316,20 +365,20 @@
                     <!-- OUT OF UC -->
                     <tr>
                         <td class="fw-bold">OUT OF UC</td>
-                        <td><input type="number" class="num-input out-uc form-field" value="0"></td>
-                        <td><input type="number" class="num-input out-uc form-field" value="0"></td>
-                        <td><input type="number" class="num-input out-uc form-field" value="0"></td>
-                        <td><input type="number" class="num-input out-uc form-field" value="0"></td>
-                        <td><input type="number" class="num-input out-uc form-field" value="0"></td>
-                        <td><input type="number" class="num-input out-uc form-field" value="0"></td>
-                        <td><input type="number" class="num-input out-uc form-field" value="0"></td>
-                        <td><input type="number" class="num-input out-uc form-field" value="0"></td>
-                        <td><input type="number" class="num-input out-uc form-field" value="0"></td>
-                        <td><input type="number" class="num-input out-uc form-field" value="0"></td>
-                        <td><input type="number" class="num-input out-uc form-field" value="0"></td>
-                        <td><input type="number" class="num-input out-uc form-field" value="0"></td>
-                        <td><input type="number" class="num-input out-uc form-field" value="0"></td>
-                        <td><input type="number" class="num-input out-uc form-field" value="0"></td>
+                        <td><input type="number" class="num-input out-uc form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out-uc form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out-uc form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out-uc form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out-uc form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out-uc form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out-uc form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out-uc form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out-uc form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out-uc form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out-uc form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out-uc form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out-uc form-field" value="0" oninput="calculate()"></td>
+                        <td><input type="number" class="num-input out-uc form-field" value="0" oninput="calculate()"></td>
                     </tr>
                     <!-- GRAND TOTAL ROW -->
                     <tr class="highlight-row-grand">
@@ -363,36 +412,38 @@
                     <span><i class="fa-solid fa-child text-warning me-2"></i> ZERO DOSE POLIO CHILDREN DATA</span>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Category</th>
-                                <th style="width: 120px;" class="text-center">Count</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>06 Month Zero Dose Children</td>
-                                <td><input type="number" class="num-input zero-dose text-center form-field" value="0"></td>
-                            </tr>
-                            <tr>
-                                <td>Zero Dose Covered</td>
-                                <td><input type="number" class="num-input zero-dose text-center text-success form-field" value="0"></td>
-                            </tr>
-                            <tr>
-                                <td>Last Previous Round Zero Dose Children</td>
-                                <td><input type="number" class="num-input zero-dose text-center form-field" value="0"></td>
-                            </tr>
-                            <tr>
-                                <td>Zero Dose Covered (Prev Round)</td>
-                                <td><input type="number" class="num-input zero-dose text-center text-success form-field" value="0"></td>
-                            </tr>
-                            <tr>
-                                <td>Refused Zero Dose Children</td>
-                                <td><input type="number" class="num-input zero-dose text-center text-danger form-field" value="0"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-bordered align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Category</th>
+                                    <th style="width: 120px;" class="text-center">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>06 Month Zero Dose Children</td>
+                                    <td><input type="number" class="num-input zero-dose text-center form-field" value="0"></td>
+                                </tr>
+                                <tr>
+                                    <td>Zero Dose Covered</td>
+                                    <td><input type="number" class="num-input zero-dose text-center text-success form-field" value="0"></td>
+                                </tr>
+                                <tr>
+                                    <td>Last Previous Round Zero Dose Children</td>
+                                    <td><input type="number" class="num-input zero-dose text-center form-field" value="0"></td>
+                                </tr>
+                                <tr>
+                                    <td>Zero Dose Covered (Prev Round)</td>
+                                    <td><input type="number" class="num-input zero-dose text-center text-success form-field" value="0"></td>
+                                </tr>
+                                <tr>
+                                    <td>Refused Zero Dose Children</td>
+                                    <td><input type="number" class="num-input zero-dose text-center text-danger form-field" value="0"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -424,47 +475,49 @@
                     <span><i class="fa-solid fa-virus-covid text-danger me-2"></i> Measles / AFP / Diphtheria Cases Reported</span>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered table-custom text-center mb-0">
-                        <thead>
-                            <tr>
-                                <th class="text-start">Cases Name</th>
-                                <th>Total Case Reported</th>
-                                <th>Blood Sample Collected</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="text-start fw-bold">Measles Case</td>
-                                <td><input type="number" class="num-input case-reported form-field" value="0"></td>
-                                <td>
-                                    <select class="select-input case-sample form-field">
-                                        <option value="NO" selected>NO</option>
-                                        <option value="YES">YES</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-start fw-bold">AFP Case</td>
-                                <td><input type="number" class="num-input case-reported form-field" value="0"></td>
-                                <td>
-                                    <select class="select-input case-sample form-field">
-                                        <option value="NO" selected>NO</option>
-                                        <option value="YES">YES</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-start fw-bold">Diptheria Case</td>
-                                <td><input type="number" class="num-input case-reported form-field" value="0"></td>
-                                <td>
-                                    <select class="select-input case-sample form-field">
-                                        <option value="NO" selected>NO</option>
-                                        <option value="YES">YES</option>
-                                    </select>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-custom text-center mb-0" style="min-width: 300px;">
+                            <thead>
+                                <tr>
+                                    <th class="text-start">Cases Name</th>
+                                    <th>Total Case Reported</th>
+                                    <th>Blood Sample Collected</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-start fw-bold">Measles Case</td>
+                                    <td><input type="number" class="num-input case-reported form-field" value="0"></td>
+                                    <td>
+                                        <select class="select-input case-sample form-field">
+                                            <option value="NO" selected>NO</option>
+                                            <option value="YES">YES</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start fw-bold">AFP Case</td>
+                                    <td><input type="number" class="num-input case-reported form-field" value="0"></td>
+                                    <td>
+                                        <select class="select-input case-sample form-field">
+                                            <option value="NO" selected>NO</option>
+                                            <option value="YES">YES</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start fw-bold">Diptheria Case</td>
+                                    <td><input type="number" class="num-input case-reported form-field" value="0"></td>
+                                    <td>
+                                        <select class="select-input case-sample form-field">
+                                            <option value="NO" selected>NO</option>
+                                            <option value="YES">YES</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -472,47 +525,24 @@
 
     <!-- Save Button Section -->
     <div class="text-center mt-3">
-        <button id="saveBtn" class="btn btn-success btn-lg px-5 shadow">
-            <i class="fa-solid fa-floppy-disk me-2"></i> Save Record To Firebase
+        <button id="saveBtn" class="btn btn-success btn-lg px-5 shadow" onclick="saveForm()">
+            <i class="fa-solid fa-floppy-disk me-2"></i> Save Record To Records Page
         </button>
     </div>
 
 </div>
 
-<!-- Firebase Module Script -->
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyBI7itDx9xie4yIjg5C8UoMRDuRAt2TMz0",
-        authDomain: "vaccination-summary.firebaseapp.com",
-        projectId: "vaccination-summary",
-        storageBucket: "vaccination-summary.firebasestorage.app",
-        messagingSenderId: "958525895851",
-        appId: "1:958525895851:web:5ed07d2a404d6f9dc733ee",
-        measurementId: "G-L2G6KHX23M"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    // Initial setups
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const monthPicker = document.getElementById('reportMonthYear');
-    monthPicker.value = `${yyyy}-${mm}`;
-
-    monthPicker.addEventListener('change', checkMonthDuplicate);
-    document.getElementById('saveBtn').addEventListener('click', saveForm);
-
-    document.querySelectorAll('.fix, .out1, .out2, .out-uc').forEach(input => {
-        input.addEventListener('input', calculate);
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Default Set Current Month in Picker
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        document.getElementById('reportMonthYear').value = `${yyyy}-${mm}`;
+        
+        calculate();
+        checkMonthDuplicate();
     });
-
-    calculate();
-    checkMonthDuplicate();
 
     function getFormattedMonthYear(val) {
         if (!val) return "";
@@ -523,8 +553,8 @@
         return `${monthNames[monthNum]} ${year}`;
     }
 
-    async function checkMonthDuplicate() {
-        const pickerVal = monthPicker.value;
+    function checkMonthDuplicate() {
+        const pickerVal = document.getElementById('reportMonthYear').value;
         const alertBox = document.getElementById('monthAlert');
         const saveBtn = document.getElementById('saveBtn');
         const lockedBadge = document.getElementById('lockedBadge');
@@ -534,34 +564,34 @@
             alertBox.className = "alert alert-warning mb-0 py-2";
             alertBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation me-1"></i> Meharbani karke month aur year select karein.`;
             saveBtn.disabled = true;
+            lockedBadge.style.display = "none";
+            
+            // Enable inputs if no month is selected (for new entry)
+            formFields.forEach(field => field.disabled = false);
             return;
         }
 
         const formattedSelected = getFormattedMonthYear(pickerVal);
-        alertBox.className = "alert alert-secondary mb-0 py-2";
-        alertBox.innerHTML = `<i class="fa-solid fa-spinner fa-spin me-1"></i> Checking Firebase Database...`;
+        const existingReports = JSON.parse(localStorage.getItem("epiReports") || "[]");
 
-        try {
-            const q = query(collection(db, "epiReports"), where("monthYear", "==", formattedSelected));
-            const querySnapshot = await getDocs(q);
+        const isDuplicate = existingReports.some(report => report.monthYear.toUpperCase() === formattedSelected.toUpperCase());
 
-            if (!querySnapshot.empty) {
-                alertBox.className = "alert alert-danger mb-0 py-2 fw-bold";
-                alertBox.innerHTML = `<i class="fa-solid fa-ban me-1"></i> Warning: Is month (${formattedSelected}) Already Submitted`;
-                saveBtn.disabled = true;
-                lockedBadge.style.display = "inline-block";
-                formFields.forEach(field => field.disabled = true);
-            } else {
-                alertBox.className = "alert alert-success mb-0 py-2";
-                alertBox.innerHTML = `<i class="fa-solid fa-circle-check me-1"></i> Selected Month: <strong>${formattedSelected}</strong>`;
-                saveBtn.disabled = false;
-                lockedBadge.style.display = "none";
-                formFields.forEach(field => field.disabled = false);
-            }
-        } catch (error) {
-            console.error("Error checking duplicates:", error);
-            alertBox.className = "alert alert-danger mb-0 py-2";
-            alertBox.innerHTML = `<i class="fa-solid fa-circle-xmark me-1"></i> Firebase Connection Error: Firestore Rules Check Karein.`;
+        if (isDuplicate) {
+            alertBox.className = "alert alert-danger mb-0 py-2 fw-bold";
+            alertBox.innerHTML = `<i class="fa-solid fa-ban me-1"></i> Warning: Is month (${formattedSelected}) ki report pehle se saved hai! Aap dubara save nahi kar sakte.`;
+            saveBtn.disabled = true;
+            lockedBadge.style.display = "inline-block";
+            
+            // Disable all input fields
+            formFields.forEach(field => field.disabled = true);
+        } else {
+            alertBox.className = "alert alert-success mb-0 py-2";
+            alertBox.innerHTML = `<i class="fa-solid fa-circle-check me-1"></i> Selected Month: <strong>${formattedSelected}</strong>`;
+            saveBtn.disabled = false;
+            lockedBadge.style.display = "none";
+            
+            // Enable all input fields
+            formFields.forEach(field => field.disabled = false);
         }
     }
 
@@ -591,100 +621,104 @@
     }
 
     function resetFormInputs() {
+        // Reset Date Picker
+        document.getElementById('reportMonthYear').value = "";
+
+        // Reset text/number inputs
         document.querySelectorAll('input[type="number"]').forEach(input => {
             input.value = 0;
         });
+        document.getElementById('targetPop').value = "";
+
+        // Reset selects to NO
         document.querySelectorAll('select.case-sample').forEach(select => {
             select.value = "NO";
         });
+
+        // Recalculate totals
         calculate();
     }
 
-    async function saveForm() {
-        const pickerVal = monthPicker.value;
+    function saveForm() {
+        const pickerVal = document.getElementById('reportMonthYear').value;
         if (!pickerVal) {
             alert("Meharbani karke Month aur Year select karein!");
             return;
         }
 
         const formattedMonthYear = getFormattedMonthYear(pickerVal);
-        const saveBtn = document.getElementById('saveBtn');
-        saveBtn.disabled = true;
-        saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin me-2"></i> Saving to Firebase...`;
 
-        try {
-            const q = query(collection(db, "epiReports"), where("monthYear", "==", formattedMonthYear));
-            const querySnapshot = await getDocs(q);
+        // Double check Duplicate
+        let existingReports = JSON.parse(localStorage.getItem("epiReports") || "[]");
+        const isDuplicate = existingReports.some(report => report.monthYear.toUpperCase() === formattedMonthYear.toUpperCase());
 
-            if (!querySnapshot.empty) {
-                alert(`Ghalti: Is month (${formattedMonthYear}) ki report pehle se Firebase par saved hai!`);
-                checkMonthDuplicate();
-                saveBtn.innerHTML = `<i class="fa-solid fa-floppy-disk me-2"></i> Save Record To Firebase`;
-                return;
-            }
-
-            const targets = [
-                document.getElementById('targetPop').value || 0,
-                document.getElementById('targetMonthly').value || 0,
-                document.getElementById('targetBcg').value || 0,
-                document.getElementById('targetPenta').value || 0,
-                document.getElementById('targetMr1').value || 0,
-                document.getElementById('targetMr2').value || 0,
-                document.getElementById('targetPreg').value || 0,
-                document.getElementById('targetCba').value || 0,
-                document.getElementById('targetHpv').value || 0
-            ];
-
-            const getRowData = (className) => Array.from(document.querySelectorAll('.' + className)).map(input => input.value || 0);
-            const getSpanData = (className) => Array.from(document.querySelectorAll('.' + className)).map(span => span.textContent || 0);
-
-            const coverage = {
-                fix: getRowData('fix'),
-                out1: getRowData('out1'),
-                out2: getRowData('out2'),
-                total: getSpanData('total-val'),
-                outUc: getRowData('out-uc'),
-                grand: getSpanData('grand-val')
-            };
-
-            const zeroDose = Array.from(document.querySelectorAll('.zero-dose')).map(i => i.value || 0);
-
-            const defaulters = [
-                document.getElementById('defaulterTotal').value || 0,
-                document.getElementById('defaulterCovered').value || 0
-            ];
-
-            const caseReported = Array.from(document.querySelectorAll('.case-reported')).map(i => i.value || 0);
-            const caseSample = Array.from(document.querySelectorAll('.case-sample')).map(i => i.value || 'NO');
-            const cases = [
-                caseReported[0], caseSample[0],
-                caseReported[1], caseSample[1],
-                caseReported[2], caseSample[2]
-            ];
-
-            const reportObject = {
-                monthYear: formattedMonthYear,
-                targets: targets,
-                coverage: coverage,
-                zeroDose: zeroDose,
-                defaulters: defaulters,
-                cases: cases,
-                createdAt: new Date().toISOString()
-            };
-
-            await addDoc(collection(db, "epiReports"), reportObject);
-
-            alert(`${formattedMonthYear} Report has been submitted`);
-
-            resetFormInputs();
+        if (isDuplicate) {
+            alert(`Ghalti: Is month (${formattedMonthYear}) ki report pehle se saved hai!`);
             checkMonthDuplicate();
-
-        } catch (e) {
-            console.error("Error adding document: ", e);
-            alert("Report save karne mein masla aaya! Wajah: " + e.message);
-        } finally {
-            saveBtn.innerHTML = `<i class="fa-solid fa-floppy-disk me-2"></i> Save Record To Firebase`;
+            return;
         }
+
+        // Collect Targets
+        const targets = [
+            document.getElementById('targetPop').value || 0,
+            document.getElementById('targetBcg').value || 0,
+            document.getElementById('targetPenta').value || 0,
+            document.getElementById('targetMr1').value || 0,
+            document.getElementById('targetMr2').value || 0,
+            document.getElementById('targetPreg').value || 0,
+            document.getElementById('targetCba').value || 0,
+            document.getElementById('targetHpv').value || 0
+        ];
+
+        // Collect Coverage Data
+        const getRowData = (className) => Array.from(document.querySelectorAll('.' + className)).map(input => input.value || 0);
+        const getSpanData = (className) => Array.from(document.querySelectorAll('.' + className)).map(span => span.textContent || 0);
+
+        const coverage = {
+            fix: getRowData('fix'),
+            out1: getRowData('out1'),
+            out2: getRowData('out2'),
+            total: getSpanData('total-val'),
+            outUc: getRowData('out-uc'),
+            grand: getSpanData('grand-val')
+        };
+
+        // Collect Zero Dose
+        const zeroDose = Array.from(document.querySelectorAll('.zero-dose')).map(i => i.value || 0);
+
+        // Collect Defaulters
+        const defaulters = [
+            document.getElementById('defaulterTotal').value || 0,
+            document.getElementById('defaulterCovered').value || 0
+        ];
+
+        // Collect Cases
+        const caseReported = Array.from(document.querySelectorAll('.case-reported')).map(i => i.value || 0);
+        const caseSample = Array.from(document.querySelectorAll('.case-sample')).map(i => i.value || 'NO');
+        const cases = [
+            caseReported[0], caseSample[0],
+            caseReported[1], caseSample[1],
+            caseReported[2], caseSample[2]
+        ];
+
+        const reportObject = {
+            monthYear: formattedMonthYear,
+            targets: targets,
+            coverage: coverage,
+            zeroDose: zeroDose,
+            defaulters: defaulters,
+            cases: cases
+        };
+
+        // Save to localStorage
+        existingReports.push(reportObject);
+        localStorage.setItem("epiReports", JSON.stringify(existingReports));
+
+        alert(`${formattedMonthYear} ki report kamyabi se save ho gayi hai!`);
+        
+        // Reset inputs & update UI
+        resetFormInputs();
+        checkMonthDuplicate();
     }
 </script>
 

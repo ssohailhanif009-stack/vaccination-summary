@@ -100,12 +100,17 @@
             color: white;
         }
 
-        /* PDF Styling & Table Alignment for Single Page Layout */
+        /* Fixed PDF Render Container */
+        .pdf-wrapper {
+            position: fixed;
+            top: 0;
+            left: -10000px;
+            width: 1060px;
+            z-index: -9999;
+        }
+
         .pdf-container {
-            position: absolute;
-            left: -9999px;
-            top: -9999px;
-            width: 1060px; /* Fixed width for standard A4 landscape rendering */
+            width: 1060px;
             background: white;
             padding: 15px;
         }
@@ -250,12 +255,30 @@
             <span><i class="fa-solid fa-filter text-primary me-2"></i> Filter & Download Saved Reports</span>
         </div>
         <div class="card-body">
-            <!-- Filter Dropdown -->
-            <div class="row mb-3">
-                <div class="col-md-5">
-                    <label for="filterSelect" class="form-label fw-bold text-muted small">FILTER BY MONTH & YEAR</label>
-                    <select id="filterSelect" class="form-select fw-bold border-primary">
-                        <option value="ALL">Show All Saved Months</option>
+            <!-- Separate Month and Year Filters -->
+            <div class="row mb-3 g-2">
+                <div class="col-md-3">
+                    <label for="filterMonth" class="form-label fw-bold text-muted small">SELECT MONTH</label>
+                    <select id="filterMonth" class="form-select fw-bold border-primary">
+                        <option value="ALL">All Months</option>
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="filterYear" class="form-label fw-bold text-muted small">SELECT YEAR</label>
+                    <select id="filterYear" class="form-select fw-bold border-primary">
+                        <option value="ALL">All Years</option>
                     </select>
                 </div>
             </div>
@@ -273,113 +296,115 @@
 </div>
 
 <!-- Hidden Canvas Render Container for PDF Download -->
-<div class="pdf-container" id="pdfContent">
-    
-    <!-- Official Header with Logo -->
-    <div class="pdf-official-header">
-        <img src="logo.png" alt="EPI Logo" style="width: 65px; height: 65px; border-radius: 6px; border: 1px solid #ccc;" onerror="this.src='https://via.placeholder.com/65?text=EPI+Logo'">
-        <div class="header-text">
-            <h2>OFFICIAL EPI VACCINATION COVERAGE REPORT</h2>
-            <h4>EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h4>
-            <div class="report-badge" id="pdfMonthTitle">REPORTING PERIOD: -</div>
+<div class="pdf-wrapper">
+    <div class="pdf-container" id="pdfContent">
+        
+        <!-- Official Header with Logo -->
+        <div class="pdf-official-header">
+            <img src="logo.png" alt="EPI Logo" style="width: 65px; height: 65px; border-radius: 6px; border: 1px solid #ccc;" onerror="this.src='https://via.placeholder.com/65?text=EPI+Logo'">
+            <div class="header-text">
+                <h2>OFFICIAL EPI VACCINATION COVERAGE REPORT</h2>
+                <h4>EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h4>
+                <div class="report-badge" id="pdfMonthTitle">REPORTING PERIOD: -</div>
+            </div>
+            <div style="width: 65px;"></div>
         </div>
-        <div style="width: 65px;"></div>
-    </div>
 
-    <!-- Target & Population Overview -->
-    <div class="mb-2">
-        <div class="fw-bold mb-1 text-dark border-bottom pb-1" style="font-size: 0.8rem; border-color: #0d6efd !important;">
-            <i class="fa-solid fa-bullseye me-1 text-primary"></i> TARGET & POPULATION OVERVIEW
-        </div>
-        <div class="info-grid" id="targetGrid">
-            <!-- Dynamic Data -->
-        </div>
-    </div>
-
-    <!-- Monthly Coverage Table (14 Antigens) -->
-    <div class="mb-2">
-        <div class="fw-bold mb-1 text-dark border-bottom pb-1" style="font-size: 0.8rem; border-color: #0d6efd !important;">
-            <i class="fa-solid fa-syringe me-1 text-primary"></i> MONTHLY VACCINATION COVERAGE DATA
-        </div>
-        <table class="table table-bordered table-custom mb-0">
-            <thead>
-                <tr>
-                    <th style="min-width: 100px; text-align: left;">ANTIGEN</th>
-                    <th>BCG</th>
-                    <th>HEP-B</th>
-                    <th>OPV-0</th>
-                    <th>PENTA-1</th>
-                    <th>PENTA-2</th>
-                    <th>PENTA-3</th>
-                    <th>MR-1</th>
-                    <th>MR-2</th>
-                    <th>TD-1</th>
-                    <th>TD-2</th>
-                    <th>TD-3</th>
-                    <th>TD-4</th>
-                    <th>TD-5</th>
-                    <th>HPV</th>
-                </tr>
-            </thead>
-            <tbody id="coverageTbody">
+        <!-- Target & Population Overview -->
+        <div class="mb-2">
+            <div class="fw-bold mb-1 text-dark border-bottom pb-1" style="font-size: 0.8rem; border-color: #0d6efd !important;">
+                <i class="fa-solid fa-bullseye me-1 text-primary"></i> TARGET & POPULATION OVERVIEW
+            </div>
+            <div class="info-grid" id="targetGrid">
                 <!-- Dynamic Data -->
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Bottom Section Grid -->
-    <div class="row g-2">
-        <!-- Zero Dose Children -->
-        <div class="col-6">
-            <div class="border rounded p-2 bg-light h-100">
-                <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.72rem;">
-                    <i class="fa-solid fa-child me-1 text-warning"></i> Zero Dose Polio Children Data
-                </div>
-                <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.7rem;">
-                    <thead>
-                        <tr class="table-secondary">
-                            <th class="text-start">Category</th>
-                            <th>Count</th>
-                        </tr>
-                    </thead>
-                    <tbody id="zeroDoseTbody">
-                        <!-- Dynamic Data -->
-                    </tbody>
-                </table>
             </div>
         </div>
 
-        <!-- Defaulters & Cases Reported -->
-        <div class="col-6">
-            <div class="border rounded p-2 bg-light mb-1">
-                <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.72rem;">
-                    <i class="fa-solid fa-user-slash me-1 text-danger"></i> Defaulters Children Data
-                </div>
-                <div class="row text-center pt-1" id="defaulterBox">
+        <!-- Monthly Coverage Table (14 Antigens) -->
+        <div class="mb-2">
+            <div class="fw-bold mb-1 text-dark border-bottom pb-1" style="font-size: 0.8rem; border-color: #0d6efd !important;">
+                <i class="fa-solid fa-syringe me-1 text-primary"></i> MONTHLY VACCINATION COVERAGE DATA
+            </div>
+            <table class="table table-bordered table-custom mb-0">
+                <thead>
+                    <tr>
+                        <th style="min-width: 100px; text-align: left;">ANTIGEN</th>
+                        <th>BCG</th>
+                        <th>HEP-B</th>
+                        <th>OPV-0</th>
+                        <th>PENTA-1</th>
+                        <th>PENTA-2</th>
+                        <th>PENTA-3</th>
+                        <th>MR-1</th>
+                        <th>MR-2</th>
+                        <th>TD-1</th>
+                        <th>TD-2</th>
+                        <th>TD-3</th>
+                        <th>TD-4</th>
+                        <th>TD-5</th>
+                        <th>HPV</th>
+                    </tr>
+                </thead>
+                <tbody id="coverageTbody">
                     <!-- Dynamic Data -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bottom Section Grid -->
+        <div class="row g-2">
+            <!-- Zero Dose Children -->
+            <div class="col-6">
+                <div class="border rounded p-2 bg-light h-100">
+                    <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.72rem;">
+                        <i class="fa-solid fa-child me-1 text-warning"></i> Zero Dose Polio Children Data
+                    </div>
+                    <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.7rem;">
+                        <thead>
+                            <tr class="table-secondary">
+                                <th class="text-start">Category</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody id="zeroDoseTbody">
+                            <!-- Dynamic Data -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <div class="border rounded p-2 bg-light">
-                <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.72rem;">
-                    <i class="fa-solid fa-virus-covid me-1 text-danger"></i> Cases Reported
-                </div>
-                <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.7rem;">
-                    <thead>
-                        <tr class="table-secondary">
-                            <th class="text-start">Case Type</th>
-                            <th>Reported</th>
-                            <th>Sample Taken</th>
-                        </tr>
-                    </thead>
-                    <tbody id="casesTbody">
+            <!-- Defaulters & Cases Reported -->
+            <div class="col-6">
+                <div class="border rounded p-2 bg-light mb-1">
+                    <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.72rem;">
+                        <i class="fa-solid fa-user-slash me-1 text-danger"></i> Defaulters Children Data
+                    </div>
+                    <div class="row text-center pt-1" id="defaulterBox">
                         <!-- Dynamic Data -->
-                    </tbody>
-                </table>
+                    </div>
+                </div>
+
+                <div class="border rounded p-2 bg-light">
+                    <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.72rem;">
+                        <i class="fa-solid fa-virus-covid me-1 text-danger"></i> Cases Reported
+                    </div>
+                    <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.7rem;">
+                        <thead>
+                            <tr class="table-secondary">
+                                <th class="text-start">Case Type</th>
+                                <th>Reported</th>
+                                <th>Sample Taken</th>
+                            </tr>
+                        </thead>
+                        <tbody id="casesTbody">
+                            <!-- Dynamic Data -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
+    </div>
 </div>
 
 <!-- Firebase SDKs -->
@@ -405,32 +430,43 @@
     document.addEventListener('DOMContentLoaded', async function() {
         await fetchRecords();
 
-        document.getElementById('filterSelect').addEventListener('change', function(e) {
-            filterAndRenderButtons(e.target.value);
-        });
+        document.getElementById('filterMonth').addEventListener('change', filterAndRenderButtons);
+        document.getElementById('filterYear').addEventListener('change', filterAndRenderButtons);
     });
 
     async function fetchRecords() {
         try {
             const querySnapshot = await getDocs(collection(db, "epiReports"));
-            const filterSelect = document.getElementById('filterSelect');
+            const filterYear = document.getElementById('filterYear');
             
             allRecordsMap = {};
-            filterSelect.innerHTML = '<option value="ALL">Show All Saved Months</option>';
+            const availableYears = new Set();
 
             querySnapshot.forEach((docSnap) => {
                 const data = docSnap.data();
-                const mYear = data.monthYear || "Unknown Month";
+                const mYear = data.monthYear || "";
                 allRecordsMap[docSnap.id] = data;
 
-                // Populate Filter Options
-                const opt = document.createElement('option');
-                opt.value = mYear;
-                opt.textContent = mYear;
-                filterSelect.appendChild(opt);
+                // Extract Year for Filter
+                if (mYear) {
+                    const parts = mYear.trim().split(/\s+/);
+                    if (parts.length > 1) {
+                        const year = parts[parts.length - 1];
+                        if (!isNaN(year)) availableYears.add(year);
+                    }
+                }
             });
 
-            filterAndRenderButtons("ALL");
+            // Populate Year Dropdown dynamically
+            filterYear.innerHTML = '<option value="ALL">All Years</option>';
+            Array.from(availableYears).sort().reverse().forEach(year => {
+                const opt = document.createElement('option');
+                opt.value = year;
+                opt.textContent = year;
+                filterYear.appendChild(opt);
+            });
+
+            filterAndRenderButtons();
 
         } catch (err) {
             console.error("Error fetching reports:", err);
@@ -438,7 +474,9 @@
         }
     }
 
-    function filterAndRenderButtons(selectedMonthYear) {
+    function filterAndRenderButtons() {
+        const selectedMonth = document.getElementById('filterMonth').value.toLowerCase();
+        const selectedYear = document.getElementById('filterYear').value;
         const container = document.getElementById('reportsList');
         container.innerHTML = '';
 
@@ -453,9 +491,12 @@
 
         keys.forEach(id => {
             const data = allRecordsMap[id];
-            const mYear = data.monthYear || "Unknown";
+            const mYear = data.monthYear || "";
 
-            if (selectedMonthYear === "ALL" || selectedMonthYear === mYear) {
+            let matchesMonth = (selectedMonth === "all") || mYear.toLowerCase().includes(selectedMonth);
+            let matchesYear = (selectedYear === "ALL") || mYear.includes(selectedYear);
+
+            if (matchesMonth && matchesYear) {
                 renderedCount++;
                 const btn = document.createElement('button');
                 btn.className = 'report-btn';
@@ -466,7 +507,7 @@
         });
 
         if (renderedCount === 0) {
-            container.innerHTML = `<div class="text-muted small">No record found matching selected month/year.</div>`;
+            container.innerHTML = `<div class="text-muted small">No record found matching selected filters.</div>`;
         }
     }
 
@@ -556,13 +597,14 @@
         `;
     }
 
-    function directDownloadPDF(data) {
-        // Populate PDF template in memory
+    async function directDownloadPDF(data) {
         populatePdfTemplate(data);
+
+        // Small delay to make sure DOM innerHTML updates completely before rendering PDF
+        await new Promise(resolve => setTimeout(resolve, 150));
 
         const element = document.getElementById('pdfContent');
 
-        // Official Single Page A4 Landscape Settings
         const opt = {
             margin:       [4, 4, 4, 4],
             filename:     `EPI_Report_${(data.monthYear || 'Report').replace(/\s+/g, '_')}.pdf`,
@@ -571,7 +613,6 @@
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
         };
 
-        // Generate and download directly without displaying preview on screen
         html2pdf().set(opt).from(element).save();
     }
 </script>

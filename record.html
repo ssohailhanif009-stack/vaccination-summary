@@ -69,7 +69,88 @@
             justify-content: space-between;
         }
 
-        /* Standard Table Styling for Screen & PDF Single Page */
+        /* Horizontal Button Badges List */
+        .report-buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 10px 0;
+        }
+
+        .report-btn {
+            background: linear-gradient(135deg, #0d6efd, #0a3663);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 3px 8px rgba(13, 110, 253, 0.25);
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .report-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(13, 110, 253, 0.4);
+            background: linear-gradient(135deg, #0b5ed7, #082a4d);
+            color: white;
+        }
+
+        /* PDF Styling & Table Alignment for Single Page Layout */
+        .pdf-container {
+            position: absolute;
+            left: -9999px;
+            top: -9999px;
+            width: 1060px; /* Fixed width for standard A4 landscape rendering */
+            background: white;
+            padding: 15px;
+        }
+
+        .pdf-official-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #0a3663;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+        }
+
+        .pdf-official-header .header-text {
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .pdf-official-header h2 {
+            margin: 0;
+            font-weight: 800;
+            color: #0a3663;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+        }
+
+        .pdf-official-header h4 {
+            margin: 2px 0 0 0;
+            font-weight: 700;
+            font-size: 13px;
+            color: #334155;
+        }
+
+        .pdf-official-header .report-badge {
+            display: inline-block;
+            margin-top: 4px;
+            padding: 3px 12px;
+            background-color: #0d6efd;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 4px;
+            -webkit-print-color-adjust: exact;
+        }
+
         .table-custom {
             width: 100%;
             border-collapse: collapse;
@@ -140,55 +221,9 @@
             -webkit-print-color-adjust: exact;
         }
 
-        /* Official Printable PDF Header Styling */
-        .pdf-official-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 2px solid #0a3663;
-            padding-bottom: 8px;
-            margin-bottom: 10px;
-        }
-
-        .pdf-official-header .header-text {
-            text-align: center;
-            flex-grow: 1;
-        }
-
-        .pdf-official-header h2 {
-            margin: 0;
-            font-weight: 800;
-            color: #0a3663;
-            font-size: 17px;
-            letter-spacing: 0.5px;
-        }
-
-        .pdf-official-header h4 {
-            margin: 2px 0 0 0;
-            font-weight: 700;
-            font-size: 12px;
-            color: #334155;
-        }
-
-        .pdf-official-header .report-badge {
-            display: inline-block;
-            margin-top: 4px;
-            padding: 2px 10px;
-            background-color: #0d6efd;
-            color: white;
-            font-size: 11px;
-            font-weight: bold;
-            border-radius: 4px;
-            -webkit-print-color-adjust: exact;
-        }
-
         @media print {
             .no-print {
                 display: none !important;
-            }
-            body {
-                background: white !important;
-                padding: 0 !important;
             }
         }
     </style>
@@ -197,7 +232,7 @@
 
 <div class="container-fluid px-4 mt-4">
 
-    <!-- Header -->
+    <!-- Top Header -->
     <div class="header-card no-print">
         <img src="logo.png" alt="EPI Logo" class="logo-img" onerror="this.src='https://via.placeholder.com/75?text=EPI+Logo'">
         <div class="text-center flex-grow-1 mx-3">
@@ -209,145 +244,139 @@
         </div>
     </div>
 
-    <!-- Select Report Dropdown Card (Filter by Month/Year) -->
+    <!-- Filter & Horizontal Reports Section -->
     <div class="card card-custom no-print">
         <div class="card-header-custom">
-            <span><i class="fa-solid fa-calendar-check text-primary me-2"></i> Select Saved Report (Month & Year)</span>
+            <span><i class="fa-solid fa-filter text-primary me-2"></i> Filter & Download Saved Reports</span>
         </div>
         <div class="card-body">
-            <div class="row align-items-center g-3">
-                <div class="col-md-6">
-                    <label for="recordSelect" class="form-label fw-bold text-muted small">SELECT MONTH / YEAR</label>
-                    <select id="recordSelect" class="form-select form-select-lg fw-bold border-primary">
-                        <option value="">-- Loading Saved Reports... --</option>
+            <!-- Filter Dropdown -->
+            <div class="row mb-3">
+                <div class="col-md-5">
+                    <label for="filterSelect" class="form-label fw-bold text-muted small">FILTER BY MONTH & YEAR</label>
+                    <select id="filterSelect" class="form-select fw-bold border-primary">
+                        <option value="ALL">Show All Saved Months</option>
                     </select>
                 </div>
-                <div class="col-md-6 text-md-end">
-                    <button id="showReportBtn" class="btn btn-primary btn-lg fw-bold me-2" disabled>
-                        <i class="fa-solid fa-eye me-1"></i> Show Report
-                    </button>
-                    <button id="downloadPdfBtn" class="btn btn-danger btn-lg fw-bold me-2" disabled>
-                        <i class="fa-solid fa-file-pdf me-1"></i> Direct PDF
-                    </button>
-                    <button id="deleteBtn" class="btn btn-outline-danger btn-lg fw-bold" disabled>
-                        <i class="fa-solid fa-trash me-1"></i> Delete
-                    </button>
-                </div>
+            </div>
+
+            <hr class="text-muted">
+
+            <!-- Horizontal Buttons List -->
+            <label class="form-label fw-bold text-muted small d-block mb-2">CLICK ANY MONTH BOX TO DOWNLOAD PDF DIRECTLY:</label>
+            <div id="reportsList" class="report-buttons-container">
+                <div class="text-muted small"><i class="fa-solid fa-spinner fa-spin me-1"></i> Loading saved reports...</div>
             </div>
         </div>
     </div>
 
-    <!-- Printable Report Container (Single Page A4 Landscape Layout) -->
-    <div id="reportPreview" style="display: none;">
-        <div class="card card-custom p-3" id="pdfContent" style="background: white;">
-            
-            <!-- Official Header with EPI Logo -->
-            <div class="pdf-official-header">
-                <img src="logo.png" alt="EPI Logo" style="width: 65px; height: 65px; border-radius: 6px; border: 1px solid #ccc;" onerror="this.src='https://via.placeholder.com/65?text=EPI+Logo'">
-                <div class="header-text">
-                    <h2>OFFICIAL EPI VACCINATION COVERAGE REPORT</h2>
-                    <h4>EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h4>
-                    <div class="report-badge" id="pdfMonthTitle">REPORTING PERIOD: -</div>
+</div>
+
+<!-- Hidden Canvas Render Container for PDF Download -->
+<div class="pdf-container" id="pdfContent">
+    
+    <!-- Official Header with Logo -->
+    <div class="pdf-official-header">
+        <img src="logo.png" alt="EPI Logo" style="width: 65px; height: 65px; border-radius: 6px; border: 1px solid #ccc;" onerror="this.src='https://via.placeholder.com/65?text=EPI+Logo'">
+        <div class="header-text">
+            <h2>OFFICIAL EPI VACCINATION COVERAGE REPORT</h2>
+            <h4>EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h4>
+            <div class="report-badge" id="pdfMonthTitle">REPORTING PERIOD: -</div>
+        </div>
+        <div style="width: 65px;"></div>
+    </div>
+
+    <!-- Target & Population Overview -->
+    <div class="mb-2">
+        <div class="fw-bold mb-1 text-dark border-bottom pb-1" style="font-size: 0.8rem; border-color: #0d6efd !important;">
+            <i class="fa-solid fa-bullseye me-1 text-primary"></i> TARGET & POPULATION OVERVIEW
+        </div>
+        <div class="info-grid" id="targetGrid">
+            <!-- Dynamic Data -->
+        </div>
+    </div>
+
+    <!-- Monthly Coverage Table (14 Antigens) -->
+    <div class="mb-2">
+        <div class="fw-bold mb-1 text-dark border-bottom pb-1" style="font-size: 0.8rem; border-color: #0d6efd !important;">
+            <i class="fa-solid fa-syringe me-1 text-primary"></i> MONTHLY VACCINATION COVERAGE DATA
+        </div>
+        <table class="table table-bordered table-custom mb-0">
+            <thead>
+                <tr>
+                    <th style="min-width: 100px; text-align: left;">ANTIGEN</th>
+                    <th>BCG</th>
+                    <th>HEP-B</th>
+                    <th>OPV-0</th>
+                    <th>PENTA-1</th>
+                    <th>PENTA-2</th>
+                    <th>PENTA-3</th>
+                    <th>MR-1</th>
+                    <th>MR-2</th>
+                    <th>TD-1</th>
+                    <th>TD-2</th>
+                    <th>TD-3</th>
+                    <th>TD-4</th>
+                    <th>TD-5</th>
+                    <th>HPV</th>
+                </tr>
+            </thead>
+            <tbody id="coverageTbody">
+                <!-- Dynamic Data -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bottom Section Grid -->
+    <div class="row g-2">
+        <!-- Zero Dose Children -->
+        <div class="col-6">
+            <div class="border rounded p-2 bg-light h-100">
+                <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.72rem;">
+                    <i class="fa-solid fa-child me-1 text-warning"></i> Zero Dose Polio Children Data
                 </div>
-                <div style="width: 65px;"></div> <!-- Balance spacer for header centering -->
+                <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.7rem;">
+                    <thead>
+                        <tr class="table-secondary">
+                            <th class="text-start">Category</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody id="zeroDoseTbody">
+                        <!-- Dynamic Data -->
+                    </tbody>
+                </table>
             </div>
+        </div>
 
-            <!-- Target & Population Overview Section -->
-            <div class="mb-2">
-                <div class="fw-bold mb-1 text-dark border-bottom pb-1" style="font-size: 0.8rem; border-color: #0d6efd !important;">
-                    <i class="fa-solid fa-bullseye me-1 text-primary"></i> TARGET & POPULATION OVERVIEW
+        <!-- Defaulters & Cases Reported -->
+        <div class="col-6">
+            <div class="border rounded p-2 bg-light mb-1">
+                <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.72rem;">
+                    <i class="fa-solid fa-user-slash me-1 text-danger"></i> Defaulters Children Data
                 </div>
-                <div class="info-grid" id="targetGrid">
-                    <!-- Dynamic Content -->
-                </div>
-            </div>
-
-            <!-- Monthly Coverage Table (All 14 Antigens) -->
-            <div class="mb-2">
-                <div class="fw-bold mb-1 text-dark border-bottom pb-1" style="font-size: 0.8rem; border-color: #0d6efd !important;">
-                    <i class="fa-solid fa-syringe me-1 text-primary"></i> MONTHLY VACCINATION COVERAGE DATA
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-custom mb-0" id="coverageTable">
-                        <thead>
-                            <tr>
-                                <th style="min-width: 100px; text-align: left;">ANTIGEN</th>
-                                <th>BCG</th>
-                                <th>HEP-B</th>
-                                <th>OPV-0</th>
-                                <th>PENTA-1</th>
-                                <th>PENTA-2</th>
-                                <th>PENTA-3</th>
-                                <th>MR-1</th>
-                                <th>MR-2</th>
-                                <th>TD-1</th>
-                                <th>TD-2</th>
-                                <th>TD-3</th>
-                                <th>TD-4</th>
-                                <th>TD-5</th>
-                                <th>HPV</th>
-                            </tr>
-                        </thead>
-                        <tbody id="coverageTbody">
-                            <!-- Dynamic Content -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Bottom Sections (Zero Dose, Defaulters, Cases) -->
-            <div class="row g-2">
-                <!-- Zero Dose Data -->
-                <div class="col-6">
-                    <div class="border rounded p-2 bg-light h-100">
-                        <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.72rem;">
-                            <i class="fa-solid fa-child me-1 text-warning"></i> Zero Dose Polio Children Data
-                        </div>
-                        <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.7rem;">
-                            <thead>
-                                <tr class="table-secondary">
-                                    <th class="text-start">Category</th>
-                                    <th>Count</th>
-                                </tr>
-                            </thead>
-                            <tbody id="zeroDoseTbody">
-                                <!-- Dynamic Content -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Defaulters & Reported Cases -->
-                <div class="col-6">
-                    <div class="border rounded p-2 bg-light mb-1">
-                        <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.72rem;">
-                            <i class="fa-solid fa-user-slash me-1 text-danger"></i> Defaulters Children Data
-                        </div>
-                        <div class="row text-center pt-1" id="defaulterBox">
-                            <!-- Dynamic Content -->
-                        </div>
-                    </div>
-
-                    <div class="border rounded p-2 bg-light">
-                        <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.72rem;">
-                            <i class="fa-solid fa-virus-covid me-1 text-danger"></i> Cases Reported
-                        </div>
-                        <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.7rem;">
-                            <thead>
-                                <tr class="table-secondary">
-                                    <th class="text-start">Case Type</th>
-                                    <th>Reported</th>
-                                    <th>Sample Taken</th>
-                                </tr>
-                            </thead>
-                            <tbody id="casesTbody">
-                                <!-- Dynamic Content -->
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="row text-center pt-1" id="defaulterBox">
+                    <!-- Dynamic Data -->
                 </div>
             </div>
 
+            <div class="border rounded p-2 bg-light">
+                <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.72rem;">
+                    <i class="fa-solid fa-virus-covid me-1 text-danger"></i> Cases Reported
+                </div>
+                <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.7rem;">
+                    <thead>
+                        <tr class="table-secondary">
+                            <th class="text-start">Case Type</th>
+                            <th>Reported</th>
+                            <th>Sample Taken</th>
+                        </tr>
+                    </thead>
+                    <tbody id="casesTbody">
+                        <!-- Dynamic Data -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -356,7 +385,7 @@
 <!-- Firebase SDKs -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyBI7itDx9xie4yIjg5C8UoMRDuRAt2TMz0",
@@ -371,87 +400,84 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    let recordsMap = {};
-    let selectedDocId = null;
+    let allRecordsMap = {};
 
     document.addEventListener('DOMContentLoaded', async function() {
-        await loadRecords();
+        await fetchRecords();
 
-        const selectEl = document.getElementById('recordSelect');
-        const showBtn = document.getElementById('showReportBtn');
-        const pdfBtn = document.getElementById('downloadPdfBtn');
-        const delBtn = document.getElementById('deleteBtn');
-
-        selectEl.addEventListener('change', function(e) {
-            selectedDocId = e.target.value;
-            if (selectedDocId && recordsMap[selectedDocId]) {
-                showBtn.disabled = false;
-                pdfBtn.disabled = false;
-                delBtn.disabled = false;
-            } else {
-                showBtn.disabled = true;
-                pdfBtn.disabled = true;
-                delBtn.disabled = true;
-                document.getElementById('reportPreview').style.display = 'none';
-            }
+        document.getElementById('filterSelect').addEventListener('change', function(e) {
+            filterAndRenderButtons(e.target.value);
         });
-
-        showBtn.addEventListener('click', function() {
-            if (selectedDocId && recordsMap[selectedDocId]) {
-                displayReport(recordsMap[selectedDocId]);
-            }
-        });
-
-        pdfBtn.addEventListener('click', function() {
-            if (selectedDocId && recordsMap[selectedDocId]) {
-                displayReport(recordsMap[selectedDocId]);
-                downloadPDF();
-            }
-        });
-
-        delBtn.addEventListener('click', deleteRecord);
     });
 
-    async function loadRecords() {
+    async function fetchRecords() {
         try {
             const querySnapshot = await getDocs(collection(db, "epiReports"));
-            const selectEl = document.getElementById('recordSelect');
-            selectEl.innerHTML = '<option value="">-- Select Saved Month & Year --</option>';
-            recordsMap = {};
+            const filterSelect = document.getElementById('filterSelect');
+            
+            allRecordsMap = {};
+            filterSelect.innerHTML = '<option value="ALL">Show All Saved Months</option>';
 
             querySnapshot.forEach((docSnap) => {
                 const data = docSnap.data();
-                data.id = docSnap.id;
-                recordsMap[docSnap.id] = data;
+                const mYear = data.monthYear || "Unknown Month";
+                allRecordsMap[docSnap.id] = data;
 
-                // Month/Year Formatting
+                // Populate Filter Options
                 const opt = document.createElement('option');
-                opt.value = docSnap.id;
-                opt.textContent = data.monthYear || "Unknown Period";
-                selectEl.appendChild(opt);
+                opt.value = mYear;
+                opt.textContent = mYear;
+                filterSelect.appendChild(opt);
             });
+
+            filterAndRenderButtons("ALL");
+
         } catch (err) {
-            console.error("Error loading records:", err);
-            alert("Error fetching records: " + err.message);
+            console.error("Error fetching reports:", err);
+            document.getElementById('reportsList').innerHTML = `<div class="text-danger small">Error loading records: ${err.message}</div>`;
         }
     }
 
-    function displayReport(data) {
-        document.getElementById('reportPreview').style.display = 'block';
+    function filterAndRenderButtons(selectedMonthYear) {
+        const container = document.getElementById('reportsList');
+        container.innerHTML = '';
+
+        const keys = Object.keys(allRecordsMap);
+
+        if (keys.length === 0) {
+            container.innerHTML = `<div class="text-muted small">No saved records found in database.</div>`;
+            return;
+        }
+
+        let renderedCount = 0;
+
+        keys.forEach(id => {
+            const data = allRecordsMap[id];
+            const mYear = data.monthYear || "Unknown";
+
+            if (selectedMonthYear === "ALL" || selectedMonthYear === mYear) {
+                renderedCount++;
+                const btn = document.createElement('button');
+                btn.className = 'report-btn';
+                btn.innerHTML = `<i class="fa-solid fa-file-pdf"></i> ${mYear}`;
+                btn.onclick = () => directDownloadPDF(data);
+                container.appendChild(btn);
+            }
+        });
+
+        if (renderedCount === 0) {
+            container.innerHTML = `<div class="text-muted small">No record found matching selected month/year.</div>`;
+        }
+    }
+
+    function populatePdfTemplate(data) {
         document.getElementById('pdfMonthTitle').textContent = `REPORTING PERIOD: ${data.monthYear || '-'}`;
 
-        // 1. Targets Overview Grid
+        // 1. Target Overview Mapping
         const targetLabels = [
-            "Total Pop",
-            "BCG Target",
-            "Penta Target",
-            "Measles-1",
-            "Measles-2",
-            "Preg. Women",
-            "CBA Target",
-            "HPV Target"
+            "Total Pop", "BCG Target", "Penta Target", "Measles-1",
+            "Measles-2", "Preg. Women", "CBA Target", "HPV Target"
         ];
-
         const targetsArr = data.targets || [0,0,0,0,0,0,0,0];
         let targetHtml = '';
         targetLabels.forEach((label, idx) => {
@@ -465,14 +491,10 @@
         });
         document.getElementById('targetGrid').innerHTML = targetHtml;
 
-        // 2. Full Coverage Table (14 Columns)
+        // 2. Coverage Table Mapping (14 Antigens)
         const cov = data.coverage || {
-            fix: Array(14).fill(0),
-            out1: Array(14).fill(0),
-            out2: Array(14).fill(0),
-            total: Array(14).fill(0),
-            outUc: Array(14).fill(0),
-            grand: Array(14).fill(0)
+            fix: Array(14).fill(0), out1: Array(14).fill(0), out2: Array(14).fill(0),
+            total: Array(14).fill(0), outUc: Array(14).fill(0), grand: Array(14).fill(0)
         };
 
         const rows = [
@@ -496,7 +518,7 @@
         });
         document.getElementById('coverageTbody').innerHTML = covTbodyHtml;
 
-        // 3. Zero Dose Data
+        // 3. Zero Dose Data Mapping
         const zeroDose = data.zeroDose || [0, 0, 0, 0, 0];
         const zdLabels = [
             "06 Month Zero Dose Children",
@@ -508,16 +530,11 @@
         let zdHtml = '';
         zdLabels.forEach((lbl, i) => {
             const val = zeroDose[i] !== undefined ? zeroDose[i] : 0;
-            zdHtml += `
-                <tr>
-                    <td class="text-start">${lbl}</td>
-                    <td class="fw-bold">${val}</td>
-                </tr>
-            `;
+            zdHtml += `<tr><td class="text-start">${lbl}</td><td class="fw-bold">${val}</td></tr>`;
         });
         document.getElementById('zeroDoseTbody').innerHTML = zdHtml;
 
-        // 4. Defaulters Data
+        // 4. Defaulters Data Mapping
         const defs = data.defaulters || [0, 0];
         document.getElementById('defaulterBox').innerHTML = `
             <div class="col-6">
@@ -530,36 +547,22 @@
             </div>
         `;
 
-        // 5. Cases Data
+        // 5. Reported Cases Mapping
         const cases = data.cases || [0, 'NO', 0, 'NO', 0, 'NO'];
         document.getElementById('casesTbody').innerHTML = `
-            <tr>
-                <td class="text-start fw-bold">Measles Case</td>
-                <td class="fw-bold">${cases[0] || 0}</td>
-                <td class="fw-bold">${cases[1] || 'NO'}</td>
-            </tr>
-            <tr>
-                <td class="text-start fw-bold">AFP Case</td>
-                <td class="fw-bold">${cases[2] || 0}</td>
-                <td class="fw-bold">${cases[3] || 'NO'}</td>
-            </tr>
-            <tr>
-                <td class="text-start fw-bold">Diphtheria Case</td>
-                <td class="fw-bold">${cases[4] || 0}</td>
-                <td class="fw-bold">${cases[5] || 'NO'}</td>
-            </tr>
+            <tr><td class="text-start fw-bold">Measles Case</td><td class="fw-bold">${cases[0] || 0}</td><td class="fw-bold">${cases[1] || 'NO'}</td></tr>
+            <tr><td class="text-start fw-bold">AFP Case</td><td class="fw-bold">${cases[2] || 0}</td><td class="fw-bold">${cases[3] || 'NO'}</td></tr>
+            <tr><td class="text-start fw-bold">Diphtheria Case</td><td class="fw-bold">${cases[4] || 0}</td><td class="fw-bold">${cases[5] || 'NO'}</td></tr>
         `;
-
-        document.getElementById('reportPreview').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function downloadPDF() {
-        if (!selectedDocId || !recordsMap[selectedDocId]) return;
+    function directDownloadPDF(data) {
+        // Populate PDF template in memory
+        populatePdfTemplate(data);
 
-        const data = recordsMap[selectedDocId];
         const element = document.getElementById('pdfContent');
-        
-        // Single Page A4 Landscape Configuration
+
+        // Official Single Page A4 Landscape Settings
         const opt = {
             margin:       [4, 4, 4, 4],
             filename:     `EPI_Report_${(data.monthYear || 'Report').replace(/\s+/g, '_')}.pdf`,
@@ -568,27 +571,8 @@
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
         };
 
+        // Generate and download directly without displaying preview on screen
         html2pdf().set(opt).from(element).save();
-    }
-
-    async function deleteRecord() {
-        if (!selectedDocId) return;
-        const confirmDelete = confirm("Are you sure you want to delete this record from Firebase?");
-        if (!confirmDelete) return;
-
-        try {
-            await deleteDoc(doc(db, "epiReports", selectedDocId));
-            alert("Record deleted successfully.");
-            selectedDocId = null;
-            document.getElementById('reportPreview').style.display = 'none';
-            document.getElementById('showReportBtn').disabled = true;
-            document.getElementById('downloadPdfBtn').disabled = true;
-            document.getElementById('deleteBtn').disabled = true;
-            await loadRecords();
-        } catch (e) {
-            console.error("Error deleting record:", e);
-            alert("Error deleting record: " + e.message);
-        }
     }
 </script>
 

@@ -69,80 +69,117 @@
             justify-content: space-between;
         }
 
+        /* PDF & Display Table Styling */
+        .table-custom {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
         .table-custom th {
-            background-color: #f1f5f9;
-            color: #475569;
-            font-weight: 600;
-            font-size: 0.8rem;
+            background-color: #f1f5f9 !important;
+            color: #1e293b !important;
+            font-weight: 700;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            padding: 8px 6px;
+            padding: 6px 4px;
             text-align: center;
             vertical-align: middle;
-            white-space: nowrap;
+            border: 1px solid #cbd5e1 !important;
+            -webkit-print-color-adjust: exact;
         }
 
         .table-custom td {
-            padding: 6px 8px;
+            padding: 5px 4px;
             vertical-align: middle;
-            white-space: nowrap;
             text-align: center;
             font-weight: 600;
+            font-size: 0.8rem;
+            border: 1px solid #cbd5e1 !important;
         }
 
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 6px;
         }
 
         .info-box {
             background-color: #f8fafc;
-            border-left: 4px solid var(--primary-color);
-            padding: 8px 12px;
-            border-radius: 0 8px 8px 0;
+            border: 1px solid #cbd5e1;
+            border-top: 3px solid var(--primary-color);
+            padding: 6px 4px;
+            border-radius: 4px;
+            text-align: center;
         }
 
         .info-box .label {
-            font-size: 0.72rem;
-            color: #64748b;
+            font-size: 0.65rem;
+            color: #475569;
             text-transform: uppercase;
             font-weight: 700;
             margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .info-box .val {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 800;
             color: #0f172a;
         }
 
         .highlight-row-total {
-            background-color: #f8fafc;
+            background-color: #f1f5f9 !important;
+            -webkit-print-color-adjust: exact;
         }
 
         .highlight-row-grand {
-            background-color: #e0f2fe;
-            color: #0369a1;
+            background-color: #e0f2fe !important;
+            color: #0369a1 !important;
+            -webkit-print-color-adjust: exact;
         }
 
-        .pdf-header {
-            text-align: center;
+        /* Official PDF Printable Header */
+        .pdf-official-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             border-bottom: 2px solid #0a3663;
             padding-bottom: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
-        .pdf-header h3 {
+        .pdf-official-header .header-text {
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .pdf-official-header h2 {
             margin: 0;
-            font-weight: bold;
+            font-weight: 800;
             color: #0a3663;
             font-size: 18px;
+            letter-spacing: 0.5px;
         }
 
-        .pdf-header h5 {
-            margin: 5px 0 0 0;
+        .pdf-official-header h4 {
+            margin: 3px 0 0 0;
+            font-weight: 700;
             font-size: 13px;
-            color: #444;
+            color: #334155;
+        }
+
+        .pdf-official-header .report-badge {
+            display: inline-block;
+            margin-top: 4px;
+            padding: 3px 12px;
+            background-color: #0d6efd;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 4px;
+            -webkit-print-color-adjust: exact;
         }
 
         @media print {
@@ -162,7 +199,7 @@
 
     <!-- Header -->
     <div class="header-card no-print">
-        <img src="logo.png" alt="EPI Logo" class="logo-img">
+        <img src="logo.png" alt="EPI Logo" class="logo-img" onerror="this.src='https://via.placeholder.com/75?text=EPI+Logo'">
         <div class="text-center flex-grow-1 mx-3">
             <h2 class="fw-bold mb-1"><i class="fa-solid fa-folder-open me-2"></i> SAVED EPI COVERAGE REPORTS</h2>
             <h5 class="fw-normal opacity-90 mb-0">EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h5>
@@ -172,56 +209,64 @@
         </div>
     </div>
 
-    <!-- Select Report Dropdown Card -->
+    <!-- Select Month/Year & Controls -->
     <div class="card card-custom no-print">
         <div class="card-header-custom">
-            <span><i class="fa-solid fa-list-check text-primary me-2"></i> Select Saved Record</span>
+            <span><i class="fa-solid fa-filter text-primary me-2"></i> Select Report Month & Year</span>
         </div>
         <div class="card-body">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <label for="recordSelect" class="form-label fw-bold text-muted small">SAVED MONTHLY REPORTS</label>
+            <div class="row align-items-end g-3">
+                <div class="col-md-5">
+                    <label for="recordSelect" class="form-label fw-bold text-muted small">SELECT REPORTING MONTH / YEAR</label>
                     <select id="recordSelect" class="form-select form-select-lg fw-bold border-primary">
-                        <option value="">-- Select Saved Report Month --</option>
+                        <option value="">-- Loading Saved Reports... --</option>
                     </select>
                 </div>
-                <div class="col-md-6 mt-3 mt-md-0 text-md-end">
+                <div class="col-md-7 text-md-end">
+                    <button id="showReportBtn" class="btn btn-primary btn-lg fw-bold me-2" disabled>
+                        <i class="fa-solid fa-eye me-1"></i> Show Report
+                    </button>
                     <button id="downloadPdfBtn" class="btn btn-danger btn-lg fw-bold me-2" disabled>
-                        <i class="fa-solid fa-file-pdf me-2"></i> Download PDF Report
+                        <i class="fa-solid fa-file-pdf me-1"></i> Download Official PDF
                     </button>
                     <button id="deleteBtn" class="btn btn-outline-danger btn-lg fw-bold" disabled>
-                        <i class="fa-solid fa-trash me-2"></i> Delete Record
+                        <i class="fa-solid fa-trash me-1"></i> Delete
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Report Preview Section (Rendered for Screen & PDF) -->
+    <!-- Printable Report Preview Container -->
     <div id="reportPreview" style="display: none;">
-        <div class="card card-custom p-3" id="pdfContent">
+        <div class="card card-custom p-4" id="pdfContent" style="background: white;">
             
-            <!-- PDF Header -->
-            <div class="pdf-header">
-                <h3>MONTHLY VACCINATION COVERAGE SUMMARY</h3>
-                <h5>EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h5>
-                <div class="mt-2 fw-bold text-primary" style="font-size: 15px;" id="pdfMonthTitle">REPORTING PERIOD: -</div>
+            <!-- Official PDF Header with Logo -->
+            <div class="pdf-official-header">
+                <img src="logo.png" alt="EPI Logo" class="logo-img" style="width: 70px; height: 70px;" onerror="this.src='https://via.placeholder.com/70?text=EPI+Logo'">
+                <div class="header-text">
+                    <h2>OFFICIAL EPI VACCINATION COVERAGE REPORT</h2>
+                    <h4>EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h4>
+                    <div class="report-badge" id="pdfMonthTitle">REPORTING PERIOD: -</div>
+                </div>
+                <!-- Right Side Balance Logo Placeholder -->
+                <div style="width: 70px;"></div>
             </div>
 
-            <!-- Target & Population Overview -->
+            <!-- Target & Population Overview Section -->
             <div class="mb-3">
-                <div class="fw-bold mb-2 text-dark" style="font-size: 0.95rem; border-bottom: 2px solid #0d6efd; padding-bottom: 4px;">
-                    <i class="fa-solid fa-bullseye me-1"></i> TARGET & POPULATION OVERVIEW
+                <div class="fw-bold mb-2 text-dark border-bottom pb-1" style="font-size: 0.85rem; border-color: #0d6efd !important;">
+                    <i class="fa-solid fa-bullseye me-1 text-primary"></i> TARGET & POPULATION OVERVIEW
                 </div>
                 <div class="info-grid" id="targetGrid">
                     <!-- Dynamic Content -->
                 </div>
             </div>
 
-            <!-- Coverage Table (14 Antigens, NO extra Monthly Target column) -->
+            <!-- Full Antigens Coverage Data Table -->
             <div class="mb-3">
-                <div class="fw-bold mb-2 text-dark" style="font-size: 0.95rem; border-bottom: 2px solid #0d6efd; padding-bottom: 4px;">
-                    <i class="fa-solid fa-syringe me-1"></i> MONTHLY COVERAGE SUMMARY DATA
+                <div class="fw-bold mb-2 text-dark border-bottom pb-1" style="font-size: 0.85rem; border-color: #0d6efd !important;">
+                    <i class="fa-solid fa-syringe me-1 text-primary"></i> MONTHLY VACCINATION COVERAGE DATA (ALL COLUMNS)
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-custom mb-0" id="coverageTable">
@@ -229,7 +274,7 @@
                             <tr>
                                 <th style="min-width: 110px; text-align: left;">ANTIGEN</th>
                                 <th>BCG</th>
-                                <th>HEP</th>
+                                <th>HEP-B</th>
                                 <th>OPV-0</th>
                                 <th>PENTA-1</th>
                                 <th>PENTA-2</th>
@@ -252,14 +297,14 @@
             </div>
 
             <!-- Bottom Section Grid -->
-            <div class="row g-3">
-                <!-- Zero Dose -->
+            <div class="row g-2">
+                <!-- Zero Dose Data -->
                 <div class="col-6">
                     <div class="border rounded p-2 bg-light h-100">
-                        <div class="fw-bold text-dark mb-2 small text-uppercase" style="border-bottom: 1px solid #ccc; padding-bottom: 3px;">
+                        <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.75rem;">
                             <i class="fa-solid fa-child me-1 text-warning"></i> Zero Dose Polio Children Data
                         </div>
-                        <table class="table table-sm table-bordered bg-white mb-0 text-center small">
+                        <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.72rem;">
                             <thead>
                                 <tr class="table-secondary">
                                     <th class="text-start">Category</th>
@@ -276,7 +321,7 @@
                 <!-- Defaulters & Cases -->
                 <div class="col-6">
                     <div class="border rounded p-2 bg-light mb-2">
-                        <div class="fw-bold text-dark mb-1 small text-uppercase" style="border-bottom: 1px solid #ccc; padding-bottom: 3px;">
+                        <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.75rem;">
                             <i class="fa-solid fa-user-slash me-1 text-danger"></i> Defaulters Children Data
                         </div>
                         <div class="row text-center pt-1" id="defaulterBox">
@@ -285,15 +330,15 @@
                     </div>
 
                     <div class="border rounded p-2 bg-light">
-                        <div class="fw-bold text-dark mb-1 small text-uppercase" style="border-bottom: 1px solid #ccc; padding-bottom: 3px;">
+                        <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.75rem;">
                             <i class="fa-solid fa-virus-covid me-1 text-danger"></i> Cases Reported
                         </div>
-                        <table class="table table-sm table-bordered bg-white mb-0 text-center small">
+                        <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.72rem;">
                             <thead>
                                 <tr class="table-secondary">
-                                    <th class="text-start">Case</th>
+                                    <th class="text-start">Case Type</th>
                                     <th>Reported</th>
-                                    <th>Sample</th>
+                                    <th>Sample Taken</th>
                                 </tr>
                             </thead>
                             <tbody id="casesTbody">
@@ -333,28 +378,40 @@
     document.addEventListener('DOMContentLoaded', async function() {
         await loadRecords();
 
-        document.getElementById('recordSelect').addEventListener('change', function(e) {
+        const selectEl = document.getElementById('recordSelect');
+        const showBtn = document.getElementById('showReportBtn');
+        const pdfBtn = document.getElementById('downloadPdfBtn');
+        const delBtn = document.getElementById('deleteBtn');
+
+        selectEl.addEventListener('change', function(e) {
             selectedDocId = e.target.value;
-            if (selectedDocId && recordsMap[selectedDocId]) {
-                displayReport(recordsMap[selectedDocId]);
-                document.getElementById('downloadPdfBtn').disabled = false;
-                document.getElementById('deleteBtn').disabled = false;
+            if (selectedDocId) {
+                showBtn.disabled = false;
+                pdfBtn.disabled = false;
+                delBtn.disabled = false;
             } else {
+                showBtn.disabled = true;
+                pdfBtn.disabled = true;
+                delBtn.disabled = true;
                 document.getElementById('reportPreview').style.display = 'none';
-                document.getElementById('downloadPdfBtn').disabled = true;
-                document.getElementById('deleteBtn').disabled = true;
             }
         });
 
-        document.getElementById('downloadPdfBtn').addEventListener('click', downloadPDF);
-        document.getElementById('deleteBtn').addEventListener('click', deleteRecord);
+        showBtn.addEventListener('click', function() {
+            if (selectedDocId && recordsMap[selectedDocId]) {
+                displayReport(recordsMap[selectedDocId]);
+            }
+        });
+
+        pdfBtn.addEventListener('click', downloadPDF);
+        delBtn.addEventListener('click', deleteRecord);
     });
 
     async function loadRecords() {
         try {
             const querySnapshot = await getDocs(collection(db, "epiReports"));
             const selectEl = document.getElementById('recordSelect');
-            selectEl.innerHTML = '<option value="">-- Select Saved Report Month --</option>';
+            selectEl.innerHTML = '<option value="">-- Select Saved Month & Year --</option>';
             recordsMap = {};
 
             querySnapshot.forEach((docSnap) => {
@@ -364,12 +421,12 @@
 
                 const opt = document.createElement('option');
                 opt.value = docSnap.id;
-                opt.textContent = data.monthYear || "Unknown Month";
+                opt.textContent = data.monthYear || "Unknown Period";
                 selectEl.appendChild(opt);
             });
         } catch (err) {
             console.error("Error loading records:", err);
-            alert("Error loading saved records: " + err.message);
+            alert("Error fetching records: " + err.message);
         }
     }
 
@@ -377,14 +434,14 @@
         document.getElementById('reportPreview').style.display = 'block';
         document.getElementById('pdfMonthTitle').textContent = `REPORTING PERIOD: ${data.monthYear || '-'}`;
 
-        // 1. Targets Overview Mapping (Correct Indexing)
+        // 1. Targets Overview
         const targetLabels = [
-            "Total Population",
+            "Total Pop",
             "BCG Target",
-            "Pentavalent Target",
-            "Measles-1st Target",
-            "Measles-2nd Target",
-            "Pregnant Women",
+            "Penta Target",
+            "Measles-1",
+            "Measles-2",
+            "Preg. Women",
             "CBA Target",
             "HPV Target"
         ];
@@ -402,7 +459,7 @@
         });
         document.getElementById('targetGrid').innerHTML = targetHtml;
 
-        // 2. Coverage Table Mapping (14 Antigens, No extra column)
+        // 2. Full Coverage Table (14 Columns)
         const cov = data.coverage || {
             fix: Array(14).fill(0),
             out1: Array(14).fill(0),
@@ -438,7 +495,7 @@
         const zdLabels = [
             "06 Month Zero Dose Children",
             "Zero Dose Covered",
-            "Last Previous Round Zero Dose Children",
+            "Last Previous Round Zero Dose",
             "Zero Dose Covered (Prev Round)",
             "Refused Zero Dose Children"
         ];
@@ -454,20 +511,20 @@
         });
         document.getElementById('zeroDoseTbody').innerHTML = zdHtml;
 
-        // 4. Defaulters
+        // 4. Defaulters Data
         const defs = data.defaulters || [0, 0];
         document.getElementById('defaulterBox').innerHTML = `
             <div class="col-6">
                 <div class="text-muted small fw-bold">TOTAL DEFAULTERS</div>
-                <div class="fs-5 fw-bold text-dark">${defs[0] || 0}</div>
+                <div class="fs-6 fw-bold text-dark">${defs[0] || 0}</div>
             </div>
             <div class="col-6">
                 <div class="text-muted small fw-bold">COVERED DEFAULTERS</div>
-                <div class="fs-5 fw-bold text-success">${defs[1] || 0}</div>
+                <div class="fs-6 fw-bold text-success">${defs[1] || 0}</div>
             </div>
         `;
 
-        // 5. Cases
+        // 5. Cases Data
         const cases = data.cases || [0, 'NO', 0, 'NO', 0, 'NO'];
         document.getElementById('casesTbody').innerHTML = `
             <tr>
@@ -481,11 +538,14 @@
                 <td class="fw-bold">${cases[3] || 'NO'}</td>
             </tr>
             <tr>
-                <td class="text-start fw-bold">Diptheria Case</td>
+                <td class="text-start fw-bold">Diphtheria Case</td>
                 <td class="fw-bold">${cases[4] || 0}</td>
                 <td class="fw-bold">${cases[5] || 'NO'}</td>
             </tr>
         `;
+
+        // Smooth scroll to preview section
+        document.getElementById('reportPreview').scrollIntoView({ behavior: 'smooth' });
     }
 
     function downloadPDF() {
@@ -495,7 +555,7 @@
         const element = document.getElementById('pdfContent');
         
         const opt = {
-            margin:       [8, 8, 8, 8],
+            margin:       [6, 6, 6, 6],
             filename:     `EPI_Report_${(data.monthYear || 'Report').replace(/\s+/g, '_')}.pdf`,
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { scale: 2, useCORS: true, logging: false },
@@ -507,7 +567,7 @@
 
     async function deleteRecord() {
         if (!selectedDocId) return;
-        const confirmDelete = confirm("Are you sure you want to delete this record from Firebase?");
+        const confirmDelete = confirm("Are you sure you want to delete this report from Firebase?");
         if (!confirmDelete) return;
 
         try {
@@ -515,6 +575,7 @@
             alert("Record deleted successfully.");
             selectedDocId = null;
             document.getElementById('reportPreview').style.display = 'none';
+            document.getElementById('showReportBtn').disabled = true;
             document.getElementById('downloadPdfBtn').disabled = true;
             document.getElementById('deleteBtn').disabled = true;
             await loadRecords();

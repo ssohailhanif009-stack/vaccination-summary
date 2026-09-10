@@ -159,7 +159,6 @@
             font-weight: 600;
         }
 
-        /* Mobile Responsive Adjustments */
         @media (max-width: 768px) {
             .container-fluid {
                 padding-left: 10px !important;
@@ -530,7 +529,7 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
-    import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyBI7itDx9xie4yIjg5C8UoMRDuRAt2TMz0",
@@ -542,7 +541,6 @@
         measurementId: "G-L2G6KHX23M"
     };
 
-    // Initialize Firebase & Firestore
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
     const db = getFirestore(app);
@@ -550,13 +548,11 @@
     let existingMonthYears = [];
 
     document.addEventListener('DOMContentLoaded', async function() {
-        // Set Current Month as Default
         const today = new Date();
         const yyyy = today.getFullYear();
         const mm = String(today.getMonth() + 1).padStart(2, '0');
         document.getElementById('reportMonthYear').value = `${yyyy}-${mm}`;
         
-        // Add Input Event Listeners for Live Auto Calculation
         document.querySelectorAll('.num-input').forEach(input => {
             input.addEventListener('input', calculate);
         });
@@ -564,7 +560,6 @@
         document.getElementById('reportMonthYear').addEventListener('change', checkMonthDuplicate);
         document.getElementById('saveBtn').addEventListener('click', saveForm);
 
-        // Fetch existing records from Firebase to check duplicates
         await fetchSavedMonths();
         calculate();
         checkMonthDuplicate();
@@ -616,16 +611,12 @@
             alertBox.innerHTML = `<i class="fa-solid fa-ban me-1"></i> Already Submitted (${formattedSelected})`;
             saveBtn.disabled = true;
             lockedBadge.style.display = "inline-block";
-            
-            // Disable all input fields
             formFields.forEach(field => field.disabled = true);
         } else {
             alertBox.className = "alert alert-success mb-0 py-2";
             alertBox.innerHTML = `<i class="fa-solid fa-circle-check me-1"></i> Selected Month: <strong>${formattedSelected}</strong>`;
             saveBtn.disabled = false;
             lockedBadge.style.display = "none";
-            
-            // Enable all input fields
             formFields.forEach(field => field.disabled = false);
         }
     }
@@ -676,7 +667,6 @@
 
         const formattedMonthYear = getFormattedMonthYear(pickerVal);
 
-        // Check Duplicate again
         if (existingMonthYears.includes(formattedMonthYear.toUpperCase())) {
             alert(`Already Submitted (${formattedMonthYear})`);
             checkMonthDuplicate();
@@ -687,21 +677,24 @@
         saveBtn.disabled = true;
         saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin me-2"></i> Saving to Firebase...`;
 
-        // Collect Targets
+        const getNum = (id) => {
+            const val = document.getElementById(id).value;
+            return (val !== "" && val !== null && !isNaN(val)) ? parseFloat(val) : 0;
+        };
+
         const targets = [
-            document.getElementById('targetPop').value || 0,
-            document.getElementById('targetBcg').value || 0,
-            document.getElementById('targetPenta').value || 0,
-            document.getElementById('targetMr1').value || 0,
-            document.getElementById('targetMr2').value || 0,
-            document.getElementById('targetPreg').value || 0,
-            document.getElementById('targetCba').value || 0,
-            document.getElementById('targetHpv').value || 0
+            getNum('targetPop'),
+            getNum('targetBcg'),
+            getNum('targetPenta'),
+            getNum('targetMr1'),
+            getNum('targetMr2'),
+            getNum('targetPreg'),
+            getNum('targetCba'),
+            getNum('targetHpv')
         ];
 
-        // Collect Coverage Data
-        const getRowData = (className) => Array.from(document.querySelectorAll('.' + className)).map(input => input.value || 0);
-        const getSpanData = (className) => Array.from(document.querySelectorAll('.' + className)).map(span => span.textContent || 0);
+        const getRowData = (className) => Array.from(document.querySelectorAll('.' + className)).map(input => (input.value !== "" && !isNaN(input.value)) ? parseFloat(input.value) : 0);
+        const getSpanData = (className) => Array.from(document.querySelectorAll('.' + className)).map(span => (span.textContent !== "" && !isNaN(span.textContent)) ? parseFloat(span.textContent) : 0);
 
         const coverage = {
             fix: getRowData('fix'),
@@ -712,17 +705,14 @@
             grand: getSpanData('grand-val')
         };
 
-        // Collect Zero Dose
-        const zeroDose = Array.from(document.querySelectorAll('.zero-dose')).map(i => i.value || 0);
+        const zeroDose = Array.from(document.querySelectorAll('.zero-dose')).map(i => (i.value !== "" && !isNaN(i.value)) ? parseFloat(i.value) : 0);
 
-        // Collect Defaulters
         const defaulters = [
-            document.getElementById('defaulterTotal').value || 0,
-            document.getElementById('defaulterCovered').value || 0
+            getNum('defaulterTotal'),
+            getNum('defaulterCovered')
         ];
 
-        // Collect Cases
-        const caseReported = Array.from(document.querySelectorAll('.case-reported')).map(i => i.value || 0);
+        const caseReported = Array.from(document.querySelectorAll('.case-reported')).map(i => (i.value !== "" && !isNaN(i.value)) ? parseFloat(i.value) : 0);
         const caseSample = Array.from(document.querySelectorAll('.case-sample')).map(i => i.value || 'NO');
         const cases = [
             caseReported[0], caseSample[0],
@@ -741,12 +731,10 @@
         };
 
         try {
-            // Save to Firebase Firestore Database
             await addDoc(collection(db, "epiReports"), reportObject);
 
             alert(`${formattedMonthYear} report successfully saved to Firebase!`);
             
-            // Refresh list and update UI
             existingMonthYears.push(formattedMonthYear.toUpperCase());
             resetFormInputs();
             checkMonthDuplicate();

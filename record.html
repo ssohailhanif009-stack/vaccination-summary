@@ -54,7 +54,7 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(5px);
             margin-bottom: 25px;
-            overflow: hidden;
+            overflow: visible !important; /* Ensures dropdown opens downwards smoothly */
         }
 
         .card-header-custom {
@@ -98,6 +98,24 @@
             box-shadow: 0 5px 12px rgba(13, 110, 253, 0.4);
             background: linear-gradient(135deg, #0b5ed7, #082a4d);
             color: white;
+        }
+
+        /* Custom Downward Opening Dropdowns */
+        .custom-dropdown-menu {
+            max-height: 250px;
+            overflow-y: auto;
+            width: 100%;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            border-radius: 8px;
+        }
+
+        .dropdown-item {
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .dropdown-item:active, .dropdown-item.active {
+            background-color: var(--primary-color);
         }
 
         /* Fixed PDF Render Container */
@@ -255,31 +273,46 @@
             <span><i class="fa-solid fa-filter text-primary me-2"></i> Filter & Download Saved Reports</span>
         </div>
         <div class="card-body">
-            <!-- Separate Month and Year Filters -->
+            <!-- Downward Opening Bootstrap Dropdowns -->
             <div class="row mb-3 g-2">
+                <!-- Month Filter -->
                 <div class="col-md-3">
-                    <label for="filterMonth" class="form-label fw-bold text-muted small">SELECT MONTH</label>
-                    <select id="filterMonth" class="form-select fw-bold border-primary">
-                        <option value="ALL">All Months</option>
-                        <option value="January">January</option>
-                        <option value="February">February</option>
-                        <option value="March">March</option>
-                        <option value="April">April</option>
-                        <option value="May">May</option>
-                        <option value="June">June</option>
-                        <option value="July">July</option>
-                        <option value="August">August</option>
-                        <option value="September">September</option>
-                        <option value="October">October</option>
-                        <option value="November">November</option>
-                        <option value="December">December</option>
-                    </select>
+                    <label class="form-label fw-bold text-muted small d-block">SELECT MONTH</label>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle w-100 fw-bold text-start d-flex justify-content-between align-items-center" 
+                                type="button" id="monthDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span id="selectedMonthText">All Months</span>
+                        </button>
+                        <ul class="dropdown-menu custom-dropdown-menu" id="monthDropdownMenu" aria-labelledby="monthDropdownBtn">
+                            <li><a class="dropdown-item active" href="#" data-value="ALL">All Months</a></li>
+                            <li><a class="dropdown-item" href="#" data-value="January">January</a></li>
+                            <li><a class="dropdown-item" href="#" data-value="February">February</a></li>
+                            <li><a class="dropdown-item" href="#" data-value="March">March</a></li>
+                            <li><a class="dropdown-item" href="#" data-value="April">April</a></li>
+                            <li><a class="dropdown-item" href="#" data-value="May">May</a></li>
+                            <li><a class="dropdown-item" href="#" data-value="June">June</a></li>
+                            <li><a class="dropdown-item" href="#" data-value="July">July</a></li>
+                            <li><a class="dropdown-item" href="#" data-value="August">August</a></li>
+                            <li><a class="dropdown-item" href="#" data-value="September">September</a></li>
+                            <li><a class="dropdown-item" href="#" data-value="October">October</a></li>
+                            <li><a class="dropdown-item" href="#" data-value="November">November</a></li>
+                            <li><a class="dropdown-item" href="#" data-value="December">December</a></li>
+                        </ul>
+                    </div>
                 </div>
+
+                <!-- Year Filter -->
                 <div class="col-md-3">
-                    <label for="filterYear" class="form-label fw-bold text-muted small">SELECT YEAR</label>
-                    <select id="filterYear" class="form-select fw-bold border-primary">
-                        <option value="ALL">All Years</option>
-                    </select>
+                    <label class="form-label fw-bold text-muted small d-block">SELECT YEAR</label>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle w-100 fw-bold text-start d-flex justify-content-between align-items-center" 
+                                type="button" id="yearDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span id="selectedYearText">All Years</span>
+                        </button>
+                        <ul class="dropdown-menu custom-dropdown-menu" id="yearDropdownMenu" aria-labelledby="yearDropdownBtn">
+                            <li><a class="dropdown-item active" href="#" data-value="ALL">All Years</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
@@ -407,6 +440,9 @@
     </div>
 </div>
 
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- Firebase SDKs -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
@@ -426,18 +462,33 @@
     const db = getFirestore(app);
 
     let allRecordsMap = {};
+    let selectedMonthVal = "ALL";
+    let selectedYearVal = "ALL";
 
     document.addEventListener('DOMContentLoaded', async function() {
         await fetchRecords();
-
-        document.getElementById('filterMonth').addEventListener('change', filterAndRenderButtons);
-        document.getElementById('filterYear').addEventListener('change', filterAndRenderButtons);
+        setupCustomDropdowns();
     });
+
+    function setupCustomDropdowns() {
+        // Month Dropdown Click Listener
+        document.querySelectorAll('#monthDropdownMenu .dropdown-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('#monthDropdownMenu .dropdown-item').forEach(el => el.classList.remove('active'));
+                this.classList.add('active');
+
+                selectedMonthVal = this.getAttribute('data-value');
+                document.getElementById('selectedMonthText').textContent = this.textContent;
+                filterAndRenderButtons();
+            });
+        });
+    }
 
     async function fetchRecords() {
         try {
             const querySnapshot = await getDocs(collection(db, "epiReports"));
-            const filterYear = document.getElementById('filterYear');
+            const yearDropdownMenu = document.getElementById('yearDropdownMenu');
             
             allRecordsMap = {};
             const availableYears = new Set();
@@ -458,12 +509,24 @@
             });
 
             // Populate Year Dropdown dynamically
-            filterYear.innerHTML = '<option value="ALL">All Years</option>';
+            yearDropdownMenu.innerHTML = '<li><a class="dropdown-item active" href="#" data-value="ALL">All Years</a></li>';
             Array.from(availableYears).sort().reverse().forEach(year => {
-                const opt = document.createElement('option');
-                opt.value = year;
-                opt.textContent = year;
-                filterYear.appendChild(opt);
+                const li = document.createElement('li');
+                li.innerHTML = `<a class="dropdown-item" href="#" data-value="${year}">${year}</a>`;
+                yearDropdownMenu.appendChild(li);
+            });
+
+            // Year Dropdown Click Listener
+            document.querySelectorAll('#yearDropdownMenu .dropdown-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelectorAll('#yearDropdownMenu .dropdown-item').forEach(el => el.classList.remove('active'));
+                    this.classList.add('active');
+
+                    selectedYearVal = this.getAttribute('data-value');
+                    document.getElementById('selectedYearText').textContent = this.textContent;
+                    filterAndRenderButtons();
+                });
             });
 
             filterAndRenderButtons();
@@ -475,8 +538,8 @@
     }
 
     function filterAndRenderButtons() {
-        const selectedMonth = document.getElementById('filterMonth').value.toLowerCase();
-        const selectedYear = document.getElementById('filterYear').value;
+        const sMonth = selectedMonthVal.toLowerCase();
+        const sYear = selectedYearVal;
         const container = document.getElementById('reportsList');
         container.innerHTML = '';
 
@@ -493,8 +556,8 @@
             const data = allRecordsMap[id];
             const mYear = data.monthYear || "";
 
-            let matchesMonth = (selectedMonth === "all") || mYear.toLowerCase().includes(selectedMonth);
-            let matchesYear = (selectedYear === "ALL") || mYear.includes(selectedYear);
+            let matchesMonth = (sMonth === "all") || mYear.toLowerCase().includes(sMonth);
+            let matchesYear = (sYear === "ALL") || mYear.includes(sYear);
 
             if (matchesMonth && matchesYear) {
                 renderedCount++;

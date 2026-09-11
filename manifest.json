@@ -1,11 +1,10 @@
-
 {
   "name": "Vaccination Coverage Summary",
   "short_name": "EPI Coverage",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#c4b5a8",
-  "theme_color": "#034311",
+  "background_color": "#ffffff",
+  "theme_color": "#0d5c91",
   "icons": [
     {
       "src": "icon.png",

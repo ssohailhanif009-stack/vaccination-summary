@@ -20,80 +20,91 @@
                         url('https://img.freepik.com/free-vector/abstract-medical-wallpaper-template-design_53876-61802.jpg') no-repeat center center fixed;
             background-size: cover;
             color: #333;
-            padding-bottom: 50px;
+            padding-bottom: 30px;
+            font-size: 0.85rem;
         }
 
         .header-card {
             background: linear-gradient(135deg, var(--dark-blue), var(--primary-color));
             color: white;
-            border-radius: 12px;
-            padding: 20px 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            margin-bottom: 25px;
+            border-radius: 10px;
+            padding: 14px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
         .logo-img {
-            width: 75px;
-            height: 75px;
+            width: 60px;
+            height: 60px;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 6px;
             border: 2px solid white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
             background-color: white;
+        }
+
+        .header-card h2 {
+            font-size: 1.15rem;
+        }
+
+        .header-card h5 {
+            font-size: 0.82rem;
         }
 
         .card-custom {
             border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(5px);
-            margin-bottom: 25px;
+            margin-bottom: 18px;
             overflow: hidden;
         }
 
         .card-header-custom {
             background-color: #fff;
-            border-bottom: 2px solid #f0f0f0;
-            padding: 16px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 10px 16px;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             color: var(--dark-blue);
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
 
         .table-custom th {
             background-color: #f1f5f9;
             color: #475569;
             font-weight: 600;
-            font-size: 0.82rem;
+            font-size: 0.72rem;
             text-transform: uppercase;
-            padding: 10px;
+            padding: 6px 8px;
             text-align: center;
             vertical-align: middle;
             white-space: nowrap;
         }
 
         .table-custom td {
-            padding: 6px 8px;
+            padding: 4px 6px;
             vertical-align: middle;
             white-space: nowrap;
+            font-size: 0.8rem;
         }
 
         .num-input, .select-input {
             width: 100%;
-            min-width: 60px;
+            min-width: 50px;
             text-align: center;
             border: 1px solid #ced4da;
-            border-radius: 6px;
-            padding: 4px 6px;
+            border-radius: 4px;
+            padding: 2px 4px;
+            font-size: 0.8rem;
             font-weight: 600;
             transition: all 0.2s;
             background-color: #fff;
@@ -102,7 +113,7 @@
         .num-input:focus, .select-input:focus {
             border-color: #0d6efd;
             outline: none;
-            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+            box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
         }
 
         .num-input:disabled, .select-input:disabled {
@@ -116,7 +127,8 @@
             display: block;
             text-align: center;
             font-weight: 700;
-            padding: 4px;
+            padding: 2px 4px;
+            font-size: 0.8rem;
         }
 
         .highlight-row-total {
@@ -130,67 +142,82 @@
 
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
         }
 
         .info-box {
             background-color: #f8fafc;
-            border-left: 4px solid var(--primary-color);
-            padding: 10px 14px;
-            border-radius: 0 8px 8px 0;
+            border-left: 3px solid var(--primary-color);
+            padding: 8px 10px;
+            border-radius: 0 6px 6px 0;
         }
 
         .info-box .label {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #64748b;
             text-transform: uppercase;
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .locked-badge {
             display: none;
             background-color: #dc3545;
             color: white;
-            font-size: 0.8rem;
-            padding: 4px 10px;
-            border-radius: 20px;
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 15px;
             font-weight: 600;
+        }
+
+        .form-control-sm, .form-select-sm {
+            font-size: 0.8rem;
+            padding: 3px 8px;
+        }
+
+        .btn-sm {
+            font-size: 0.78rem;
+            padding: 4px 10px;
+        }
+
+        .btn-lg {
+            font-size: 0.9rem;
+            padding: 8px 20px;
         }
 
         @media (max-width: 768px) {
             .container-fluid {
-                padding-left: 10px !important;
-                padding-right: 10px !important;
+                padding-left: 8px !important;
+                padding-right: 8px !important;
             }
 
             .header-card {
                 flex-direction: column;
                 text-align: center;
-                gap: 15px;
-                padding: 15px;
+                gap: 10px;
+                padding: 12px;
             }
 
             .header-card h2 {
-                font-size: 1.3rem;
+                font-size: 1rem;
             }
 
             .header-card h5 {
-                font-size: 0.95rem;
+                font-size: 0.75rem;
             }
 
             .info-grid {
-                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-                gap: 8px;
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 6px;
             }
 
             .info-box {
-                padding: 8px;
+                padding: 6px;
             }
 
             .card-body {
-                padding: 12px;
+                padding: 10px;
             }
 
             #saveBtn {
@@ -201,7 +228,7 @@
 </head>
 <body>
 
-<div class="container-fluid px-4 mt-4">
+<div class="container-fluid px-3 mt-3">
 
     <!-- Header -->
     <div class="header-card">
@@ -220,14 +247,14 @@
         <div class="card-header-custom">
             <span><i class="fa-solid fa-calendar-days text-primary me-2"></i> Select Report Month & Year</span>
         </div>
-        <div class="card-body">
+        <div class="card-body py-2">
             <div class="row align-items-center">
                 <div class="col-md-4 col-sm-6">
-                    <label for="reportMonthYear" class="form-label fw-bold text-muted small">REPORTING PERIOD</label>
-                    <input type="month" id="reportMonthYear" class="form-control form-control-lg fw-bold border-primary">
+                    <label for="reportMonthYear" class="form-label fw-bold text-muted small mb-1" style="font-size: 0.72rem;">REPORTING PERIOD</label>
+                    <input type="month" id="reportMonthYear" class="form-control form-control-sm fw-bold border-primary">
                 </div>
-                <div class="col-md-8 col-sm-6 mt-3 mt-sm-0">
-                    <div id="monthAlert" class="alert alert-info mb-0 py-2" role="alert">
+                <div class="col-md-8 col-sm-6 mt-2 mt-sm-0">
+                    <div id="monthAlert" class="alert alert-info mb-0 py-1 px-3 small" role="alert">
                         <i class="fa-solid fa-circle-info me-1"></i> Reporting period muntakhib karein.
                     </div>
                 </div>
@@ -259,13 +286,13 @@
     <div class="card card-custom">
         <div class="card-header-custom">
             <span><i class="fa-solid fa-syringe text-primary me-2"></i> Monthly Coverage Summary Data (Auto Calculated Formulas)</span>
-            <small class="text-muted fw-normal"><i class="fa-solid fa-calculator me-1"></i> Total = Fix + Outreach | Grand Total = Total + Out of UC</small>
+            <small class="text-muted fw-normal" style="font-size: 0.75rem;"><i class="fa-solid fa-calculator me-1"></i> Total = Fix + Outreach | Grand Total = Total + Out of UC</small>
         </div>
         <div class="table-responsive">
             <table class="table table-bordered table-custom mb-0">
                 <thead>
                     <tr>
-                        <th style="min-width: 130px; text-align: left;">ANTIGEN</th>
+                        <th style="min-width: 110px; text-align: left;">ANTIGEN</th>
                         <th>BCG</th>
                         <th>HEP</th>
                         <th>OPV-0</th>
@@ -399,18 +426,18 @@
     <!-- Bottom Tables Grid -->
     <div class="row">
         <!-- Zero Dose Polio Children Data -->
-        <div class="col-lg-6 mb-4">
+        <div class="col-lg-6 mb-3">
             <div class="card card-custom h-100">
                 <div class="card-header-custom">
                     <span><i class="fa-solid fa-child text-warning me-2"></i> ZERO DOSE POLIO CHILDREN DATA</span>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered align-middle mb-0">
+                        <table class="table table-bordered align-middle mb-0 text-nowrap">
                             <thead class="table-light">
                                 <tr>
-                                    <th>Category</th>
-                                    <th style="width: 120px;" class="text-center">Count</th>
+                                    <th style="font-size: 0.75rem;">Category</th>
+                                    <th style="width: 100px; font-size: 0.75rem;" class="text-center">Count</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -442,21 +469,21 @@
         </div>
 
         <!-- Defaulters & Cases Reported Grid -->
-        <div class="col-lg-6 mb-4">
+        <div class="col-lg-6 mb-3">
             <!-- Defaulters -->
-            <div class="card card-custom mb-4">
+            <div class="card card-custom mb-3">
                 <div class="card-header-custom">
                     <span><i class="fa-solid fa-user-slash text-danger me-2"></i> DEFAULTERS CHILDREN DATA</span>
                 </div>
                 <div class="card-body">
-                    <div class="row g-3">
+                    <div class="row g-2">
                         <div class="col-6">
-                            <label class="form-label text-muted small fw-bold">TOTAL DEFAULTERS CHILDREN</label>
-                            <input type="number" id="defaulterTotal" class="form-control form-control-lg text-center fw-bold form-field" value="0">
+                            <label class="form-label text-muted small fw-bold mb-1" style="font-size: 0.7rem;">TOTAL DEFAULTERS CHILDREN</label>
+                            <input type="number" id="defaulterTotal" class="form-control form-control-sm text-center fw-bold form-field" value="0">
                         </div>
                         <div class="col-6">
-                            <label class="form-label text-muted small fw-bold">COVERED DEFAULTERS CHILDREN</label>
-                            <input type="number" id="defaulterCovered" class="form-control form-control-lg text-center fw-bold text-success form-field" value="0">
+                            <label class="form-label text-muted small fw-bold mb-1" style="font-size: 0.7rem;">COVERED DEFAULTERS CHILDREN</label>
+                            <input type="number" id="defaulterCovered" class="form-control form-control-sm text-center fw-bold text-success form-field" value="0">
                         </div>
                     </div>
                 </div>
@@ -517,8 +544,8 @@
     </div>
 
     <!-- Save Button Section -->
-    <div class="text-center mt-3">
-        <button id="saveBtn" class="btn btn-success btn-lg px-5 shadow">
+    <div class="text-center mt-2">
+        <button id="saveBtn" class="btn btn-success btn-lg px-4 shadow">
             <i class="fa-solid fa-floppy-disk me-2"></i> Save Record To Records Page
         </button>
     </div>
@@ -597,7 +624,7 @@
         const formFields = document.querySelectorAll('.form-field');
 
         if (!pickerVal) {
-            alertBox.className = "alert alert-warning mb-0 py-2";
+            alertBox.className = "alert alert-warning mb-0 py-1 px-3 small";
             alertBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation me-1"></i> Please select month and year.`;
             saveBtn.disabled = true;
             return;
@@ -607,13 +634,13 @@
         const isDuplicate = existingMonthYears.includes(formattedSelected.toUpperCase());
 
         if (isDuplicate) {
-            alertBox.className = "alert alert-danger mb-0 py-2 fw-bold";
+            alertBox.className = "alert alert-danger mb-0 py-1 px-3 small fw-bold";
             alertBox.innerHTML = `<i class="fa-solid fa-ban me-1"></i> Already Submitted (${formattedSelected})`;
             saveBtn.disabled = true;
             lockedBadge.style.display = "inline-block";
             formFields.forEach(field => field.disabled = true);
         } else {
-            alertBox.className = "alert alert-success mb-0 py-2";
+            alertBox.className = "alert alert-success mb-0 py-1 px-3 small";
             alertBox.innerHTML = `<i class="fa-solid fa-circle-check me-1"></i> Selected Month: <strong>${formattedSelected}</strong>`;
             saveBtn.disabled = false;
             lockedBadge.style.display = "none";

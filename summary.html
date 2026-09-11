@@ -46,14 +46,19 @@
             background-color: white;
         }
 
+        /* Headings Updated Styles */
         .header-card h2 {
-            font-size: 1.55rem;
-            letter-spacing: 0.5px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
         }
 
         .header-card h5 {
-            font-size: 1.05rem;
+            font-size: 1.1rem;
+            font-weight: 600;
             letter-spacing: 0.5px;
+            opacity: 0.95;
         }
 
         .card-custom {
@@ -190,7 +195,6 @@
             padding: 8px 20px;
         }
 
-        /* Month Input Custom Placeholder Styling */
         input[type="month"]:invalid::-webkit-datetime-edit {
             color: #6c757d;
         }
@@ -209,11 +213,11 @@
             }
 
             .header-card h2 {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
             }
 
             .header-card h5 {
-                font-size: 0.85rem;
+                font-size: 0.9rem;
             }
 
             .info-grid {
@@ -239,12 +243,12 @@
 
 <div class="container-fluid px-3 mt-3">
 
-    <!-- Header -->
+    <!-- Header Section -->
     <div class="header-card">
         <img src="logo.png" alt="EPI Logo" class="logo-img">
-        <div class="text-center flex-grow-1 mx-3">
-            <h2 class="fw-bold mb-1 text-center"><i class="fa-solid fa-hospital-user me-2"></i> MONTHLY VACCINATION COVERAGE SUMMARY</h2>
-            <h5 class="fw-bold opacity-90 mb-0 text-center">EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h5>
+        <div class="text-center flex-grow-1 mx-3 d-flex flex-column align-items-center justify-content-center">
+            <h2 class="mb-1 text-center"><i class="fa-solid fa-hospital-user me-2"></i> MONTHLY VACCINATION COVERAGE SUMMARY</h2>
+            <h5 class="mb-0 text-center">EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h5>
         </div>
         <div>
             <a href="record.html" class="btn btn-light btn-sm fw-bold"><i class="fa-solid fa-folder-open me-1"></i> View Saved Records</a>
@@ -274,19 +278,19 @@
     <!-- Target & Population Overview -->
     <div class="card card-custom">
         <div class="card-header-custom">
-            <span><i class="fa-solid fa-bullseye text-primary me-2"></i> Target & Population Overview</span>
+            <span><i class="fa-solid fa-bullseye text-primary me-2"></i> Target & Population Overview <small id="yearNotice" class="text-primary ms-2 fw-normal"></small></span>
             <span id="lockedBadge" class="locked-badge"><i class="fa-solid fa-lock me-1"></i> Already Submitted</span>
         </div>
         <div class="card-body">
             <div class="info-grid">
-                <div class="info-box"><div class="label">Total Population</div><input type="number" id="targetPop" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
-                <div class="info-box"><div class="label">BCG Target</div><input type="number" id="targetBcg" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
-                <div class="info-box"><div class="label">Pentavalent Target</div><input type="number" id="targetPenta" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
-                <div class="info-box"><div class="label">Measles-1st Target</div><input type="number" id="targetMr1" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
-                <div class="info-box"><div class="label">Measles-2nd Target</div><input type="number" id="targetMr2" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
-                <div class="info-box"><div class="label">Pregnant Women</div><input type="number" id="targetPreg" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
-                <div class="info-box"><div class="label">CBA Target</div><input type="number" id="targetCba" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
-                <div class="info-box"><div class="label">HPV Target</div><input type="number" id="targetHpv" class="form-control form-control-sm form-field" placeholder="Enter value"></div>
+                <div class="info-box"><div class="label">Total Population</div><input type="number" id="targetPop" class="form-control form-control-sm form-field target-input" placeholder="Enter value"></div>
+                <div class="info-box"><div class="label">BCG Target</div><input type="number" id="targetBcg" class="form-control form-control-sm form-field target-input" placeholder="Enter value"></div>
+                <div class="info-box"><div class="label">Pentavalent Target</div><input type="number" id="targetPenta" class="form-control form-control-sm form-field target-input" placeholder="Enter value"></div>
+                <div class="info-box"><div class="label">Measles-1st Target</div><input type="number" id="targetMr1" class="form-control form-control-sm form-field target-input" placeholder="Enter value"></div>
+                <div class="info-box"><div class="label">Measles-2nd Target</div><input type="number" id="targetMr2" class="form-control form-control-sm form-field target-input" placeholder="Enter value"></div>
+                <div class="info-box"><div class="label">Pregnant Women</div><input type="number" id="targetPreg" class="form-control form-control-sm form-field target-input" placeholder="Enter value"></div>
+                <div class="info-box"><div class="label">CBA Target</div><input type="number" id="targetCba" class="form-control form-control-sm form-field target-input" placeholder="Enter value"></div>
+                <div class="info-box"><div class="label">HPV Target</div><input type="number" id="targetHpv" class="form-control form-control-sm form-field target-input" placeholder="Enter value"></div>
             </div>
         </div>
     </div>
@@ -565,7 +569,7 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
-    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyBI7itDx9xie4yIjg5C8UoMRDuRAt2TMz0",
@@ -582,16 +586,26 @@
     const db = getFirestore(app);
 
     let existingMonthYears = [];
+    let currentSelectedYear = null;
+
+    const targetInputIds = ['targetPop', 'targetBcg', 'targetPenta', 'targetMr1', 'targetMr2', 'targetPreg', 'targetCba', 'targetHpv'];
 
     document.addEventListener('DOMContentLoaded', async function() {
-        // Reset Date input to empty
         document.getElementById('reportMonthYear').value = "";
         
         document.querySelectorAll('.num-input').forEach(input => {
             input.addEventListener('input', calculate);
         });
 
-        document.getElementById('reportMonthYear').addEventListener('change', checkMonthDuplicate);
+        document.getElementById('reportMonthYear').addEventListener('change', async function() {
+            await checkMonthDuplicate();
+            await handleYearTargetLoad();
+        });
+
+        targetInputIds.forEach(id => {
+            document.getElementById(id).addEventListener('change', autoSaveYearTargets);
+        });
+
         document.getElementById('saveBtn').addEventListener('click', saveForm);
 
         await fetchSavedMonths();
@@ -621,6 +635,65 @@
         const monthNum = parseInt(parts[1], 10) - 1;
         const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
         return `${monthNames[monthNum]} ${year}`;
+    }
+
+    async function handleYearTargetLoad() {
+        const pickerVal = document.getElementById('reportMonthYear').value;
+        const noticeEl = document.getElementById('yearNotice');
+        
+        if (!pickerVal) {
+            currentSelectedYear = null;
+            noticeEl.textContent = "";
+            clearTargetFields();
+            return;
+        }
+
+        const year = pickerVal.split('-')[0];
+        currentSelectedYear = year;
+        noticeEl.textContent = `(Fixed Targets for Year ${year})`;
+
+        try {
+            const docRef = doc(db, "yearlyTargets", year);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const data = docSnap.data().targets || [];
+                targetInputIds.forEach((id, index) => {
+                    document.getElementById(id).value = data[index] !== undefined ? data[index] : "";
+                });
+            } else {
+                clearTargetFields();
+            }
+        } catch (err) {
+            console.error("Error loading yearly targets:", err);
+        }
+    }
+
+    async function autoSaveYearTargets() {
+        if (!currentSelectedYear) return;
+
+        const getNum = (id) => {
+            const val = document.getElementById(id).value;
+            return (val !== "" && val !== null && !isNaN(val)) ? parseFloat(val) : 0;
+        };
+
+        const targets = targetInputIds.map(id => getNum(id));
+
+        try {
+            await setDoc(doc(db, "yearlyTargets", currentSelectedYear), {
+                year: currentSelectedYear,
+                targets: targets,
+                updatedAt: new Date().toISOString()
+            });
+        } catch (err) {
+            console.error("Error auto saving yearly targets:", err);
+        }
+    }
+
+    function clearTargetFields() {
+        targetInputIds.forEach(id => {
+            document.getElementById(id).value = "";
+        });
     }
 
     function checkMonthDuplicate() {
@@ -683,7 +756,7 @@
     }
 
     function resetFormInputs() {
-        document.querySelectorAll('input[type="number"]').forEach(input => {
+        document.querySelectorAll('input[type="number"]:not(.target-input)').forEach(input => {
             input.value = 0;
         });
 
@@ -692,6 +765,8 @@
         });
 
         document.getElementById('reportMonthYear').value = "";
+        document.getElementById('yearNotice').textContent = "";
+        currentSelectedYear = null;
 
         calculate();
     }
@@ -715,21 +790,14 @@
         saveBtn.disabled = true;
         saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin me-2"></i> Saving to Firebase...`;
 
+        await autoSaveYearTargets();
+
         const getNum = (id) => {
             const val = document.getElementById(id).value;
             return (val !== "" && val !== null && !isNaN(val)) ? parseFloat(val) : 0;
         };
 
-        const targets = [
-            getNum('targetPop'),
-            getNum('targetBcg'),
-            getNum('targetPenta'),
-            getNum('targetMr1'),
-            getNum('targetMr2'),
-            getNum('targetPreg'),
-            getNum('targetCba'),
-            getNum('targetHpv')
-        ];
+        const targets = targetInputIds.map(id => getNum(id));
 
         const getRowData = (className) => Array.from(document.querySelectorAll('.' + className)).map(input => (input.value !== "" && !isNaN(input.value)) ? parseFloat(input.value) : 0);
         const getSpanData = (className) => Array.from(document.querySelectorAll('.' + className)).map(span => (span.textContent !== "" && !isNaN(span.textContent)) ? parseFloat(span.textContent) : 0);

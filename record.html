@@ -132,11 +132,11 @@
             background-color: var(--primary-color);
         }
 
-        /* Single A4 Page Landscape HD PDF Setup */
+        /* Fixed Single A4 Page Landscape PDF Setup */
         .pdf-wrapper {
-            position: fixed;
+            position: absolute;
             top: 0;
-            left: -10000px;
+            left: -9999px;
             width: 1120px;
             z-index: -9999;
         }
@@ -146,10 +146,12 @@
             height: 790px;
             box-sizing: border-box;
             background: white;
-            padding: 22px 26px;
+            padding: 16px 20px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            margin: 0;
+            overflow: hidden;
         }
 
         .pdf-official-header {
@@ -157,8 +159,8 @@
             align-items: center;
             justify-content: space-between;
             border-bottom: 2.5px solid #0a3663;
-            padding-bottom: 10px;
-            margin-bottom: 12px;
+            padding-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .pdf-official-header .header-text {
@@ -170,24 +172,24 @@
             margin: 0;
             font-weight: 800;
             color: #0a3663;
-            font-size: 21px;
+            font-size: 19px;
             letter-spacing: 0.5px;
         }
 
         .pdf-official-header h4 {
-            margin: 3px 0 0 0;
+            margin: 2px 0 0 0;
             font-weight: 700;
-            font-size: 13.5px;
+            font-size: 12px;
             color: #334155;
         }
 
         .pdf-official-header .report-badge {
             display: inline-block;
-            margin-top: 5px;
-            padding: 3px 14px;
+            margin-top: 4px;
+            padding: 2px 12px;
             background-color: #0d6efd;
             color: white;
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: bold;
             border-radius: 4px;
             letter-spacing: 0.5px;
@@ -195,12 +197,12 @@
         }
 
         .section-title {
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             font-weight: 800;
             color: #0a3663;
             border-bottom: 1.5px solid #0d6efd;
-            padding-bottom: 3px;
-            margin-bottom: 8px;
+            padding-bottom: 2px;
+            margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
@@ -208,15 +210,16 @@
         .table-custom {
             width: 100%;
             border-collapse: collapse;
+            table-layout: fixed;
         }
 
         .table-custom th {
             background-color: #f1f5f9 !important;
             color: #0f172a !important;
             font-weight: 700;
-            font-size: 0.72rem;
+            font-size: 0.68rem;
             text-transform: uppercase;
-            padding: 6px 3px;
+            padding: 4px 2px;
             text-align: center;
             vertical-align: middle;
             border: 1px solid #cbd5e1 !important;
@@ -224,42 +227,42 @@
         }
 
         .table-custom td {
-            padding: 5px 3px;
+            padding: 4px 2px;
             vertical-align: middle;
             text-align: center;
             font-weight: 600;
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             border: 1px solid #cbd5e1 !important;
         }
 
         .info-grid {
             display: grid;
             grid-template-columns: repeat(8, 1fr);
-            gap: 8px;
+            gap: 6px;
         }
 
         .info-box {
             background-color: #f8fafc;
             border: 1px solid #cbd5e1;
             border-top: 3px solid var(--primary-color);
-            padding: 6px 4px;
+            padding: 4px 2px;
             border-radius: 5px;
             text-align: center;
         }
 
         .info-box .label {
-            font-size: 0.62rem;
+            font-size: 0.58rem;
             color: #475569;
             text-transform: uppercase;
             font-weight: 700;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .info-box .val {
-            font-size: 0.95rem;
+            font-size: 0.88rem;
             font-weight: 800;
             color: #0f172a;
         }
@@ -364,13 +367,13 @@
         
         <!-- Official Header with Logo -->
         <div class="pdf-official-header">
-            <img src="logo.png" alt="EPI Logo" style="width: 60px; height: 60px; border-radius: 6px; border: 1px solid #cbd5e1;" onerror="this.src='https://via.placeholder.com/60?text=EPI+Logo'">
+            <img src="logo.png" alt="EPI Logo" style="width: 50px; height: 50px; border-radius: 6px; border: 1px solid #cbd5e1;" onerror="this.src='https://via.placeholder.com/50?text=EPI+Logo'">
             <div class="header-text">
                 <h2>OFFICIAL EPI VACCINATION COVERAGE REPORT</h2>
                 <h4>EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h4>
                 <div class="report-badge" id="pdfMonthTitle">REPORTING PERIOD: -</div>
             </div>
-            <div style="width: 60px;"></div>
+            <div style="width: 50px;"></div>
         </div>
 
         <!-- Target & Population Overview -->
@@ -391,7 +394,7 @@
             <table class="table table-bordered table-custom mb-0">
                 <thead>
                     <tr>
-                        <th style="min-width: 105px; text-align: left;">ANTIGEN</th>
+                        <th style="width: 13%; text-align: left;">ANTIGEN</th>
                         <th>BCG</th>
                         <th>HEP-B</th>
                         <th>OPV-0</th>
@@ -415,18 +418,18 @@
         </div>
 
         <!-- Bottom Section Grid -->
-        <div class="row g-3">
+        <div class="row g-2">
             <!-- Zero Dose Children -->
             <div class="col-6">
                 <div class="border rounded-2 p-2 bg-light h-100">
-                    <div class="section-title mb-2" style="font-size: 0.78rem;">
+                    <div class="section-title mb-1" style="font-size: 0.72rem;">
                         <i class="fa-solid fa-child me-1 text-warning"></i> Zero Dose Polio Children Data
                     </div>
-                    <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.72rem;">
+                    <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.68rem;">
                         <thead>
                             <tr class="table-secondary">
                                 <th class="text-start">Category</th>
-                                <th style="width: 90px;">Count</th>
+                                <th style="width: 75px;">Count</th>
                             </tr>
                         </thead>
                         <tbody id="zeroDoseTbody">
@@ -438,8 +441,8 @@
 
             <!-- Defaulters & Cases Reported -->
             <div class="col-6 d-flex flex-column justify-content-between">
-                <div class="border rounded-2 p-2 bg-light mb-2">
-                    <div class="section-title mb-2" style="font-size: 0.78rem;">
+                <div class="border rounded-2 p-2 bg-light mb-1">
+                    <div class="section-title mb-1" style="font-size: 0.72rem;">
                         <i class="fa-solid fa-user-slash me-1 text-danger"></i> Defaulters Children Data
                     </div>
                     <div class="row text-center py-1" id="defaulterBox">
@@ -448,15 +451,15 @@
                 </div>
 
                 <div class="border rounded-2 p-2 bg-light">
-                    <div class="section-title mb-2" style="font-size: 0.78rem;">
+                    <div class="section-title mb-1" style="font-size: 0.72rem;">
                         <i class="fa-solid fa-virus-covid me-1 text-danger"></i> Cases Reported
                     </div>
-                    <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.72rem;">
+                    <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.68rem;">
                         <thead>
                             <tr class="table-secondary">
                                 <th class="text-start">Case Type</th>
-                                <th style="width: 90px;">Reported</th>
-                                <th style="width: 100px;">Sample Taken</th>
+                                <th style="width: 75px;">Reported</th>
+                                <th style="width: 90px;">Sample Taken</th>
                             </tr>
                         </thead>
                         <tbody id="casesTbody">
@@ -664,11 +667,11 @@
         const defs = data.defaulters || [0, 0];
         document.getElementById('defaulterBox').innerHTML = `
             <div class="col-6">
-                <div class="text-muted small fw-bold" style="font-size: 0.68rem;">TOTAL DEFAULTERS</div>
+                <div class="text-muted small fw-bold" style="font-size: 0.65rem;">TOTAL DEFAULTERS</div>
                 <div class="fs-6 fw-bold text-dark">${defs[0] || 0}</div>
             </div>
             <div class="col-6">
-                <div class="text-muted small fw-bold" style="font-size: 0.68rem;">COVERED DEFAULTERS</div>
+                <div class="text-muted small fw-bold" style="font-size: 0.65rem;">COVERED DEFAULTERS</div>
                 <div class="fs-6 fw-bold text-success">${defs[1] || 0}</div>
             </div>
         `;
@@ -691,12 +694,15 @@
         const opt = {
             margin:       [0, 0, 0, 0],
             filename:     `EPI_Report_${(data.monthYear || 'Report').replace(/\s+/g, '_')}.pdf`,
-            image:        { type: 'jpeg', quality: 1.0 },
+            image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { 
                 scale: 2, 
                 useCORS: true, 
                 logging: false,
-                windowWidth: 1120
+                width: 1120,
+                windowWidth: 1120,
+                scrollX: 0,
+                scrollY: 0
             },
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
         };

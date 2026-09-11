@@ -18,99 +18,113 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(rgba(244, 247, 246, 0.92), rgba(244, 247, 246, 0.92)), 
+            background: linear-gradient(rgba(244, 247, 246, 0.94), rgba(244, 247, 246, 0.94)), 
                         url('https://img.freepik.com/free-vector/abstract-medical-wallpaper-template-design_53876-61802.jpg') no-repeat center center fixed;
             background-size: cover;
             color: #333;
-            padding-bottom: 50px;
+            padding-bottom: 30px;
+            font-size: 0.9rem;
         }
 
+        /* Standardized Layout Elements */
         .header-card {
             background: linear-gradient(135deg, var(--dark-blue), var(--primary-color));
             color: white;
-            border-radius: 12px;
-            padding: 20px 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            margin-bottom: 25px;
+            border-radius: 10px;
+            padding: 12px 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
+        .header-card h2 {
+            font-size: 1.35rem;
+            letter-spacing: 0.3px;
+        }
+
+        .header-card h5 {
+            font-size: 0.85rem;
+            letter-spacing: 0.2px;
+        }
+
         .logo-img {
-            width: 75px;
-            height: 75px;
+            width: 55px;
+            height: 55px;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 6px;
             border: 2px solid white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
             background-color: white;
         }
 
         .card-custom {
             border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(5px);
-            margin-bottom: 25px;
-            overflow: visible !important; /* Ensures dropdown opens downwards smoothly */
+            margin-bottom: 20px;
         }
 
         .card-header-custom {
             background-color: #fff;
-            border-bottom: 2px solid #f0f0f0;
-            padding: 16px 20px;
-            font-weight: 600;
-            font-size: 1.1rem;
+            border-bottom: 1.5px solid #f0f0f0;
+            padding: 10px 16px;
+            font-weight: 700;
+            font-size: 0.95rem;
             color: var(--dark-blue);
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        /* Horizontal Button Badges List */
+        /* Compact Badges List */
         .report-buttons-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
-            padding: 10px 0;
+            gap: 8px;
+            padding: 6px 0;
         }
 
         .report-btn {
             background: linear-gradient(135deg, #0d6efd, #0a3663);
             color: white;
             border: none;
-            border-radius: 8px;
-            padding: 10px 18px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            box-shadow: 0 3px 8px rgba(13, 110, 253, 0.25);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-weight: 600;
+            font-size: 0.82rem;
+            box-shadow: 0 2px 6px rgba(13, 110, 253, 0.2);
             transition: all 0.2s ease-in-out;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .report-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 12px rgba(13, 110, 253, 0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(13, 110, 253, 0.35);
             background: linear-gradient(135deg, #0b5ed7, #082a4d);
             color: white;
         }
 
-        /* Custom Downward Opening Dropdowns - FULL LIST (No Scrolling) */
+        /* Dropdown Fix: Full List without Scrolling */
         .custom-dropdown-menu {
             max-height: none !important;
             overflow-y: visible !important;
             width: 100%;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.15);
             border-radius: 8px;
+            padding: 6px 0;
         }
 
         .dropdown-item {
             font-weight: 600;
+            font-size: 0.85rem;
+            padding: 6px 14px;
             cursor: pointer;
         }
 
@@ -118,23 +132,21 @@
             background-color: var(--primary-color);
         }
 
-        /* Fixed PDF Render Container for Perfect Single A4 Landscape Page & High Resolution (HD) */
+        /* Single A4 Page Landscape HD PDF Setup */
         .pdf-wrapper {
             position: fixed;
             top: 0;
             left: -10000px;
-            width: 1060px;
+            width: 1120px;
             z-index: -9999;
         }
 
         .pdf-container {
-            width: 1060px;
-            height: 720px; /* Fixed height optimized for single A4 landscape page fit */
-            background: white;
-            padding: 12px 18px;
+            width: 1120px;
+            height: 790px;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #0f172a;
+            background: white;
+            padding: 22px 26px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -144,9 +156,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 2px solid #0a3663;
-            padding-bottom: 6px;
-            margin-bottom: 8px;
+            border-bottom: 2.5px solid #0a3663;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .pdf-official-header .header-text {
@@ -158,27 +170,39 @@
             margin: 0;
             font-weight: 800;
             color: #0a3663;
-            font-size: 17px;
+            font-size: 21px;
             letter-spacing: 0.5px;
         }
 
         .pdf-official-header h4 {
-            margin: 2px 0 0 0;
+            margin: 3px 0 0 0;
             font-weight: 700;
-            font-size: 12px;
+            font-size: 13.5px;
             color: #334155;
         }
 
         .pdf-official-header .report-badge {
             display: inline-block;
-            margin-top: 3px;
-            padding: 2px 10px;
+            margin-top: 5px;
+            padding: 3px 14px;
             background-color: #0d6efd;
             color: white;
-            font-size: 10.5px;
+            font-size: 11px;
             font-weight: bold;
             border-radius: 4px;
+            letter-spacing: 0.5px;
             -webkit-print-color-adjust: exact;
+        }
+
+        .section-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #0a3663;
+            border-bottom: 1.5px solid #0d6efd;
+            padding-bottom: 3px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         .table-custom {
@@ -190,9 +214,9 @@
             background-color: #f1f5f9 !important;
             color: #0f172a !important;
             font-weight: 700;
-            font-size: 0.68rem;
+            font-size: 0.72rem;
             text-transform: uppercase;
-            padding: 4px 2px;
+            padding: 6px 3px;
             text-align: center;
             vertical-align: middle;
             border: 1px solid #cbd5e1 !important;
@@ -200,42 +224,42 @@
         }
 
         .table-custom td {
-            padding: 3px 2px;
+            padding: 5px 3px;
             vertical-align: middle;
             text-align: center;
             font-weight: 600;
-            font-size: 0.72rem;
+            font-size: 0.78rem;
             border: 1px solid #cbd5e1 !important;
         }
 
         .info-grid {
             display: grid;
             grid-template-columns: repeat(8, 1fr);
-            gap: 5px;
+            gap: 8px;
         }
 
         .info-box {
             background-color: #f8fafc;
             border: 1px solid #cbd5e1;
             border-top: 3px solid var(--primary-color);
-            padding: 4px 2px;
-            border-radius: 4px;
+            padding: 6px 4px;
+            border-radius: 5px;
             text-align: center;
         }
 
         .info-box .label {
-            font-size: 0.58rem;
+            font-size: 0.62rem;
             color: #475569;
             text-transform: uppercase;
             font-weight: 700;
-            margin-bottom: 1px;
+            margin-bottom: 3px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .info-box .val {
-            font-size: 0.82rem;
+            font-size: 0.95rem;
             font-weight: 800;
             color: #0f172a;
         }
@@ -260,17 +284,17 @@
 </head>
 <body>
 
-<div class="container-fluid px-4 mt-4">
+<div class="container-fluid px-3 px-md-4 mt-3">
 
     <!-- Top Header -->
     <div class="header-card no-print">
-        <img src="logo.png" alt="EPI Logo" class="logo-img" onerror="this.src='https://via.placeholder.com/75?text=EPI+Logo'">
-        <div class="text-center flex-grow-1 mx-3">
-            <h2 class="fw-bold mb-1"><i class="fa-solid fa-folder-open me-2"></i> SAVED EPI COVERAGE REPORTS</h2>
+        <img src="logo.png" alt="EPI Logo" class="logo-img" onerror="this.src='https://via.placeholder.com/55?text=EPI+Logo'">
+        <div class="text-center flex-grow-1 mx-2">
+            <h2 class="fw-bold mb-0"><i class="fa-solid fa-folder-open me-2"></i> SAVED EPI COVERAGE REPORTS</h2>
             <h5 class="fw-normal opacity-90 mb-0">EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h5>
         </div>
         <div>
-            <a href="summary.html" class="btn btn-light btn-sm fw-bold"><i class="fa-solid fa-arrow-left me-1"></i> Back to Form</a>
+            <a href="summary.html" class="btn btn-light btn-sm fw-bold"><i class="fa-solid fa-arrow-left me-1"></i> Back</a>
         </div>
     </div>
 
@@ -279,14 +303,13 @@
         <div class="card-header-custom">
             <span><i class="fa-solid fa-filter text-primary me-2"></i> Filter & Download Saved Reports</span>
         </div>
-        <div class="card-body">
-            <!-- Downward Opening Bootstrap Dropdowns -->
+        <div class="card-body py-3">
             <div class="row mb-3 g-2">
                 <!-- Month Filter -->
-                <div class="col-md-3">
-                    <label class="form-label fw-bold text-muted small d-block">SELECT MONTH</label>
+                <div class="col-md-3 col-sm-6">
+                    <label class="form-label fw-bold text-muted small d-block mb-1">SELECT MONTH</label>
                     <div class="dropdown">
-                        <button class="btn btn-outline-primary dropdown-toggle w-100 fw-bold text-start d-flex justify-content-between align-items-center" 
+                        <button class="btn btn-outline-primary btn-sm w-100 fw-bold text-start d-flex justify-content-between align-items-center" 
                                 type="button" id="monthDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
                             <span id="selectedMonthText">All Months</span>
                         </button>
@@ -309,10 +332,10 @@
                 </div>
 
                 <!-- Year Filter -->
-                <div class="col-md-3">
-                    <label class="form-label fw-bold text-muted small d-block">SELECT YEAR</label>
+                <div class="col-md-3 col-sm-6">
+                    <label class="form-label fw-bold text-muted small d-block mb-1">SELECT YEAR</label>
                     <div class="dropdown">
-                        <button class="btn btn-outline-primary dropdown-toggle w-100 fw-bold text-start d-flex justify-content-between align-items-center" 
+                        <button class="btn btn-outline-primary btn-sm w-100 fw-bold text-start d-flex justify-content-between align-items-center" 
                                 type="button" id="yearDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
                             <span id="selectedYearText">All Years</span>
                         </button>
@@ -323,7 +346,7 @@
                 </div>
             </div>
 
-            <hr class="text-muted">
+            <hr class="text-muted my-2">
 
             <!-- Horizontal Buttons List -->
             <label class="form-label fw-bold text-muted small d-block mb-2">CLICK ANY MONTH BOX TO DOWNLOAD PDF DIRECTLY:</label>
@@ -341,19 +364,19 @@
         
         <!-- Official Header with Logo -->
         <div class="pdf-official-header">
-            <img src="logo.png" alt="EPI Logo" style="width: 55px; height: 55px; border-radius: 6px; border: 1px solid #ccc;" onerror="this.src='https://via.placeholder.com/55?text=EPI+Logo'">
+            <img src="logo.png" alt="EPI Logo" style="width: 60px; height: 60px; border-radius: 6px; border: 1px solid #cbd5e1;" onerror="this.src='https://via.placeholder.com/60?text=EPI+Logo'">
             <div class="header-text">
                 <h2>OFFICIAL EPI VACCINATION COVERAGE REPORT</h2>
                 <h4>EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h4>
                 <div class="report-badge" id="pdfMonthTitle">REPORTING PERIOD: -</div>
             </div>
-            <div style="width: 55px;"></div>
+            <div style="width: 60px;"></div>
         </div>
 
         <!-- Target & Population Overview -->
-        <div class="mb-1">
-            <div class="fw-bold mb-1 text-dark border-bottom pb-1" style="font-size: 0.75rem; border-color: #0d6efd !important;">
-                <i class="fa-solid fa-bullseye me-1 text-primary"></i> TARGET & POPULATION OVERVIEW
+        <div>
+            <div class="section-title">
+                <i class="fa-solid fa-bullseye me-1 text-primary"></i> Target & Population Overview
             </div>
             <div class="info-grid" id="targetGrid">
                 <!-- Dynamic Data -->
@@ -361,14 +384,14 @@
         </div>
 
         <!-- Monthly Coverage Table (14 Antigens) -->
-        <div class="mb-1">
-            <div class="fw-bold mb-1 text-dark border-bottom pb-1" style="font-size: 0.75rem; border-color: #0d6efd !important;">
-                <i class="fa-solid fa-syringe me-1 text-primary"></i> MONTHLY VACCINATION COVERAGE DATA
+        <div>
+            <div class="section-title">
+                <i class="fa-solid fa-syringe me-1 text-primary"></i> Monthly Vaccination Coverage Data
             </div>
             <table class="table table-bordered table-custom mb-0">
                 <thead>
                     <tr>
-                        <th style="min-width: 95px; text-align: left;">ANTIGEN</th>
+                        <th style="min-width: 105px; text-align: left;">ANTIGEN</th>
                         <th>BCG</th>
                         <th>HEP-B</th>
                         <th>OPV-0</th>
@@ -392,18 +415,18 @@
         </div>
 
         <!-- Bottom Section Grid -->
-        <div class="row g-2">
+        <div class="row g-3">
             <!-- Zero Dose Children -->
             <div class="col-6">
-                <div class="border rounded p-2 bg-light h-100">
-                    <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.7rem;">
+                <div class="border rounded-2 p-2 bg-light h-100">
+                    <div class="section-title mb-2" style="font-size: 0.78rem;">
                         <i class="fa-solid fa-child me-1 text-warning"></i> Zero Dose Polio Children Data
                     </div>
-                    <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.68rem;">
+                    <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.72rem;">
                         <thead>
                             <tr class="table-secondary">
                                 <th class="text-start">Category</th>
-                                <th>Count</th>
+                                <th style="width: 90px;">Count</th>
                             </tr>
                         </thead>
                         <tbody id="zeroDoseTbody">
@@ -414,26 +437,26 @@
             </div>
 
             <!-- Defaulters & Cases Reported -->
-            <div class="col-6">
-                <div class="border rounded p-1 bg-light mb-1">
-                    <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.7rem;">
+            <div class="col-6 d-flex flex-column justify-content-between">
+                <div class="border rounded-2 p-2 bg-light mb-2">
+                    <div class="section-title mb-2" style="font-size: 0.78rem;">
                         <i class="fa-solid fa-user-slash me-1 text-danger"></i> Defaulters Children Data
                     </div>
-                    <div class="row text-center pt-1" id="defaulterBox">
+                    <div class="row text-center py-1" id="defaulterBox">
                         <!-- Dynamic Data -->
                     </div>
                 </div>
 
-                <div class="border rounded p-1 bg-light">
-                    <div class="fw-bold text-dark mb-1 text-uppercase border-bottom pb-1" style="font-size: 0.7rem;">
+                <div class="border rounded-2 p-2 bg-light">
+                    <div class="section-title mb-2" style="font-size: 0.78rem;">
                         <i class="fa-solid fa-virus-covid me-1 text-danger"></i> Cases Reported
                     </div>
-                    <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.68rem;">
+                    <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.72rem;">
                         <thead>
                             <tr class="table-secondary">
                                 <th class="text-start">Case Type</th>
-                                <th>Reported</th>
-                                <th>Sample Taken</th>
+                                <th style="width: 90px;">Reported</th>
+                                <th style="width: 100px;">Sample Taken</th>
                             </tr>
                         </thead>
                         <tbody id="casesTbody">
@@ -478,7 +501,6 @@
     });
 
     function setupCustomDropdowns() {
-        // Month Dropdown Click Listener
         document.querySelectorAll('#monthDropdownMenu .dropdown-item').forEach(item => {
             item.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -505,7 +527,6 @@
                 const mYear = data.monthYear || "";
                 allRecordsMap[docSnap.id] = data;
 
-                // Extract Year for Filter
                 if (mYear) {
                     const parts = mYear.trim().split(/\s+/);
                     if (parts.length > 1) {
@@ -515,7 +536,6 @@
                 }
             });
 
-            // Populate Year Dropdown dynamically
             yearDropdownMenu.innerHTML = '<li><a class="dropdown-item active" href="#" data-value="ALL">All Years</a></li>';
             Array.from(availableYears).sort().reverse().forEach(year => {
                 const li = document.createElement('li');
@@ -523,7 +543,6 @@
                 yearDropdownMenu.appendChild(li);
             });
 
-            // Year Dropdown Click Listener
             document.querySelectorAll('#yearDropdownMenu .dropdown-item').forEach(item => {
                 item.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -584,7 +603,6 @@
     function populatePdfTemplate(data) {
         document.getElementById('pdfMonthTitle').textContent = `REPORTING PERIOD: ${data.monthYear || '-'}`;
 
-        // 1. Target Overview Mapping
         const targetLabels = [
             "Total Pop", "BCG Target", "Penta Target", "Measles-1",
             "Measles-2", "Preg. Women", "CBA Target", "HPV Target"
@@ -602,7 +620,6 @@
         });
         document.getElementById('targetGrid').innerHTML = targetHtml;
 
-        // 2. Coverage Table Mapping (14 Antigens)
         const cov = data.coverage || {
             fix: Array(14).fill(0), out1: Array(14).fill(0), out2: Array(14).fill(0),
             total: Array(14).fill(0), outUc: Array(14).fill(0), grand: Array(14).fill(0)
@@ -629,7 +646,6 @@
         });
         document.getElementById('coverageTbody').innerHTML = covTbodyHtml;
 
-        // 3. Zero Dose Data Mapping
         const zeroDose = data.zeroDose || [0, 0, 0, 0, 0];
         const zdLabels = [
             "06 Month Zero Dose Children",
@@ -645,20 +661,18 @@
         });
         document.getElementById('zeroDoseTbody').innerHTML = zdHtml;
 
-        // 4. Defaulters Data Mapping
         const defs = data.defaulters || [0, 0];
         document.getElementById('defaulterBox').innerHTML = `
             <div class="col-6">
-                <div class="text-muted small fw-bold" style="font-size: 0.65rem;">TOTAL DEFAULTERS</div>
+                <div class="text-muted small fw-bold" style="font-size: 0.68rem;">TOTAL DEFAULTERS</div>
                 <div class="fs-6 fw-bold text-dark">${defs[0] || 0}</div>
             </div>
             <div class="col-6">
-                <div class="text-muted small fw-bold" style="font-size: 0.65rem;">COVERED DEFAULTERS</div>
+                <div class="text-muted small fw-bold" style="font-size: 0.68rem;">COVERED DEFAULTERS</div>
                 <div class="fs-6 fw-bold text-success">${defs[1] || 0}</div>
             </div>
         `;
 
-        // 5. Reported Cases Mapping
         const cases = data.cases || [0, 'NO', 0, 'NO', 0, 'NO'];
         document.getElementById('casesTbody').innerHTML = `
             <tr><td class="text-start fw-bold">Measles Case</td><td class="fw-bold">${cases[0] || 0}</td><td class="fw-bold">${cases[1] || 'NO'}</td></tr>
@@ -670,25 +684,21 @@
     async function directDownloadPDF(data) {
         populatePdfTemplate(data);
 
-        // Small delay to make sure DOM innerHTML updates completely before rendering PDF
         await new Promise(resolve => setTimeout(resolve, 150));
 
         const element = document.getElementById('pdfContent');
 
-        // High Quality & HD Configuration with Scale 3 and explicit page fit
         const opt = {
-            margin:       [4, 4, 4, 4],
+            margin:       [0, 0, 0, 0],
             filename:     `EPI_Report_${(data.monthYear || 'Report').replace(/\s+/g, '_')}.pdf`,
             image:        { type: 'jpeg', quality: 1.0 },
             html2canvas:  { 
-                scale: 3, 
+                scale: 2, 
                 useCORS: true, 
                 logging: false,
-                scrollX: 0,
-                scrollY: 0,
-                windowWidth: 1060
+                windowWidth: 1120
             },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape', compress: true }
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
         };
 
         html2pdf().set(opt).from(element).save();

@@ -18,15 +18,15 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(rgba(240, 246, 250, 0.92), rgba(240, 246, 250, 0.92)), 
-                        url('https://img.freepik.com/free-vector/abstract-medical-wallpaper-template-design_53876-61802.jpg') no-repeat center center fixed;
+            background: linear-gradient(rgba(244, 247, 246, 0.90), rgba(244, 247, 246, 0.90)), 
+                        url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
             background-size: cover;
             color: #333;
             padding-bottom: 30px;
             font-size: 0.9rem;
         }
 
-        /* Responsive Top Header */
+        /* Standardized Layout Elements */
         .header-card {
             background: linear-gradient(135deg, var(--dark-blue), var(--primary-color));
             color: white;
@@ -37,8 +37,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
         }
 
         .header-card h2 {
@@ -134,30 +132,52 @@
             background-color: var(--primary-color);
         }
 
-        /* Hidden PDF Container Setup */
+        /* Responsive Mobile Adjustments */
+        @media (max-width: 768px) {
+            .header-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            .header-card div:last-child {
+                width: 100%;
+            }
+            .header-card .btn {
+                width: 100%;
+            }
+            .report-buttons-container {
+                justify-content: center;
+            }
+            .report-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Fixed Centered Landscape PDF Print Container Setup (MS Word Black Theme) */
         .pdf-wrapper {
             position: absolute;
             top: 0;
             left: -9999px;
-            width: 1000px;
+            width: 1110px;
             z-index: -9999;
         }
 
         .pdf-container {
-            width: 1000px;
+            width: 1110px;
             box-sizing: border-box;
-            background: #ffffff;
-            padding: 20px;
-            margin: 0;
+            background: white;
+            padding: 20px 25px;
+            margin: 0 auto;
             font-size: 0.85rem;
-            border: 2px solid #0a3663;
+            color: #000000;
         }
 
         .pdf-official-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 2.5px solid #0a3663;
+            border-bottom: 2px solid #000000;
             padding-bottom: 8px;
             margin-bottom: 12px;
         }
@@ -170,36 +190,36 @@
         .pdf-official-header h2 {
             margin: 0;
             font-weight: 800;
-            color: #0a3663;
-            font-size: 19px;
+            color: #000000;
+            font-size: 20px;
             letter-spacing: 0.5px;
         }
 
         .pdf-official-header h4 {
             margin: 3px 0 0 0;
             font-weight: 700;
-            font-size: 12px;
-            color: #334155;
+            font-size: 13px;
+            color: #000000;
         }
 
         .pdf-official-header .report-badge {
             display: inline-block;
             margin-top: 5px;
             padding: 3px 12px;
-            background-color: #0a3663;
-            color: white;
+            background-color: #000000;
+            color: #ffffff;
             font-size: 11px;
             font-weight: bold;
-            border-radius: 4px;
+            border-radius: 2px;
             letter-spacing: 0.5px;
             -webkit-print-color-adjust: exact;
         }
 
         .section-title {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 800;
-            color: #0a3663;
-            border-bottom: 1.5px solid #0d6efd;
+            color: #000000;
+            border-bottom: 1.5px solid #000000;
             padding-bottom: 2px;
             margin-bottom: 6px;
             text-transform: uppercase;
@@ -213,15 +233,15 @@
         }
 
         .table-custom th {
-            background-color: #f1f5f9 !important;
-            color: #0f172a !important;
+            background-color: #f2f2f2 !important;
+            color: #000000 !important;
             font-weight: 700;
-            font-size: 0.65rem;
+            font-size: 0.68rem;
             text-transform: uppercase;
             padding: 5px 2px;
             text-align: center;
             vertical-align: middle;
-            border: 1px solid #94a3b8 !important;
+            border: 1px solid #000000 !important;
             -webkit-print-color-adjust: exact;
         }
 
@@ -231,22 +251,8 @@
             text-align: center;
             font-weight: 600;
             font-size: 0.72rem;
-            border: 1px solid #cbd5e1 !important;
-        }
-
-        /* Contrast Shading for Total and Grand Total */
-        .highlight-row-total {
-            background-color: #e2e8f0 !important;
-            color: #0f172a !important;
-            font-weight: 800 !important;
-            -webkit-print-color-adjust: exact;
-        }
-
-        .highlight-row-grand {
-            background-color: #bae6fd !important;
-            color: #0369a1 !important;
-            font-weight: 800 !important;
-            -webkit-print-color-adjust: exact;
+            color: #000000;
+            border: 1px solid #000000 !important;
         }
 
         .info-grid {
@@ -256,17 +262,16 @@
         }
 
         .info-box {
-            background-color: #f8fafc;
-            border: 1px solid #cbd5e1;
-            border-top: 3px solid var(--primary-color);
+            background-color: #ffffff;
+            border: 1px solid #000000;
             padding: 4px 2px;
-            border-radius: 4px;
+            border-radius: 2px;
             text-align: center;
         }
 
         .info-box .label {
-            font-size: 0.55rem;
-            color: #475569;
+            font-size: 0.58rem;
+            color: #000000;
             text-transform: uppercase;
             font-weight: 700;
             margin-bottom: 2px;
@@ -276,35 +281,21 @@
         }
 
         .info-box .val {
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             font-weight: 800;
-            color: #0f172a;
+            color: #000000;
         }
 
-        /* Mobile Screen Media Queries */
-        @media (max-width: 768px) {
-            body {
-                padding-bottom: 15px;
-            }
-            .header-card {
-                text-align: center;
-                justify-content: center;
-                flex-direction: column;
-                padding: 15px;
-            }
-            .header-card h2 {
-                font-size: 1.1rem;
-            }
-            .header-card h5 {
-                font-size: 0.75rem;
-            }
-            .report-buttons-container {
-                justify-content: center;
-            }
-            .report-btn {
-                width: 100%;
-                justify-content: center;
-            }
+        .highlight-row-total {
+            background-color: #f2f2f2 !important;
+            color: #000000 !important;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .highlight-row-grand {
+            background-color: #e6e6e6 !important;
+            color: #000000 !important;
+            -webkit-print-color-adjust: exact;
         }
 
         @media print {
@@ -338,7 +329,7 @@
         <div class="card-body py-3">
             <div class="row mb-3 g-2">
                 <!-- Month Filter -->
-                <div class="col-12 col-sm-6 col-md-3">
+                <div class="col-md-3 col-sm-6">
                     <label class="form-label fw-bold text-muted small d-block mb-1">SELECT MONTH</label>
                     <div class="dropdown">
                         <button class="btn btn-outline-primary btn-sm w-100 fw-bold text-start d-flex justify-content-between align-items-center" 
@@ -364,7 +355,7 @@
                 </div>
 
                 <!-- Year Filter -->
-                <div class="col-12 col-sm-6 col-md-3">
+                <div class="col-md-3 col-sm-6">
                     <label class="form-label fw-bold text-muted small d-block mb-1">SELECT YEAR</label>
                     <div class="dropdown">
                         <button class="btn btn-outline-primary btn-sm w-100 fw-bold text-start d-flex justify-content-between align-items-center" 
@@ -380,7 +371,7 @@
 
             <hr class="text-muted my-2">
 
-            <!-- Dynamic PDF Download Buttons -->
+            <!-- Horizontal Buttons List -->
             <label class="form-label fw-bold text-muted small d-block mb-2">CLICK ANY MONTH BOX TO DOWNLOAD PDF DIRECTLY:</label>
             <div id="reportsList" class="report-buttons-container">
                 <div class="text-muted small"><i class="fa-solid fa-spinner fa-spin me-1"></i> Loading saved reports...</div>
@@ -396,7 +387,7 @@
         
         <!-- Official Header with Logo -->
         <div class="pdf-official-header">
-            <img src="logo.png" alt="EPI Logo" style="width: 48px; height: 48px; border-radius: 6px; border: 1px solid #cbd5e1;" onerror="this.src='https://via.placeholder.com/48?text=EPI+Logo'">
+            <img src="logo.png" alt="EPI Logo" style="width: 48px; height: 48px; border-radius: 4px; border: 1px solid #000000;" onerror="this.src='https://via.placeholder.com/48?text=EPI+Logo'">
             <div class="header-text">
                 <h2>OFFICIAL EPI VACCINATION COVERAGE REPORT</h2>
                 <h4>EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h4>
@@ -408,7 +399,7 @@
         <!-- Target & Population Overview -->
         <div class="mb-2">
             <div class="section-title">
-                <i class="fa-solid fa-bullseye me-1 text-primary"></i> Target & Population Overview
+                Target & Population Overview
             </div>
             <div class="info-grid" id="targetGrid">
                 <!-- Dynamic Data -->
@@ -418,7 +409,7 @@
         <!-- Monthly Coverage Table (14 Antigens) -->
         <div class="mb-2">
             <div class="section-title">
-                <i class="fa-solid fa-syringe me-1 text-primary"></i> Monthly Vaccination Coverage Data
+                Monthly Vaccination Coverage Data
             </div>
             <table class="table table-bordered table-custom mb-0">
                 <thead>
@@ -450,15 +441,15 @@
         <div class="row g-2">
             <!-- Zero Dose Children -->
             <div class="col-6">
-                <div class="border rounded-2 p-2 bg-light h-100">
+                <div class="border border-dark rounded-1 p-2 bg-white h-100">
                     <div class="section-title mb-1">
-                        <i class="fa-solid fa-child me-1 text-warning"></i> Zero Dose Polio Children Data
+                        Zero Dose Polio Children Data
                     </div>
-                    <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.65rem;">
+                    <table class="table table-sm table-bordered border-dark bg-white mb-0 text-center" style="font-size: 0.65rem; color: #000;">
                         <thead>
                             <tr class="table-secondary">
-                                <th class="text-start">Category</th>
-                                <th style="width: 75px;">Count</th>
+                                <th class="text-start text-dark">Category</th>
+                                <th style="width: 75px;" class="text-dark">Count</th>
                             </tr>
                         </thead>
                         <tbody id="zeroDoseTbody">
@@ -470,25 +461,25 @@
 
             <!-- Defaulters & Cases Reported -->
             <div class="col-6 d-flex flex-column justify-content-between">
-                <div class="border rounded-2 p-2 bg-light mb-1">
+                <div class="border border-dark rounded-1 p-2 bg-white mb-1">
                     <div class="section-title mb-1">
-                        <i class="fa-solid fa-user-slash me-1 text-danger"></i> Defaulters Children Data
+                        Defaulters Children Data
                     </div>
                     <div class="row text-center py-1" id="defaulterBox">
                         <!-- Dynamic Data -->
                     </div>
                 </div>
 
-                <div class="border rounded-2 p-2 bg-light">
+                <div class="border border-dark rounded-1 p-2 bg-white">
                     <div class="section-title mb-1">
-                        <i class="fa-solid fa-virus-covid me-1 text-danger"></i> Cases Reported
+                        Cases Reported
                     </div>
-                    <table class="table table-sm table-bordered bg-white mb-0 text-center" style="font-size: 0.65rem;">
+                    <table class="table table-sm table-bordered border-dark bg-white mb-0 text-center" style="font-size: 0.65rem; color: #000;">
                         <thead>
                             <tr class="table-secondary">
-                                <th class="text-start">Case Type</th>
-                                <th style="width: 75px;">Reported</th>
-                                <th style="width: 85px;">Sample Taken</th>
+                                <th class="text-start text-dark">Case Type</th>
+                                <th style="width: 75px;" class="text-dark">Reported</th>
+                                <th style="width: 85px;" class="text-dark">Sample Taken</th>
                             </tr>
                         </thead>
                         <tbody id="casesTbody">
@@ -661,9 +652,9 @@
             { label: 'FIX-SITE', key: 'fix', class: '' },
             { label: 'OUTREACH-1', key: 'out1', class: '' },
             { label: 'OUTREACH-2', key: 'out2', class: '' },
-            { label: 'TOTAL', key: 'total', class: 'highlight-row-total' },
+            { label: 'TOTAL', key: 'total', class: 'highlight-row-total fw-bold' },
             { label: 'OUT OF UC', key: 'outUc', class: '' },
-            { label: 'GRAND TOTAL', key: 'grand', class: 'highlight-row-grand' }
+            { label: 'GRAND TOTAL', key: 'grand', class: 'highlight-row-grand fw-bold' }
         ];
 
         let covTbodyHtml = '';
@@ -696,12 +687,12 @@
         const defs = data.defaulters || [0, 0];
         document.getElementById('defaulterBox').innerHTML = `
             <div class="col-6">
-                <div class="text-muted small fw-bold" style="font-size: 0.62rem;">TOTAL DEFAULTERS</div>
+                <div class="text-dark small fw-bold" style="font-size: 0.62rem;">TOTAL DEFAULTERS</div>
                 <div class="fs-6 fw-bold text-dark">${defs[0] || 0}</div>
             </div>
             <div class="col-6">
-                <div class="text-muted small fw-bold" style="font-size: 0.62rem;">COVERED DEFAULTERS</div>
-                <div class="fs-6 fw-bold text-success">${defs[1] || 0}</div>
+                <div class="text-dark small fw-bold" style="font-size: 0.62rem;">COVERED DEFAULTERS</div>
+                <div class="fs-6 fw-bold text-dark">${defs[1] || 0}</div>
             </div>
         `;
 
@@ -721,7 +712,7 @@
         const element = document.getElementById('pdfContent');
 
         const opt = {
-            margin:       [5, 5, 5, 5],
+            margin:       [0, 0, 0, 0],
             filename:     `EPI_Report_${(data.monthYear || 'Report').replace(/\s+/g, '_')}.pdf`,
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { 

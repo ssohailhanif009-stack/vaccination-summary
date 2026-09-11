@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suspected Diseases Cases Record</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- html2pdf.js for direct PDF download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --dark-blue: #0a3663;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(rgba(244, 247, 246, 0.92), rgba(244, 247, 246, 0.92)), 
+                        url('https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            color: #222;
+            padding-bottom: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* Header Card Setup */
+        .header-card {
+            background: linear-gradient(135deg, var(--dark-blue), var(--primary-color));
+            color: white;
+            border-radius: 8px;
+            padding: 12px 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .header-title-container {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .main-heading {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.25);
+        }
+
+        .sub-heading {
+            font-size: 0.85rem;
+            opacity: 0.95;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .square-logo {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 2px solid white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            background-color: white;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .card-custom {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.98);
+            margin-bottom: 15px;
+        }
+
+        .card-header-custom {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            padding: 8px 14px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--dark-blue);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .custom-table {
+            width: 100%;
+            font-size: 0.72rem;
+            border-collapse: collapse;
+            table-layout: auto;
+        }
+
+        .custom-table th {
+            background-color: #e9ecef !important;
+            color: #000 !important;
+            font-weight: 700;
+            text-align: center;
+            vertical-align: middle;
+            padding: 6px 3px;
+            border: 1px solid #777 !important;
+            white-space: nowrap;
+        }
+
+        .custom-table td {
+            padding: 4px 3px;
+            vertical-align: middle;
+            text-align: center;
+            border: 1px solid #888 !important;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .custom-table tbody tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+
+        /* Printed Filter Banner (Only active during print) */
+        .print-filter-info {
+            display: none;
+            text-align: center;
+            font-weight: bold;
+            font-size: 10pt;
+            margin-bottom: 10px;
+            color: #000;
+        }
+
+        @media (max-width: 768px) {
+            .header-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .square-logo {
+                margin-right: 0;
+                margin-bottom: 8px;
+            }
+            .main-heading {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* 100% Guaranteed High-Quality PDF Printing Styles */
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 8mm;
+            }
+
+            body {
+                background: none !important;
+                color: #000 !important;
+                padding: 0 !important;
+                font-size: 8pt !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .no-print, .btn, .modal, .modal-backdrop {
+                display: none !important;
+            }
+
+            .print-filter-info {
+                display: block !important;
+            }
+
+            .container-fluid {
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+            }
+
+            .header-card {
+                background: #0a3663 !important;
+                color: #ffffff !important;
+                box-shadow: none !important;
+                padding: 8px 12px !important;
+                margin-bottom: 10px !important;
+                border: none !important;
+            }
+
+            .main-heading {
+                font-size: 1.2rem !important;
+                color: #ffffff !important;
+                text-shadow: none !important;
+            }
+
+            .sub-heading {
+                font-size: 0.8rem !important;
+                color: #ffffff !important;
+            }
+
+            .card-custom {
+                border: none !important;
+                box-shadow: none !important;
+                background: transparent !important;
+            }
+
+            .card-body {
+                padding: 0 !important;
+            }
+
+            .table-responsive {
+                overflow: visible !important;
+            }
+
+            .custom-table {
+                width: 100% !important;
+                table-layout: fixed !important;
+                border-collapse: collapse !important;
+            }
+
+            .custom-table th {
+                background-color: #dbe2ef !important;
+                color: #000 !important;
+                border: 1px solid #333 !important;
+                font-size: 7.5pt !important;
+                padding: 4px 2px !important;
+                white-space: normal !important;
+                word-wrap: break-word !important;
+            }
+
+            .custom-table td {
+                color: #000 !important;
+                border: 1px solid #444 !important;
+                font-size: 7pt !important;
+                padding: 3px 2px !important;
+                white-space: normal !important;
+                word-wrap: break-word !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid px-2 px-md-3 mt-2">
+
+    <!-- Top Navigation Bar -->
+    <div class="d-flex justify-content-between align-items-center mb-2 no-print">
+        <a href="index.html" class="btn btn-outline-primary btn-sm fw-bold">
+            <i class="fa-solid fa-arrow-left me-1"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <!-- Header Section -->
+    <div class="header-card" id="pdfHeader">
+        <div>
+            <img src="logo.png" alt="EPI Logo" class="square-logo" onerror="this.src='https://via.placeholder.com/60?text=Logo'">
+        </div>
+        <div class="header-title-container">
+            <h1 class="main-heading">
+                SUSPECTED DISEASES CASES RECORD
+            </h1>
+            <div class="sub-heading">
+                EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE
+            </div>
+        </div>
+    </div>
+
+    <!-- Print Dynamic Filter Title Header -->
+    <div class="print-filter-info" id="printFilterBanner"></div>
+
+    <!-- Line List Container -->
+    <div class="card card-custom">
+        <div class="card-header-custom flex-wrap gap-2 no-print">
+            <div>
+                <i class="fa-solid fa-table-list text-primary me-1"></i>
+                <span>Suspected Cases Line List</span>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-success btn-sm fw-bold shadow-sm me-1" onclick="downloadPDF()">
+                    <i class="fa-solid fa-file-pdf me-1"></i> Download PDF
+                </button>
+                <button class="btn btn-primary btn-sm fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#addCaseModal">
+                    <i class="fa-solid fa-circle-plus me-1"></i> Add New Case
+                </button>
+            </div>
+        </div>
+
+        <div class="card-body py-2 px-2">
+            <!-- Filter Bar -->
+            <div class="row g-2 align-items-center mb-2 no-print">
+                <div class="col-auto">
+                    <label class="col-form-label col-form-label-sm fw-bold text-muted">
+                        <i class="fa-solid fa-filter me-1"></i>Filter Line List:
+                    </label>
+                </div>
+                <div class="col-6 col-sm-3 col-md-2">
+                    <select id="filterMonth" class="form-select form-select-sm fw-semibold" onchange="renderLineList()">
+                        <option value="ALL" selected>All Months</option>
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <!-- Dynamic Years Filter Dropdown -->
+                <div class="col-6 col-sm-3 col-md-2">
+                    <select id="filterYear" class="form-select form-select-sm fw-semibold" onchange="renderLineList()">
+                        <!-- Automatically populated via JavaScript -->
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-secondary btn-sm fw-bold" onclick="resetFilters()">
+                        <i class="fa-solid fa-rotate-left me-1"></i> Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- Single-Line Clean Official Table -->
+            <div class="table-responsive">
+                <table class="table custom-table align-middle" id="casesTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 25px;">S#</th>
+                            <th>Date</th>
+                            <th>Child Name</th>
+                            <th>Father Name</th>
+                            <th>Caste</th>
+                            <th>Age (Yrs)</th>
+                            <th>Case Type</th>
+                            <th>Address</th>
+                            <th>Taluka & District</th>
+                            <th>Union Council</th>
+                            <th>Mobile No</th>
+                            <th>Case Recorded By</th>
+                            <th>Blood Sample</th>
+                            <th>Reason (If No)</th>
+                            <th class="no-print" style="width: 35px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lineListTbody">
+                        <!-- Dynamic Rows -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Add New Case Modal Form -->
+<div class="modal fade" id="addCaseModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white py-2">
+                <h5 class="modal-title fs-6 fw-bold">
+                    <i class="fa-solid fa-user-plus me-1"></i> Add Suspected Disease Case
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="caseForm" onsubmit="saveNewCase(event)">
+                <div class="modal-body py-3">
+                    <div class="row g-2">
+                        <div class="col-md-4 col-sm-6">
+                            <label class="form-label fw-bold small mb-1">Date <span class="text-danger">*</span></label>
+                            <input type="date" id="caseDate" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label class="form-label fw-bold small mb-1">Child Name <span class="text-danger">*</span></label>
+                            <input type="text" id="childName" class="form-control form-control-sm" placeholder="Child Name" required>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label class="form-label fw-bold small mb-1">Father's Name <span class="text-danger">*</span></label>
+                            <input type="text" id="fatherName" class="form-control form-control-sm" placeholder="Father Name" required>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label class="form-label fw-bold small mb-1">Caste <span class="text-danger">*</span></label>
+                            <input type="text" id="caste" class="form-control form-control-sm" placeholder="Caste" required>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label class="form-label fw-bold small mb-1">Age (Years/Months) <span class="text-danger">*</span></label>
+                            <input type="number" id="age" class="form-control form-control-sm" placeholder="Age in Numbers only" min="0" step="any" required>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label class="form-label fw-bold small mb-1">Case Type <span class="text-danger">*</span></label>
+                            <select id="caseType" class="form-select form-select-sm" required>
+                                <option value="" disabled selected>Select Case Type</option>
+                                <option value="Measles">Measles</option>
+                                <option value="AFP">AFP</option>
+                                <option value="Diphtheria">Diphtheria</option>
+                                <option value="Neonatal">Neonatal</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8 col-12">
+                            <label class="form-label fw-bold small mb-1">Address <span class="text-danger">*</span></label>
+                            <input type="text" id="address" class="form-control form-control-sm" placeholder="Full Address" required>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label class="form-label fw-bold small mb-1">Taluka & District <span class="text-danger">*</span></label>
+                            <input type="text" id="talukaDistrict" class="form-control form-control-sm" value="N.Feroze & Naushahro Feroze" required>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label class="form-label fw-bold small mb-1">Union Council <span class="text-danger">*</span></label>
+                            <input type="text" id="unionCouncil" class="form-control form-control-sm" placeholder="Union Council" required>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label class="form-label fw-bold small mb-1">Mobile No <span class="text-danger">*</span></label>
+                            <input type="tel" id="mobileNo" pattern="[0-9]{11}" maxlength="11" class="form-control form-control-sm" placeholder="03001234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label class="form-label fw-bold small mb-1">Case Recorded By</label>
+                            <input type="text" id="caseRecordedBy" class="form-control form-control-sm bg-light" value="Peads Ward CH.N.Feroze" readonly>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label class="form-label fw-bold small mb-1">Blood Sample Collected <span class="text-danger">*</span></label>
+                            <select id="bloodSample" class="form-select form-select-sm" onchange="toggleReasonInput()" required>
+                                <option value="" disabled selected>Select Option</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                                <option value="Refused">Refused</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8 col-12" id="reasonBox" style="display: none;">
+                            <label class="form-label fw-bold small mb-1 text-danger">Reason for No Sample (in English) <span class="text-danger">*</span></label>
+                            <input type="text" id="sampleReason" class="form-control form-control-sm" placeholder="e.g. Attendant refused / Vein not visible">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer py-2 bg-light">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success btn-sm fw-bold px-4">
+                        <i class="fa-solid fa-floppy-disk me-1"></i> Save Case
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    let casesData = JSON.parse(localStorage.getItem('epi_measles_cases')) || [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('caseDate').value = new Date().toISOString().split('T')[0];
+        populateYearsDropdown();
+        renderLineList();
+    });
+
+    // Populate ONLY the years present in line list data
+    function populateYearsDropdown() {
+        const yearSelect = document.getElementById('filterYear');
+        let yearsSet = new Set();
+
+        // Add Only Years Found in Saved Data
+        casesData.forEach(item => {
+            if (item.year) yearsSet.add(item.year.toString());
+        });
+
+        // Convert set to array and sort descending
+        let sortedYears = Array.from(yearsSet).sort((a, b) => b - a);
+
+        yearSelect.innerHTML = '<option value="ALL" selected>All Years</option>';
+        sortedYears.forEach(yr => {
+            const opt = document.createElement('option');
+            opt.value = yr;
+            opt.textContent = yr;
+            yearSelect.appendChild(opt);
+        });
+    }
+
+    function resetFilters() {
+        document.getElementById('filterMonth').value = 'ALL';
+        document.getElementById('filterYear').value = 'ALL';
+        renderLineList();
+    }
+
+    function toggleReasonInput() {
+        const bloodSample = document.getElementById('bloodSample').value;
+        const reasonBox = document.getElementById('reasonBox');
+        const reasonInput = document.getElementById('sampleReason');
+
+        if (bloodSample === 'No') {
+            reasonBox.style.display = 'block';
+            reasonInput.setAttribute('required', 'required');
+        } else {
+            reasonBox.style.display = 'none';
+            reasonInput.removeAttribute('required');
+            reasonInput.value = '';
+        }
+    }
+
+    function saveNewCase(event) {
+        event.preventDefault();
+
+        const rawDate = document.getElementById('caseDate').value;
+        const dateParts = rawDate.split('-');
+        const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+
+        const bloodSampleVal = document.getElementById('bloodSample').value;
+        const reasonVal = (bloodSampleVal === 'No') ? document.getElementById('sampleReason').value.trim() : '-';
+
+        const newCase = {
+            id: Date.now(),
+            rawDate: rawDate,
+            formattedDate: formattedDate,
+            month: dateParts[1],
+            year: dateParts[0],
+            childName: document.getElementById('childName').value.trim(),
+            fatherName: document.getElementById('fatherName').value.trim(),
+            caste: document.getElementById('caste').value.trim(),
+            age: document.getElementById('age').value.trim(),
+            caseType: document.getElementById('caseType').value,
+            address: document.getElementById('address').value.trim(),
+            talukaDistrict: document.getElementById('talukaDistrict').value.trim(),
+            unionCouncil: document.getElementById('unionCouncil').value.trim(),
+            mobileNo: document.getElementById('mobileNo').value.trim(),
+            caseRecordedBy: document.getElementById('caseRecordedBy').value,
+            bloodSample: bloodSampleVal,
+            reason: reasonVal
+        };
+
+        casesData.push(newCase);
+        localStorage.setItem('epi_measles_cases', JSON.stringify(casesData));
+
+        document.getElementById('caseForm').reset();
+        document.getElementById('caseDate').value = new Date().toISOString().split('T')[0];
+        document.getElementById('caseRecordedBy').value = "Peads Ward CH.N.Feroze";
+        document.getElementById('reasonBox').style.display = 'none';
+        
+        const modalEl = document.getElementById('addCaseModal');
+        const modal = bootstrap.Modal.getInstance(modalEl);
+        modal.hide();
+
+        populateYearsDropdown();
+        renderLineList();
+    }
+
+    function deleteCase(id) {
+        if(confirm("Are you sure you want to delete this case record?")) {
+            casesData = casesData.filter(item => item.id !== id);
+            localStorage.setItem('epi_measles_cases', JSON.stringify(casesData));
+            populateYearsDropdown();
+            renderLineList();
+        }
+    }
+
+    function renderLineList() {
+        const tbody = document.getElementById('lineListTbody');
+        const filterMonth = document.getElementById('filterMonth').value;
+        const filterYear = document.getElementById('filterYear').value;
+
+        tbody.innerHTML = '';
+
+        let sortedCases = [...casesData].sort((a, b) => new Date(b.rawDate) - new Date(a.rawDate));
+
+        let filteredCases = sortedCases.filter(item => {
+            let matchMonth = (filterMonth === 'ALL') || (item.month === filterMonth);
+            let matchYear = (filterYear === 'ALL') || (item.year === filterYear);
+            return matchMonth && matchYear;
+        });
+
+        if (filteredCases.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="15" class="text-muted py-3 text-center">
+                        No cases found for selected filter criteria.
+                    </td>
+                </tr>`;
+            return;
+        }
+
+        filteredCases.forEach((item, index) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="fw-bold">${index + 1}</td>
+                <td>${item.formattedDate}</td>
+                <td class="fw-bold">${item.childName}</td>
+                <td>${item.fatherName}</td>
+                <td>${item.caste}</td>
+                <td>${item.age}</td>
+                <td class="fw-bold text-primary">${item.caseType || 'Measles'}</td>
+                <td>${item.address}</td>
+                <td>${item.talukaDistrict}</td>
+                <td>${item.unionCouncil}</td>
+                <td>${item.mobileNo}</td>
+                <td>${item.caseRecordedBy}</td>
+                <td><b>${item.bloodSample}</b></td>
+                <td>${item.reason || '-'}</td>
+                <td class="no-print">
+                    <button class="btn btn-sm py-0 px-1 text-danger" onclick="deleteCase(${item.id})" title="Delete">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // Direct Download PDF function Fixed
+    function downloadPDF() {
+        const filterMonthText = document.getElementById('filterMonth').options[document.getElementById('filterMonth').selectedIndex].text;
+        const filterYearText = document.getElementById('filterYear').options[document.getElementById('filterYear').selectedIndex].text;
+        
+        let filterInfoStr = '';
+        if (document.getElementById('filterMonth').value !== 'ALL' || document.getElementById('filterYear').value !== 'ALL') {
+            filterInfoStr = ` (${filterMonthText} ${filterYearText})`;
+        }
+
+        const element = document.createElement('div');
+        element.style.padding = '10px';
+        element.style.backgroundColor = '#ffffff';
+        element.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+
+        let tableRowsHtml = '';
+        const tbody = document.getElementById('lineListTbody');
+        const rows = tbody.querySelectorAll('tr');
+
+        rows.forEach((row) => {
+            const cells = row.querySelectorAll('td');
+            if (cells.length > 1) {
+                tableRowsHtml += '<tr>';
+                for (let i = 0; i < cells.length - 1; i++) {
+                    tableRowsHtml += `<td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${cells[i].innerText}</td>`;
+                }
+                tableRowsHtml += '</tr>';
+            } else {
+                tableRowsHtml += `<tr><td colspan="14" style="text-align:center; padding: 10px; border: 1px solid #555; color: #000;">${cells[0].innerText}</td></tr>`;
+            }
+        });
+
+        element.innerHTML = `
+            <div style="background: #0a3663; color: white; border-radius: 6px; padding: 10px 15px; display: flex; align-items: center; margin-bottom: 12px; text-align: center;">
+                <div style="width: 100%;">
+                    <h2 style="margin: 0; font-size: 15px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; color: #ffffff;">SUSPECTED DISEASES CASES RECORD${filterInfoStr}</h2>
+                    <div style="font-size: 10px; font-weight: 600; color: #e0e0e0; margin-top: 3px;">EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</div>
+                </div>
+            </div>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 5px;">
+                <thead>
+                    <tr style="background-color: #dbe2ef; color: #000;">
+                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">S#</th>
+                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Date</th>
+                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Child Name</th>
+                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Father Name</th>
+                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Caste</th>
+                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Age</th>
+                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Case Type</th>
+                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Address</th>
+                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Taluka & District</th>
+                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Union Council</th>
+                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Mobile No</th>
+                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Case Recorded By</th>
+                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Blood Sample</th>
+                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Reason (If No)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${tableRowsHtml}
+                </tbody>
+            </table>
+        `;
+
+        document.body.appendChild(element);
+
+        const opt = {
+            margin:       [5, 5, 5, 5],
+            filename:     'Suspected_Diseases_Line_List.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, logging: false },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            document.body.removeChild(element);
+        }).catch((err) => {
+            console.error(err);
+            document.body.removeChild(element);
+        });
+    }
+</script>
+</body>
+</html>

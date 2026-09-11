@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EPI Vaccination Center - Naushahro Feroze</title>
+
+    <!-- PWA Manifest & App Icon Setup -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <meta name="theme-color" content="#034311">
+
     <!-- Google Fonts & Font Awesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -320,6 +326,15 @@
     <footer>
         <p>&copy; 2026 EPI Vaccination Center, Civil Hospital Naushahro Feroze. All Rights Reserved.</p>
     </footer>
+
+    <!-- Service Worker Registration for PWA / App Install -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+          .then(() => console.log('Service Worker Registered'))
+          .catch((err) => console.log('Service Worker Failed:', err));
+      }
+    </script>
 
 </body>
 </html>

@@ -776,11 +776,9 @@
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
         };
 
-        // Output as blob to trigger download and show interactive popup modal with Open File option
         html2pdf().set(opt).from(element).outputPdf('blob').then((pdfBlob) => {
             const blobUrl = URL.createObjectURL(pdfBlob);
 
-            // Trigger download link programmatically
             const downloadLink = document.createElement('a');
             downloadLink.href = blobUrl;
             downloadLink.download = fileName;
@@ -788,7 +786,6 @@
             downloadLink.click();
             document.body.removeChild(downloadLink);
 
-            // Populate and show the success popup modal
             document.getElementById('modalFileName').textContent = fileName;
             const openFileBtn = document.getElementById('openFileBtn');
             openFileBtn.href = blobUrl;

@@ -516,14 +516,31 @@
     </div>
 </div>
 
-<!-- Download Success Popup Toast Notification -->
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11000;">
-    <div id="downloadToast" class="toast align-items-center text-white bg-success border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body fw-bold">
-                <i class="fa-solid fa-circle-check me-2"></i> <span id="toastMsg">PDF Downloaded Successfully!</span>
+<!-- Download Success Modal with Open File Option -->
+<div class="modal fade" id="downloadSuccessModal" tabindex="-1" aria-labelledby="downloadSuccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 12px;">
+            <div class="modal-header bg-success text-white" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                <h5 class="modal-title fw-bold fs-6" id="downloadSuccessModalLabel">
+                    <i class="fa-solid fa-circle-check me-2"></i> PDF Downloaded Successfully!
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            <div class="modal-body text-center py-4">
+                <div class="mb-3">
+                    <i class="fa-solid fa-file-pdf text-danger fa-3x"></i>
+                </div>
+                <h6 class="fw-bold text-dark mb-1" id="modalFileName">EPI_Report.pdf</h6>
+                <p class="text-muted small mb-3">Your file has been saved to your device. Click below to open and view it instantly.</p>
+                <div class="d-flex justify-content-center gap-2">
+                    <a href="#" id="openFileBtn" target="_blank" class="btn btn-success btn-sm fw-bold px-3">
+                        <i class="fa-solid fa-eye me-1"></i> Open File
+                    </a>
+                    <button type="button" class="btn btn-secondary btn-sm fw-bold px-3" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -739,26 +756,17 @@
         `;
     }
 
-    function showDownloadPopup(monthYear) {
-        const toastEl = document.getElementById('downloadToast');
-        const toastMsg = document.getElementById('toastMsg');
-        if (toastMsg) {
-            toastMsg.textContent = `EPI Report (${monthYear}) Downloaded Successfully!`;
-        }
-        const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
-        toast.show();
-    }
-
     async function directDownloadPDF(data) {
         populatePdfTemplate(data);
 
         await new Promise(resolve => setTimeout(resolve, 200));
 
         const element = document.getElementById('pdfContent');
+        const fileName = `EPI_Report_${(data.monthYear || 'Report').replace(/\s+/g, '_')}.pdf`;
 
         const opt = {
             margin:       [0, 0, 0, 0],
-            filename:     `EPI_Report_${(data.monthYear || 'Report').replace(/\s+/g, '_')}.pdf`,
+            filename:     fileName,
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { 
                 scale: 2, 
@@ -768,8 +776,26 @@
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
         };
 
-        html2pdf().set(opt).from(element).save().then(() => {
-            showDownloadPopup(data.monthYear || 'Report');
+        // Output as blob to trigger download and show interactive popup modal with Open File option
+        html2pdf().set(opt).from(element).outputPdf('blob').then((pdfBlob) => {
+            const blobUrl = URL.createObjectURL(pdfBlob);
+
+            // Trigger download link programmatically
+            const downloadLink = document.createElement('a');
+            downloadLink.href = blobUrl;
+            downloadLink.download = fileName;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+
+            // Populate and show the success popup modal
+            document.getElementById('modalFileName').textContent = fileName;
+            const openFileBtn = document.getElementById('openFileBtn');
+            openFileBtn.href = blobUrl;
+
+            const modalEl = document.getElementById('downloadSuccessModal');
+            const modal = new bootstrap.Modal(modalEl);
+            modal.show();
         });
     }
 </script>

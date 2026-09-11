@@ -18,7 +18,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(rgba(244, 247, 246, 0.94), rgba(244, 247, 246, 0.94)), 
+            background: linear-gradient(rgba(240, 246, 250, 0.92), rgba(240, 246, 250, 0.92)), 
                         url('https://img.freepik.com/free-vector/abstract-medical-wallpaper-template-design_53876-61802.jpg') no-repeat center center fixed;
             background-size: cover;
             color: #333;
@@ -26,7 +26,7 @@
             font-size: 0.9rem;
         }
 
-        /* Standardized Layout Elements */
+        /* Responsive Top Header */
         .header-card {
             background: linear-gradient(135deg, var(--dark-blue), var(--primary-color));
             color: white;
@@ -37,6 +37,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .header-card h2 {
@@ -132,7 +134,7 @@
             background-color: var(--primary-color);
         }
 
-        /* Fixed Single Page Print Container Setup */
+        /* Hidden PDF Container Setup */
         .pdf-wrapper {
             position: absolute;
             top: 0;
@@ -144,10 +146,11 @@
         .pdf-container {
             width: 1000px;
             box-sizing: border-box;
-            background: white;
-            padding: 15px 20px;
+            background: #ffffff;
+            padding: 20px;
             margin: 0;
             font-size: 0.85rem;
+            border: 2px solid #0a3663;
         }
 
         .pdf-official-header {
@@ -155,8 +158,8 @@
             align-items: center;
             justify-content: space-between;
             border-bottom: 2.5px solid #0a3663;
-            padding-bottom: 6px;
-            margin-bottom: 10px;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         .pdf-official-header .header-text {
@@ -168,12 +171,12 @@
             margin: 0;
             font-weight: 800;
             color: #0a3663;
-            font-size: 18px;
+            font-size: 19px;
             letter-spacing: 0.5px;
         }
 
         .pdf-official-header h4 {
-            margin: 2px 0 0 0;
+            margin: 3px 0 0 0;
             font-weight: 700;
             font-size: 12px;
             color: #334155;
@@ -181,11 +184,11 @@
 
         .pdf-official-header .report-badge {
             display: inline-block;
-            margin-top: 4px;
-            padding: 2px 10px;
-            background-color: #0d6efd;
+            margin-top: 5px;
+            padding: 3px 12px;
+            background-color: #0a3663;
             color: white;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: bold;
             border-radius: 4px;
             letter-spacing: 0.5px;
@@ -215,20 +218,35 @@
             font-weight: 700;
             font-size: 0.65rem;
             text-transform: uppercase;
-            padding: 4px 2px;
+            padding: 5px 2px;
             text-align: center;
             vertical-align: middle;
-            border: 1px solid #cbd5e1 !important;
+            border: 1px solid #94a3b8 !important;
             -webkit-print-color-adjust: exact;
         }
 
         .table-custom td {
-            padding: 4px 2px;
+            padding: 5px 2px;
             vertical-align: middle;
             text-align: center;
             font-weight: 600;
-            font-size: 0.7rem;
+            font-size: 0.72rem;
             border: 1px solid #cbd5e1 !important;
+        }
+
+        /* Contrast Shading for Total and Grand Total */
+        .highlight-row-total {
+            background-color: #e2e8f0 !important;
+            color: #0f172a !important;
+            font-weight: 800 !important;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .highlight-row-grand {
+            background-color: #bae6fd !important;
+            color: #0369a1 !important;
+            font-weight: 800 !important;
+            -webkit-print-color-adjust: exact;
         }
 
         .info-grid {
@@ -263,15 +281,30 @@
             color: #0f172a;
         }
 
-        .highlight-row-total {
-            background-color: #f1f5f9 !important;
-            -webkit-print-color-adjust: exact;
-        }
-
-        .highlight-row-grand {
-            background-color: #e0f2fe !important;
-            color: #0369a1 !important;
-            -webkit-print-color-adjust: exact;
+        /* Mobile Screen Media Queries */
+        @media (max-width: 768px) {
+            body {
+                padding-bottom: 15px;
+            }
+            .header-card {
+                text-align: center;
+                justify-content: center;
+                flex-direction: column;
+                padding: 15px;
+            }
+            .header-card h2 {
+                font-size: 1.1rem;
+            }
+            .header-card h5 {
+                font-size: 0.75rem;
+            }
+            .report-buttons-container {
+                justify-content: center;
+            }
+            .report-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
 
         @media print {
@@ -283,7 +316,7 @@
 </head>
 <body>
 
-<div class="container-fluid px-3 px-md-4 mt-3">
+<div class="container-fluid px-2 px-md-4 mt-3">
 
     <!-- Top Header -->
     <div class="header-card no-print">
@@ -305,7 +338,7 @@
         <div class="card-body py-3">
             <div class="row mb-3 g-2">
                 <!-- Month Filter -->
-                <div class="col-md-3 col-sm-6">
+                <div class="col-12 col-sm-6 col-md-3">
                     <label class="form-label fw-bold text-muted small d-block mb-1">SELECT MONTH</label>
                     <div class="dropdown">
                         <button class="btn btn-outline-primary btn-sm w-100 fw-bold text-start d-flex justify-content-between align-items-center" 
@@ -331,7 +364,7 @@
                 </div>
 
                 <!-- Year Filter -->
-                <div class="col-md-3 col-sm-6">
+                <div class="col-12 col-sm-6 col-md-3">
                     <label class="form-label fw-bold text-muted small d-block mb-1">SELECT YEAR</label>
                     <div class="dropdown">
                         <button class="btn btn-outline-primary btn-sm w-100 fw-bold text-start d-flex justify-content-between align-items-center" 
@@ -347,7 +380,7 @@
 
             <hr class="text-muted my-2">
 
-            <!-- Horizontal Buttons List -->
+            <!-- Dynamic PDF Download Buttons -->
             <label class="form-label fw-bold text-muted small d-block mb-2">CLICK ANY MONTH BOX TO DOWNLOAD PDF DIRECTLY:</label>
             <div id="reportsList" class="report-buttons-container">
                 <div class="text-muted small"><i class="fa-solid fa-spinner fa-spin me-1"></i> Loading saved reports...</div>
@@ -628,9 +661,9 @@
             { label: 'FIX-SITE', key: 'fix', class: '' },
             { label: 'OUTREACH-1', key: 'out1', class: '' },
             { label: 'OUTREACH-2', key: 'out2', class: '' },
-            { label: 'TOTAL', key: 'total', class: 'highlight-row-total fw-bold text-primary' },
+            { label: 'TOTAL', key: 'total', class: 'highlight-row-total' },
             { label: 'OUT OF UC', key: 'outUc', class: '' },
-            { label: 'GRAND TOTAL', key: 'grand', class: 'highlight-row-grand fw-bold text-success' }
+            { label: 'GRAND TOTAL', key: 'grand', class: 'highlight-row-grand' }
         ];
 
         let covTbodyHtml = '';

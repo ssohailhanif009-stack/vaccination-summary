@@ -28,7 +28,7 @@
             background: linear-gradient(135deg, var(--dark-blue), var(--primary-color));
             color: white;
             border-radius: 10px;
-            padding: 14px 20px;
+            padding: 18px 20px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.12);
             margin-bottom: 18px;
             display: flex;
@@ -37,8 +37,8 @@
         }
 
         .logo-img {
-            width: 60px;
-            height: 60px;
+            width: 65px;
+            height: 65px;
             object-fit: cover;
             border-radius: 6px;
             border: 2px solid white;
@@ -47,11 +47,13 @@
         }
 
         .header-card h2 {
-            font-size: 1.15rem;
+            font-size: 1.55rem;
+            letter-spacing: 0.5px;
         }
 
         .header-card h5 {
-            font-size: 0.82rem;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
         }
 
         .card-custom {
@@ -95,6 +97,7 @@
             vertical-align: middle;
             white-space: nowrap;
             font-size: 0.8rem;
+            text-align: center;
         }
 
         .num-input, .select-input {
@@ -129,6 +132,7 @@
             font-weight: 700;
             padding: 2px 4px;
             font-size: 0.8rem;
+            width: 100%;
         }
 
         .highlight-row-total {
@@ -186,6 +190,11 @@
             padding: 8px 20px;
         }
 
+        /* Month Input Custom Placeholder Styling */
+        input[type="month"]:invalid::-webkit-datetime-edit {
+            color: #6c757d;
+        }
+
         @media (max-width: 768px) {
             .container-fluid {
                 padding-left: 8px !important;
@@ -200,11 +209,11 @@
             }
 
             .header-card h2 {
-                font-size: 1rem;
+                font-size: 1.2rem;
             }
 
             .header-card h5 {
-                font-size: 0.75rem;
+                font-size: 0.85rem;
             }
 
             .info-grid {
@@ -234,8 +243,8 @@
     <div class="header-card">
         <img src="logo.png" alt="EPI Logo" class="logo-img">
         <div class="text-center flex-grow-1 mx-3">
-            <h2 class="fw-bold mb-1"><i class="fa-solid fa-hospital-user me-2"></i> MONTHLY VACCINATION COVERAGE SUMMARY</h2>
-            <h5 class="fw-normal opacity-90 mb-0">EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h5>
+            <h2 class="fw-bold mb-1 text-center"><i class="fa-solid fa-hospital-user me-2"></i> MONTHLY VACCINATION COVERAGE SUMMARY</h2>
+            <h5 class="fw-bold opacity-90 mb-0 text-center">EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</h5>
         </div>
         <div>
             <a href="record.html" class="btn btn-light btn-sm fw-bold"><i class="fa-solid fa-folder-open me-1"></i> View Saved Records</a>
@@ -251,7 +260,7 @@
             <div class="row align-items-center">
                 <div class="col-md-4 col-sm-6">
                     <label for="reportMonthYear" class="form-label fw-bold text-muted small mb-1" style="font-size: 0.72rem;">REPORTING PERIOD</label>
-                    <input type="month" id="reportMonthYear" class="form-control form-control-sm fw-bold border-primary">
+                    <input type="month" id="reportMonthYear" class="form-control form-control-sm fw-bold border-primary" required data-placeholder="Select Month and Year">
                 </div>
                 <div class="col-md-8 col-sm-6 mt-2 mt-sm-0">
                     <div id="monthAlert" class="alert alert-info mb-0 py-1 px-3 small" role="alert">
@@ -312,7 +321,7 @@
                 <tbody>
                     <!-- FIX-SITE -->
                     <tr>
-                        <td class="fw-bold">FIX-SITE</td>
+                        <td class="fw-bold text-start">FIX-SITE</td>
                         <td><input type="number" class="num-input fix form-field" value="0"></td>
                         <td><input type="number" class="num-input fix form-field" value="0"></td>
                         <td><input type="number" class="num-input fix form-field" value="0"></td>
@@ -330,7 +339,7 @@
                     </tr>
                     <!-- OUTREACH-1 -->
                     <tr>
-                        <td class="fw-bold">OUTREACH-1</td>
+                        <td class="fw-bold text-start">OUTREACH-1</td>
                         <td><input type="number" class="num-input out1 form-field" value="0"></td>
                         <td><input type="number" class="num-input out1 form-field" value="0"></td>
                         <td><input type="number" class="num-input out1 form-field" value="0"></td>
@@ -348,7 +357,7 @@
                     </tr>
                     <!-- OUTREACH-2 -->
                     <tr>
-                        <td class="fw-bold">OUTREACH-2</td>
+                        <td class="fw-bold text-start">OUTREACH-2</td>
                         <td><input type="number" class="num-input out2 form-field" value="0"></td>
                         <td><input type="number" class="num-input out2 form-field" value="0"></td>
                         <td><input type="number" class="num-input out2 form-field" value="0"></td>
@@ -366,7 +375,7 @@
                     </tr>
                     <!-- TOTAL ROW -->
                     <tr class="highlight-row-total">
-                        <td class="fw-bold text-primary">TOTAL</td>
+                        <td class="fw-bold text-primary text-start">TOTAL</td>
                         <td><span class="calc-val total-val">0</span></td>
                         <td><span class="calc-val total-val">0</span></td>
                         <td><span class="calc-val total-val">0</span></td>
@@ -384,7 +393,7 @@
                     </tr>
                     <!-- OUT OF UC -->
                     <tr>
-                        <td class="fw-bold">OUT OF UC</td>
+                        <td class="fw-bold text-start">OUT OF UC</td>
                         <td><input type="number" class="num-input out-uc form-field" value="0"></td>
                         <td><input type="number" class="num-input out-uc form-field" value="0"></td>
                         <td><input type="number" class="num-input out-uc form-field" value="0"></td>
@@ -402,7 +411,7 @@
                     </tr>
                     <!-- GRAND TOTAL ROW -->
                     <tr class="highlight-row-grand">
-                        <td class="fw-bold text-success">GRAND TOTAL</td>
+                        <td class="fw-bold text-success text-start">GRAND TOTAL</td>
                         <td><span class="calc-val grand-val">0</span></td>
                         <td><span class="calc-val grand-val">0</span></td>
                         <td><span class="calc-val grand-val">0</span></td>
@@ -436,29 +445,29 @@
                         <table class="table table-bordered align-middle mb-0 text-nowrap">
                             <thead class="table-light">
                                 <tr>
-                                    <th style="font-size: 0.75rem;">Category</th>
+                                    <th style="font-size: 0.75rem;" class="text-start">Category</th>
                                     <th style="width: 100px; font-size: 0.75rem;" class="text-center">Count</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>06 Month Zero Dose Children</td>
+                                    <td class="text-start">06 Month Zero Dose Children</td>
                                     <td><input type="number" class="num-input zero-dose text-center form-field" value="0"></td>
                                 </tr>
                                 <tr>
-                                    <td>Zero Dose Covered</td>
+                                    <td class="text-start">Zero Dose Covered</td>
                                     <td><input type="number" class="num-input zero-dose text-center text-success form-field" value="0"></td>
                                 </tr>
                                 <tr>
-                                    <td>Last Previous Round Zero Dose Children</td>
+                                    <td class="text-start">Last Previous Round Zero Dose Children</td>
                                     <td><input type="number" class="num-input zero-dose text-center form-field" value="0"></td>
                                 </tr>
                                 <tr>
-                                    <td>Zero Dose Covered (Prev Round)</td>
+                                    <td class="text-start">Zero Dose Covered (Prev Round)</td>
                                     <td><input type="number" class="num-input zero-dose text-center text-success form-field" value="0"></td>
                                 </tr>
                                 <tr>
-                                    <td>Refused Zero Dose Children</td>
+                                    <td class="text-start">Refused Zero Dose Children</td>
                                     <td><input type="number" class="num-input zero-dose text-center text-danger form-field" value="0"></td>
                                 </tr>
                             </tbody>
@@ -575,10 +584,8 @@
     let existingMonthYears = [];
 
     document.addEventListener('DOMContentLoaded', async function() {
-        const today = new Date();
-        const yyyy = today.getFullYear();
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        document.getElementById('reportMonthYear').value = `${yyyy}-${mm}`;
+        // Reset Date input to empty
+        document.getElementById('reportMonthYear').value = "";
         
         document.querySelectorAll('.num-input').forEach(input => {
             input.addEventListener('input', calculate);
@@ -627,6 +634,8 @@
             alertBox.className = "alert alert-warning mb-0 py-1 px-3 small";
             alertBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation me-1"></i> Please select month and year.`;
             saveBtn.disabled = true;
+            lockedBadge.style.display = "none";
+            formFields.forEach(field => field.disabled = false);
             return;
         }
 
@@ -681,6 +690,8 @@
         document.querySelectorAll('select.case-sample').forEach(select => {
             select.value = "NO";
         });
+
+        document.getElementById('reportMonthYear').value = "";
 
         calculate();
     }

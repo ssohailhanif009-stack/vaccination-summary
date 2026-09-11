@@ -458,6 +458,35 @@
     </div>
 </div>
 
+<!-- Download Success Modal with Open File Option -->
+<div class="modal fade" id="downloadSuccessModal" tabindex="-1" aria-labelledby="downloadSuccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 12px;">
+            <div class="modal-header bg-success text-white" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                <h5 class="modal-title fw-bold fs-6" id="downloadSuccessModalLabel">
+                    <i class="fa-solid fa-circle-check me-2"></i> PDF Downloaded Successfully!
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <div class="mb-3">
+                    <i class="fa-solid fa-file-pdf text-danger fa-3x"></i>
+                </div>
+                <h6 class="fw-bold text-dark mb-1" id="modalFileName">Suspected_Diseases_Line_List.pdf</h6>
+                <p class="text-muted small mb-3">Your file has been saved to your device. Click below to open and view it instantly.</p>
+                <div class="d-flex justify-content-center gap-2">
+                    <a href="#" id="openFileBtn" target="_blank" class="btn btn-success btn-sm fw-bold px-3">
+                        <i class="fa-solid fa-eye me-1"></i> Open File
+                    </a>
+                    <button type="button" class="btn btn-secondary btn-sm fw-bold px-3" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -665,7 +694,7 @@
         });
     }
 
-    // Direct Download PDF function
+    // Direct Download PDF function with mobile success popup / Open File modal
     window.downloadPDF = function() {
         const filterMonthText = document.getElementById('filterMonth').options[document.getElementById('filterMonth').selectedIndex].text;
         const filterYearText = document.getElementById('filterYear').options[document.getElementById('filterYear').selectedIndex].text;
@@ -731,19 +760,38 @@
 
         document.body.appendChild(element);
 
+        const fileName = 'Suspected_Diseases_Line_List.pdf';
         const opt = {
             margin:       [5, 5, 5, 5],
-            filename:     'Suspected_Diseases_Line_List.pdf',
+            filename:     fileName,
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { scale: 2, useCORS: true, logging: false },
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
         };
 
-        html2pdf().set(opt).from(element).save().then(() => {
+        html2pdf().set(opt).from(element).outputPdf('blob').then((pdfBlob) => {
             document.body.removeChild(element);
+            const blobUrl = URL.createObjectURL(pdfBlob);
+
+            const downloadLink = document.createElement('a');
+            downloadLink.href = blobUrl;
+            downloadLink.download = fileName;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+
+            document.getElementById('modalFileName').textContent = fileName;
+            const openFileBtn = document.getElementById('openFileBtn');
+            openFileBtn.href = blobUrl;
+
+            const modalEl = document.getElementById('downloadSuccessModal');
+            const modal = new bootstrap.Modal(modalEl);
+            modal.show();
         }).catch((err) => {
             console.error(err);
-            document.body.removeChild(element);
+            if (document.body.contains(element)) {
+                document.body.removeChild(element);
+            }
         });
     }
 </script>

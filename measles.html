@@ -347,7 +347,7 @@
                             <th>Child Name</th>
                             <th>Father Name</th>
                             <th>Caste</th>
-                            <th>Age (Yrs)</th>
+                            <th>Age (Month)</th>
                             <th>Case Type</th>
                             <th>Address</th>
                             <th>Taluka & District</th>
@@ -399,7 +399,7 @@
                             <input type="text" id="caste" class="form-control form-control-sm" placeholder="Caste" required>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <label class="form-label fw-bold small mb-1">Age (Years/Months) <span class="text-danger">*</span></label>
+                            <label class="form-label fw-bold small mb-1">Age (Month) <span class="text-danger">*</span></label>
                             <input type="number" id="age" class="form-control form-control-sm" placeholder="Age in Numbers only" min="0" step="any" required>
                         </div>
                         <div class="col-md-4 col-sm-6">
@@ -418,7 +418,7 @@
                         </div>
                         <div class="col-md-4 col-sm-6">
                             <label class="form-label fw-bold small mb-1">Taluka & District <span class="text-danger">*</span></label>
-                            <input type="text" id="talukaDistrict" class="form-control form-control-sm" value="N.Feroze & Naushahro Feroze" required>
+                            <input type="text" id="talukaDistrict" class="form-control form-control-sm" placeholder="" required>
                         </div>
                         <div class="col-md-4 col-sm-6">
                             <label class="form-label fw-bold small mb-1">Union Council <span class="text-danger">*</span></label>
@@ -426,7 +426,13 @@
                         </div>
                         <div class="col-md-4 col-sm-6">
                             <label class="form-label fw-bold small mb-1">Mobile No <span class="text-danger">*</span></label>
-                            <input type="tel" id="mobileNo" pattern="[0-9]{11}" maxlength="11" class="form-control form-control-sm" placeholder="03001234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                            <div class="input-group input-group-sm">
+                                <select id="mobileOptionType" class="form-select form-select-sm" style="max-width: 100px;" onchange="toggleMobileInput()" required>
+                                    <option value="Mobile" selected>Mobile</option>
+                                    <option value="NA">NA</option>
+                                </select>
+                                <input type="tel" id="mobileNo" pattern="[0-9]{11}" maxlength="11" class="form-control form-control-sm" placeholder="03001234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                            </div>
                         </div>
                         <div class="col-md-4 col-sm-6">
                             <label class="form-label fw-bold small mb-1">Case Recorded By</label>
@@ -438,7 +444,6 @@
                                 <option value="" disabled selected>Select Option</option>
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
-                                <option value="Refused">Refused</option>
                             </select>
                         </div>
                         <div class="col-md-8 col-12" id="reasonBox" style="display: none;">
@@ -563,6 +568,21 @@
         renderLineList();
     }
 
+    window.toggleMobileInput = function() {
+        const mobileOptionType = document.getElementById('mobileOptionType').value;
+        const mobileNoInput = document.getElementById('mobileNo');
+
+        if (mobileOptionType === 'NA') {
+            mobileNoInput.value = 'NA';
+            mobileNoInput.disabled = true;
+            mobileNoInput.removeAttribute('required');
+        } else {
+            mobileNoInput.value = '';
+            mobileNoInput.disabled = false;
+            mobileNoInput.setAttribute('required', 'required');
+        }
+    }
+
     window.toggleReasonInput = function() {
         const bloodSample = document.getElementById('bloodSample').value;
         const reasonBox = document.getElementById('reasonBox');
@@ -589,6 +609,9 @@
         const bloodSampleVal = document.getElementById('bloodSample').value;
         const reasonVal = (bloodSampleVal === 'No') ? document.getElementById('sampleReason').value.trim() : '-';
 
+        const mobileOptionType = document.getElementById('mobileOptionType').value;
+        const mobileVal = (mobileOptionType === 'NA') ? 'NA' : document.getElementById('mobileNo').value.trim();
+
         const newCase = {
             rawDate: rawDate,
             formattedDate: formattedDate,
@@ -602,7 +625,7 @@
             address: document.getElementById('address').value.trim(),
             talukaDistrict: document.getElementById('talukaDistrict').value.trim(),
             unionCouncil: document.getElementById('unionCouncil').value.trim(),
-            mobileNo: document.getElementById('mobileNo').value.trim(),
+            mobileNo: mobileVal,
             caseRecordedBy: document.getElementById('caseRecordedBy').value,
             bloodSample: bloodSampleVal,
             reason: reasonVal,
@@ -616,6 +639,8 @@
             document.getElementById('caseDate').value = new Date().toISOString().split('T')[0];
             document.getElementById('caseRecordedBy').value = "Peads Ward CH.N.Feroze";
             document.getElementById('reasonBox').style.display = 'none';
+            document.getElementById('mobileNo').disabled = false;
+            document.getElementById('mobileOptionType').value = 'Mobile';
             
             const modalEl = document.getElementById('addCaseModal');
             const modal = bootstrap.Modal.getInstance(modalEl);
@@ -649,7 +674,7 @@
 
         tbody.innerHTML = '';
 
-        let sortedCases = [...casesData].sort((a, b) => new Date(b.rawDate) - new Date(a.rawDate));
+        let sortedCases = [...casesData].sort((a, b) => new Date(a.rawDate) - new Date(b.rawDate));
 
         let filteredCases = sortedCases.filter(item => {
             let matchMonth = (filterMonth === 'ALL') || (item.month === filterMonth);

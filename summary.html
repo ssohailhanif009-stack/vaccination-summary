@@ -14,6 +14,14 @@
             --dark-blue: #0a3663;
         }
 
+        /* Yahan scrollbar ko hide kiya gaya hai lekin mouse aur keyboard se scrolling on rahegi */
+        html {
+            scrollbar-width: none; /* Firefox ke liye */
+        }
+        body::-webkit-scrollbar {
+            display: none; /* Chrome, Safari aur Edge ke liye */
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(rgba(244, 247, 246, 0.92), rgba(244, 247, 246, 0.92)), 
@@ -22,6 +30,8 @@
             color: #333;
             padding-bottom: 30px;
             font-size: 0.85rem;
+            -ms-overflow-style: none;  /* Internet Explorer aur Edge ke liye */
+            overflow: -moz-scrollbars-none; /* Purane Firefox ke liye */
         }
 
         .header-card {

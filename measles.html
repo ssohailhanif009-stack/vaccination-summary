@@ -719,15 +719,25 @@
         });
     }
 
-    // Direct Download PDF function with mobile success popup / Open File modal
+    // Direct Download PDF function with mobile success popup / Open File modal (Updated to include ALL filtered data records)
     window.downloadPDF = function() {
         const filterMonthText = document.getElementById('filterMonth').options[document.getElementById('filterMonth').selectedIndex].text;
         const filterYearText = document.getElementById('filterYear').options[document.getElementById('filterYear').selectedIndex].text;
+        const filterMonth = document.getElementById('filterMonth').value;
+        const filterYear = document.getElementById('filterYear').value;
         
         let filterInfoStr = '';
-        if (document.getElementById('filterMonth').value !== 'ALL' || document.getElementById('filterYear').value !== 'ALL') {
+        if (filterMonth !== 'ALL' || filterYear !== 'ALL') {
             filterInfoStr = ` (${filterMonthText} ${filterYearText})`;
         }
+
+        // Get all filtered entries directly from dataset to ensure 100 entries or all selected records are included completely
+        let sortedCases = [...casesData].sort((a, b) => new Date(a.rawDate) - new Date(b.rawDate));
+        let filteredCases = sortedCases.filter(item => {
+            let matchMonth = (filterMonth === 'ALL') || (item.month === filterMonth);
+            let matchYear = (filterYear === 'ALL') || (item.year === filterYear);
+            return matchMonth && matchYear;
+        });
 
         const element = document.createElement('div');
         element.style.padding = '10px';
@@ -735,21 +745,31 @@
         element.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
 
         let tableRowsHtml = '';
-        const tbody = document.getElementById('lineListTbody');
-        const rows = tbody.querySelectorAll('tr');
 
-        rows.forEach((row) => {
-            const cells = row.querySelectorAll('td');
-            if (cells.length > 1) {
-                tableRowsHtml += '<tr>';
-                for (let i = 0; i < cells.length - 1; i++) {
-                    tableRowsHtml += `<td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${cells[i].innerText}</td>`;
-                }
-                tableRowsHtml += '</tr>';
-            } else {
-                tableRowsHtml += `<tr><td colspan="14" style="text-align:center; padding: 10px; border: 1px solid #555; color: #000;">${cells[0].innerText}</td></tr>`;
-            }
-        });
+        if (filteredCases.length === 0) {
+            tableRowsHtml = `<tr><td colspan="14" style="text-align:center; padding: 10px; border: 1px solid #555; color: #000;">No cases found for selected filter criteria.</td></tr>`;
+        } else {
+            filteredCases.forEach((item, index) => {
+                tableRowsHtml += `
+                    <tr>
+                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000; font-weight: bold;">${index + 1}</td>
+                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.formattedDate}</td>
+                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000; font-weight: bold;">${item.childName}</td>
+                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.fatherName}</td>
+                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.caste}</td>
+                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.age}</td>
+                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000; font-weight: bold;">${item.caseType || 'Measles'}</td>
+                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.address}</td>
+                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.talukaDistrict}</td>
+                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.unionCouncil}</td>
+                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.mobileNo}</td>
+                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.caseRecordedBy}</td>
+                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;"><b>${item.bloodSample}</b></td>
+                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.reason || '-'}</td>
+                    </tr>
+                `;
+            });
+        }
 
         element.innerHTML = `
             <div style="background: #0a3663; color: white; border-radius: 6px; padding: 10px 15px; display: flex; align-items: center; margin-bottom: 12px; text-align: center;">

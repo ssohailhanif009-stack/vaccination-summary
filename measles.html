@@ -719,19 +719,19 @@
         });
     }
 
-    // Direct Download PDF function with mobile success popup / Open File modal (Updated to include ALL filtered data records)
+    // Direct Download PDF function with filters consideration (All or Date Range Filtered Data)
     window.downloadPDF = function() {
-        const filterMonthText = document.getElementById('filterMonth').options[document.getElementById('filterMonth').selectedIndex].text;
-        const filterYearText = document.getElementById('filterYear').options[document.getElementById('filterYear').selectedIndex].text;
         const filterMonth = document.getElementById('filterMonth').value;
         const filterYear = document.getElementById('filterYear').value;
+        const filterMonthText = document.getElementById('filterMonth').options[document.getElementById('filterMonth').selectedIndex].text;
+        const filterYearText = document.getElementById('filterYear').options[document.getElementById('filterYear').selectedIndex].text;
         
         let filterInfoStr = '';
         if (filterMonth !== 'ALL' || filterYear !== 'ALL') {
             filterInfoStr = ` (${filterMonthText} ${filterYearText})`;
         }
 
-        // Get all filtered entries directly from dataset to ensure 100 entries or all selected records are included completely
+        // Filter data directly from the complete array based on selected filters
         let sortedCases = [...casesData].sort((a, b) => new Date(a.rawDate) - new Date(b.rawDate));
         let filteredCases = sortedCases.filter(item => {
             let matchMonth = (filterMonth === 'ALL') || (item.month === filterMonth);
@@ -739,13 +739,7 @@
             return matchMonth && matchYear;
         });
 
-        const element = document.createElement('div');
-        element.style.padding = '10px';
-        element.style.backgroundColor = '#ffffff';
-        element.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
-
         let tableRowsHtml = '';
-
         if (filteredCases.length === 0) {
             tableRowsHtml = `<tr><td colspan="14" style="text-align:center; padding: 10px; border: 1px solid #555; color: #000;">No cases found for selected filter criteria.</td></tr>`;
         } else {
@@ -758,7 +752,7 @@
                         <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.fatherName}</td>
                         <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.caste}</td>
                         <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.age}</td>
-                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000; font-weight: bold;">${item.caseType || 'Measles'}</td>
+                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000; font-weight: bold; color: #0d6efd;">${item.caseType || 'Measles'}</td>
                         <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.address}</td>
                         <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.talukaDistrict}</td>
                         <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.unionCouncil}</td>
@@ -770,6 +764,11 @@
                 `;
             });
         }
+
+        const element = document.createElement('div');
+        element.style.padding = '10px';
+        element.style.backgroundColor = '#ffffff';
+        element.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
 
         element.innerHTML = `
             <div style="background: #0a3663; color: white; border-radius: 6px; padding: 10px 15px; display: flex; align-items: center; margin-bottom: 12px; text-align: center;">

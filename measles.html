@@ -250,6 +250,12 @@
                 white-space: normal !important;
                 word-wrap: break-word !important;
             }
+
+            /* Force 20 items per page break logic */
+            .page-break-wrapper {
+                page-break-after: always;
+                break-after: page;
+            }
         }
     </style>
 </head>
@@ -409,7 +415,9 @@
                                 <option value="Measles">Measles</option>
                                 <option value="AFP">AFP</option>
                                 <option value="Diphtheria">Diphtheria</option>
-                                <option value="Neonatal">Neonatal</option>
+                                <option value="NNT">NNT</option>
+                                <option value="Pertussis">Pertussis</option>
+                                <option value="Childhood TB">Childhood TB</option>
                             </select>
                         </div>
                         <div class="col-md-8 col-12">
@@ -719,7 +727,7 @@
         });
     }
 
-    // Direct Download PDF function with filters consideration (All or Date Range Filtered Data)
+    // Direct Download PDF function with 20 entries pagination split logic
     window.downloadPDF = function() {
         const filterMonth = document.getElementById('filterMonth').value;
         const filterYear = document.getElementById('filterYear').value;
@@ -739,68 +747,91 @@
             return matchMonth && matchYear;
         });
 
-        let tableRowsHtml = '';
-        if (filteredCases.length === 0) {
-            tableRowsHtml = `<tr><td colspan="14" style="text-align:center; padding: 10px; border: 1px solid #555; color: #000;">No cases found for selected filter criteria.</td></tr>`;
-        } else {
-            filteredCases.forEach((item, index) => {
-                tableRowsHtml += `
-                    <tr>
-                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000; font-weight: bold;">${index + 1}</td>
-                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.formattedDate}</td>
-                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000; font-weight: bold;">${item.childName}</td>
-                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.fatherName}</td>
-                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.caste}</td>
-                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.age}</td>
-                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000; font-weight: bold; color: #0d6efd;">${item.caseType || 'Measles'}</td>
-                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.address}</td>
-                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.talukaDistrict}</td>
-                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.unionCouncil}</td>
-                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.mobileNo}</td>
-                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.caseRecordedBy}</td>
-                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;"><b>${item.bloodSample}</b></td>
-                        <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.reason || '-'}</td>
-                    </tr>
-                `;
-            });
-        }
-
         const element = document.createElement('div');
         element.style.padding = '10px';
         element.style.backgroundColor = '#ffffff';
         element.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
 
-        element.innerHTML = `
-            <div style="background: #0a3663; color: white; border-radius: 6px; padding: 10px 15px; display: flex; align-items: center; margin-bottom: 12px; text-align: center;">
-                <div style="width: 100%;">
-                    <h2 style="margin: 0; font-size: 15px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; color: #ffffff;">SUSPECTED DISEASES CASES RECORD${filterInfoStr}</h2>
+        if (filteredCases.length === 0) {
+            element.innerHTML = `
+                <div style="background: #0a3663; color: white; border-radius: 6px; padding: 10px 15px; margin-bottom: 12px; text-align: center;">
+                    <h2 style="margin: 0; font-size: 15px; font-weight: 800; text-transform: uppercase;">SUSPECTED DISEASES CASES RECORD${filterInfoStr}</h2>
                     <div style="font-size: 10px; font-weight: 600; color: #e0e0e0; margin-top: 3px;">EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE</div>
                 </div>
-            </div>
-            <table style="width: 100%; border-collapse: collapse; margin-top: 5px;">
-                <thead>
-                    <tr style="background-color: #dbe2ef; color: #000;">
-                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">S#</th>
-                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Date</th>
-                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Child Name</th>
-                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Father Name</th>
-                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Caste</th>
-                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Age</th>
-                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Case Type</th>
-                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Address</th>
-                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Taluka & District</th>
-                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Union Council</th>
-                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Mobile No</th>
-                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Case Recorded By</th>
-                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Blood Sample</th>
-                        <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Reason (If No)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${tableRowsHtml}
-                </tbody>
-            </table>
-        `;
+                <table style="width: 100%; border-collapse: collapse; margin-top: 5px;">
+                    <tr><td colspan="14" style="text-align:center; padding: 10px; border: 1px solid #555; color: #000;">No cases found for selected filter criteria.</td></tr>
+                </table>
+            `;
+        } else {
+            // Group entries into chunks of 20 per page
+            let chunks = [];
+            for (let i = 0; i < filteredCases.length; i += 20) {
+                chunks.push(filteredCases.slice(i, i + 20));
+            }
+
+            let fullHtml = '';
+            chunks.forEach((chunk, chunkIndex) => {
+                let tableRowsHtml = '';
+                chunk.forEach((item, subIndex) => {
+                    let absoluteIndex = (chunkIndex * 20) + subIndex + 1;
+                    tableRowsHtml += `
+                        <tr>
+                            <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000; font-weight: bold;">${absoluteIndex}</td>
+                            <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.formattedDate}</td>
+                            <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000; font-weight: bold;">${item.childName}</td>
+                            <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.fatherName}</td>
+                            <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.caste}</td>
+                            <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.age}</td>
+                            <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000; font-weight: bold; color: #0d6efd;">${item.caseType || 'Measles'}</td>
+                            <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.address}</td>
+                            <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.talukaDistrict}</td>
+                            <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.unionCouncil}</td>
+                            <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.mobileNo}</td>
+                            <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.caseRecordedBy}</td>
+                            <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;"><b>${item.bloodSample}</b></td>
+                            <td style="border: 1px solid #555; padding: 4px 3px; font-size: 8px; text-align: center; color: #000;">${item.reason || '-'}</td>
+                        </tr>
+                    `;
+                });
+
+                let pageBreakStyle = (chunkIndex < chunks.length - 1) ? 'page-break-after: always; break-after: page;' : '';
+
+                fullHtml += `
+                    <div class="page-break-wrapper" style="${pageBreakStyle} margin-bottom: 20px;">
+                        <div style="background: #0a3663; color: white; border-radius: 6px; padding: 10px 15px; display: flex; align-items: center; margin-bottom: 12px; text-align: center;">
+                            <div style="width: 100%;">
+                                <h2 style="margin: 0; font-size: 15px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; color: #ffffff;">SUSPECTED DISEASES CASES RECORD${filterInfoStr}</h2>
+                                <div style="font-size: 10px; font-weight: 600; color: #e0e0e0; margin-top: 3px;">EPI VACCINATION CENTER CIVIL HOSPITAL NAUSHAHRO FEROZE (Page ${chunkIndex + 1} of ${chunks.length})</div>
+                            </div>
+                        </div>
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 5px;">
+                            <thead>
+                                <tr style="background-color: #dbe2ef; color: #000;">
+                                    <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">S#</th>
+                                    <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Date</th>
+                                    <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Child Name</th>
+                                    <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Father Name</th>
+                                    <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Caste</th>
+                                    <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Age</th>
+                                    <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Case Type</th>
+                                    <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Address</th>
+                                    <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Taluka & District</th>
+                                    <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Union Council</th>
+                                    <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Mobile No</th>
+                                    <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Case Recorded By</th>
+                                    <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Blood Sample</th>
+                                    <th style="border: 1px solid #333; padding: 5px 2px; font-size: 8px; font-weight: bold; text-align: center;">Reason (If No)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${tableRowsHtml}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            });
+            element.innerHTML = fullHtml;
+        }
 
         document.body.appendChild(element);
 

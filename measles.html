@@ -98,8 +98,6 @@
             width: 100%;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
-            max-height: 70vh; /* Vertical scroll limit */
-            overflow-y: auto;  /* Vertical scroll enabled */
         }
 
         .custom-table {
@@ -109,10 +107,7 @@
             table-layout: auto;
         }
 
-        /* Sticky header so it stays visible during vertical scroll */
         .custom-table th {
-            position: sticky;
-            top: 0;
             background-color: #e9ecef !important;
             color: #000 !important;
             font-weight: 700;
@@ -121,7 +116,6 @@
             padding: 6px 3px;
             border: 1px solid #777 !important;
             white-space: nowrap;
-            z-index: 5;
         }
 
         .custom-table td {
@@ -230,7 +224,6 @@
 
             .table-responsive {
                 overflow: visible !important;
-                max-height: none !important;
             }
 
             .custom-table {
@@ -247,7 +240,6 @@
                 padding: 4px 2px !important;
                 white-space: normal !important;
                 word-wrap: break-word !important;
-                position: static !important;
             }
 
             .custom-table td {
@@ -351,7 +343,7 @@
                 </div>
             </div>
 
-            <!-- Single-Line Clean Official Table with Vertical & Horizontal Scroll -->
+            <!-- Single-Line Clean Official Table -->
             <div class="table-responsive">
                 <table class="table custom-table align-middle" id="casesTable">
                     <thead>
@@ -852,9 +844,9 @@
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
         };
 
-        html2pdf().set(opt).from(element).outputPdf('blob').then((blob) => {
+        html2pdf().set(opt).from(element).outputPdf('blob').then((pdfBlob) => {
             document.body.removeChild(element);
-            const blobUrl = URL.createObjectURL(blob);
+            const blobUrl = URL.createObjectURL(pdfBlob);
 
             const downloadLink = document.createElement('a');
             downloadLink.href = blobUrl;
@@ -864,7 +856,8 @@
             document.body.removeChild(downloadLink);
 
             document.getElementById('modalFileName').textContent = fileName;
-            document.getElementById('openFileBtn').href = blobUrl;
+            const openFileBtn = document.getElementById('openFileBtn');
+            openFileBtn.href = blobUrl;
 
             const modalEl = document.getElementById('downloadSuccessModal');
             const modal = new bootstrap.Modal(modalEl);

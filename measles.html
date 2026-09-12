@@ -94,10 +94,32 @@
             justify-content: space-between;
         }
 
+        /* Added Horizontal Scroll Styling & Custom Scrollbar */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .table-responsive::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .table-responsive::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .table-responsive::-webkit-scrollbar-thumb {
+            background: #0d6efd;
+            border-radius: 4px;
+        }
+
+        .table-responsive::-webkit-scrollbar-thumb:hover {
+            background: #0a58ca;
         }
 
         .custom-table {
@@ -105,6 +127,7 @@
             font-size: 0.72rem;
             border-collapse: collapse;
             table-layout: auto;
+            margin-bottom: 0;
         }
 
         .custom-table th {
@@ -113,13 +136,13 @@
             font-weight: 700;
             text-align: center;
             vertical-align: middle;
-            padding: 6px 3px;
+            padding: 8px 6px;
             border: 1px solid #777 !important;
             white-space: nowrap;
         }
 
         .custom-table td {
-            padding: 4px 3px;
+            padding: 6px 6px;
             vertical-align: middle;
             text-align: center;
             border: 1px solid #888 !important;
@@ -224,6 +247,7 @@
 
             .table-responsive {
                 overflow: visible !important;
+                border: none !important;
             }
 
             .custom-table {
@@ -343,7 +367,7 @@
                 </div>
             </div>
 
-            <!-- Single-Line Clean Official Table -->
+            <!-- Single-Line Clean Official Table with Scroll Support -->
             <div class="table-responsive">
                 <table class="table custom-table align-middle" id="casesTable">
                     <thead>

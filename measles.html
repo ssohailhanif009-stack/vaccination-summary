@@ -17,6 +17,18 @@
             --dark-blue: #0a3663;
         }
 
+        /* Hide vertical scrollbar while keeping mouse scroll and keyboard arrow support */
+        html, body {
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* Internet Explorer 10+ */
+        }
+
+        html::-webkit-scrollbar, body::-webkit-scrollbar {
+            width: 0px;
+            background: transparent; /* Safari and Chrome */
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(rgba(244, 247, 246, 0.92), rgba(244, 247, 246, 0.92)), 
@@ -529,6 +541,15 @@
     window.addEventListener('DOMContentLoaded', () => {
         document.getElementById('caseDate').value = new Date().toISOString().split('T')[0];
         fetchCasesFromFirebase();
+        
+        // Keyboard Arrow Keys Scrolling Support (Up/Down arrows)
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown') {
+                window.scrollBy({ top: 100, behavior: 'smooth' });
+            } else if (e.key === 'ArrowUp') {
+                window.scrollBy({ top: -100, behavior: 'smooth' });
+            }
+        });
     });
 
     // Fetch Data from Firestore

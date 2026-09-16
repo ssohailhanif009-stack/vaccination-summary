@@ -351,34 +351,8 @@
         </div>
         <div class="card-body py-3">
             <div class="row mb-3 g-2">
-                <!-- Month Filter -->
-                <div class="col-md-3 col-sm-6">
-                    <label class="form-label fw-bold text-muted small d-block mb-1">SELECT MONTH</label>
-                    <div class="dropdown">
-                        <button class="btn btn-outline-primary btn-sm w-100 fw-bold text-start d-flex justify-content-between align-items-center" 
-                                type="button" id="monthDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span id="selectedMonthText">All Months</span>
-                        </button>
-                        <ul class="dropdown-menu custom-dropdown-menu" id="monthDropdownMenu" aria-labelledby="monthDropdownBtn">
-                            <li><a class="dropdown-item active" href="#" data-value="ALL">All Months</a></li>
-                            <li><a class="dropdown-item" href="#" data-value="January">January</a></li>
-                            <li><a class="dropdown-item" href="#" data-value="February">February</a></li>
-                            <li><a class="dropdown-item" href="#" data-value="March">March</a></li>
-                            <li><a class="dropdown-item" href="#" data-value="April">April</a></li>
-                            <li><a class="dropdown-item" href="#" data-value="May">May</a></li>
-                            <li><a class="dropdown-item" href="#" data-value="June">June</a></li>
-                            <li><a class="dropdown-item" href="#" data-value="July">July</a></li>
-                            <li><a class="dropdown-item" href="#" data-value="August">August</a></li>
-                            <li><a class="dropdown-item" href="#" data-value="September">September</a></li>
-                            <li><a class="dropdown-item" href="#" data-value="October">October</a></li>
-                            <li><a class="dropdown-item" href="#" data-value="November">November</a></li>
-                            <li><a class="dropdown-item" href="#" data-value="December">December</a></li>
-                        </ul>
-                    </div>
-                </div>
-
                 <!-- Year Filter -->
-                <div class="col-md-3 col-sm-6">
+                <div class="col-md-4 col-sm-6">
                     <label class="form-label fw-bold text-muted small d-block mb-1">SELECT YEAR</label>
                     <div class="dropdown">
                         <button class="btn btn-outline-primary btn-sm w-100 fw-bold text-start d-flex justify-content-between align-items-center" 
@@ -567,27 +541,27 @@
     const db = getFirestore(app);
 
     let allRecordsMap = {};
-    let selectedMonthVal = "ALL";
     let selectedYearVal = "ALL";
+
+    // Month name to number mapping for correct chronological sorting
+    const monthOrder = {
+        "january": 1, "jan": 1,
+        "february": 2, "feb": 2,
+        "march": 3, "mar": 3,
+        "april": 4, "apr": 4,
+        "may": 5,
+        "june": 6, "jun": 6,
+        "july": 7, "jul": 7,
+        "august": 8, "aug": 8,
+        "september": 9, "sep": 9, "sept": 9,
+        "october": 10, "oct": 10,
+        "november": 11, "nov": 11,
+        "december": 12, "dec": 12
+    };
 
     document.addEventListener('DOMContentLoaded', async function() {
         await fetchRecords();
-        setupCustomDropdowns();
     });
-
-    function setupCustomDropdowns() {
-        document.querySelectorAll('#monthDropdownMenu .dropdown-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelectorAll('#monthDropdownMenu .dropdown-item').forEach(el => el.classList.remove('active'));
-                this.classList.add('active');
-
-                selectedMonthVal = this.getAttribute('data-value');
-                document.getElementById('selectedMonthText').textContent = this.textContent;
-                filterAndRenderButtons();
-            });
-        });
-    }
 
     async function fetchRecords() {
         try {
@@ -639,7 +613,6 @@
     }
 
     function filterAndRenderButtons() {
-        const sMonth = selectedMonthVal.toLowerCase();
         const sYear = selectedYearVal;
         const container = document.getElementById('reportsList');
         container.innerHTML = '';
@@ -651,28 +624,54 @@
             return;
         }
 
-        let renderedCount = 0;
+        // Filter and sort records chronologically (Month wise: Jan -> Feb -> Mar...)
+        let filteredKeys = keys.filter(id => {
+            const data = allRecordsMap[id];
+            const mYear = data.monthYear || "";
+            return (sYear === "ALL") || mYear.includes(sYear);
+        });
 
-        keys.forEach(id => {
+        filteredKeys.sort((a, b) => {
+            const textA = (allRecordsMap[a].monthYear || "").toLowerCase();
+            const textB = (allRecordsMap[b].monthYear || "").toLowerCase();
+            
+            // Extract month and year numbers for comparison
+            let mNumA = 0, yNumA = 0;
+            let mNumB = 0, yNumB = 0;
+
+            for (let m in monthOrder) {
+                if (textA.includes(m)) { mNumA = monthOrder[m]; break; }
+            }
+            for (let m in monthOrder) {
+                if (textB.includes(m)) { mNumB = monthOrder[m]; break; }
+            }
+
+            const partsA = textA.split(/\s+/);
+            const partsB = textB.split(/\s+/);
+            if (partsA.length > 1 && !isNaN(partsA[partsA.length - 1])) yNumA = parseInt(partsA[partsA.length - 1]);
+            if (partsB.length > 1 && !isNaN(partsB[partsB.length - 1])) yNumB = parseInt(partsB[partsB.length - 1]);
+
+            if (yNumA !== yNumB) {
+                return yNumA - yNumB; // Sort by year ascending
+            }
+            return mNumA - mNumB; // Sort by month ascending (Jan to Dec)
+        });
+
+        if (filteredKeys.length === 0) {
+            container.innerHTML = `<div class="text-muted small">No record found matching selected year.</div>`;
+            return;
+        }
+
+        filteredKeys.forEach(id => {
             const data = allRecordsMap[id];
             const mYear = data.monthYear || "";
 
-            let matchesMonth = (sMonth === "all") || mYear.toLowerCase().includes(sMonth);
-            let matchesYear = (sYear === "ALL") || mYear.includes(sYear);
-
-            if (matchesMonth && matchesYear) {
-                renderedCount++;
-                const btn = document.createElement('button');
-                btn.className = 'report-btn';
-                btn.innerHTML = `<i class="fa-solid fa-file-pdf"></i> ${mYear}`;
-                btn.onclick = () => directDownloadPDF(data);
-                container.appendChild(btn);
-            }
+            const btn = document.createElement('button');
+            btn.className = 'report-btn';
+            btn.innerHTML = `<i class="fa-solid fa-file-pdf"></i> ${mYear}`;
+            btn.onclick = () => directDownloadPDF(data);
+            container.appendChild(btn);
         });
-
-        if (renderedCount === 0) {
-            container.innerHTML = `<div class="text-muted small">No record found matching selected filters.</div>`;
-        }
     }
 
     function populatePdfTemplate(data) {
